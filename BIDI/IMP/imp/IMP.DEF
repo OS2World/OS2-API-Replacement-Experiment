@@ -1,0 +1,39 @@
+; IMP.DEF  –  Module definition for IMP.DLL
+;
+; Original LX analysis:
+;   Module name   : IMP             (resident name table, ordinal 0)
+;   Description   : Input Method Profiler  (non-resident name table, ordinal 0)
+;   Module flags  : 0x00008000  (DLL / LIBRARY)
+;   Import modules: DOSCALLS, PMSHAPI
+;
+; Exported names (resident name table):
+;   Ordinal 1 : IMPSETAIMPROFILE       16-bit thunk → IMP32SetAIMProfile
+;   Ordinal 2 : IMP32SetAIMProfile     32-bit  – write profile to OS2.INI
+;   Ordinal 3 : IMPRESETAIMPROFILE     16-bit thunk → IMP32ResetAIMProfile
+;   Ordinal 4 : IMPQUERYAIMPROFILE     16-bit thunk → IMP32QueryAIMProfile
+;   Ordinal 5 : IMP32ResetAIMProfile   32-bit  – reset profile to defaults
+;   Ordinal 6 : IMP32QueryAIMProfile   32-bit  – read profile from OS2.INI
+;
+; Build:
+;   wcc386 -bm -bt=OS2 -6s -fpi87 -fp6 -sg -otexanr -wx -fo=IMP.OBJ IMP.C
+;   wlink @IMP.LNK
+; ──────────────────────────────────────────────────────────────────────────
+
+LIBRARY         IMP INITINSTANCE TERMINSTANCE
+
+DESCRIPTION     'Input Method Profiler'
+
+PROTMODE
+
+DATA            MULTIPLE NONSHARED READWRITE
+
+SEGMENTS
+    _TEXT       CLASS 'CODE'
+
+EXPORTS
+    IMPSETAIMPROFILE       = IMPSETAIMPROFILE       @1 RESIDENTNAME
+    IMP32SetAIMProfile     = IMP32SetAIMProfile     @2 RESIDENTNAME
+    IMPRESETAIMPROFILE     = IMPRESETAIMPROFILE     @3 RESIDENTNAME
+    IMPQUERYAIMPROFILE     = IMPQUERYAIMPROFILE     @4 RESIDENTNAME
+    IMP32ResetAIMProfile   = IMP32ResetAIMProfile   @5 RESIDENTNAME
+    IMP32QueryAIMProfile   = IMP32QueryAIMProfile   @6 RESIDENTNAME

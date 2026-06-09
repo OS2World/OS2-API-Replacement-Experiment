@@ -1,0 +1,39 @@
+# IMP.LNK  –  OpenWatcom WLINK response file
+#
+# Usage:  wlink @IMP.LNK
+#
+# This builds IMP.DLL targeting 32-bit OS/2 (LX format).
+# Adjust the LIBPATH lines to match your Watcom / OS/2 Toolkit installation.
+#
+# Typical locations:
+#   Open Watcom 1.9 / 2.0 OS/2 libs  :  %WATCOM%\lib386\os2
+#   OS/2 Toolkit 4.5 import libs       :  %TOOLKITDIR%\lib
+#
+# Full build sequence:
+#   wcl386 -bt=os2 -bd -s -ox -fo=IMP.OBJ IMP.C
+#   wlink @IMP.LNK
+
+SYSTEM os2v2_dll INITINSTANCE TERMINSTANCE
+
+NAME IMP.DLL
+
+FILE IMP.OBJ
+
+# Module definition (exports, description, …)
+OPTION modname=IMP
+OPTION description 'Input Method Profiler'
+
+# DLL initialisation entry point (LibMain in IMP.C)
+OPTION start=LibMain_
+
+# Import libraries  ──────────────────────────────────────────────────────
+#   OS2386.LIB  :  DosXxx, WinXxx, PrfXxx kernel stubs
+#   (supplied with the OS/2 Developer's Toolkit or Open Watcom itself)
+LIBRARY os2386
+
+# Stack / data options
+OPTION manyautodata
+OPTION nodefaultlibs
+
+# Output
+OPTION map=IMP.MAP
