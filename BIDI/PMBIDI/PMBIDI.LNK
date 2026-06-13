@@ -1,0 +1,143 @@
+# PMBIDI.LNK  --  OpenWatcom WLINK response file for PMBIDI.DLL
+#
+# Build sequence:
+#   wcc386 -bt=OS2 -bm -6s -fpi87 -sg -otexanr -wx -fo=PMBIDI.OBJ PMBIDI.C
+#   wlink @PMBIDI.LNK
+#
+# Compiler flag notes:
+#   -bt=OS2    target OS/2
+#   -bm        multi-thread safe code generation (implied by DLL target)
+#   -6s        i686 instruction set, stack calling convention
+#   -fpi87     inline x87 FPU instructions
+#   -sg        merge data segments
+#   -otexanr   optimise: loop unroll, expand inline, no aliasing, reorder
+#   -wx        maximum warnings
+#   -s         omit stack checks (avoids pulling in __CHK; optional but keeps DLL lean)
+#
+# Linker notes:
+#   SYSTEM os2v2_dll INITINSTANCE TERMINSTANCE
+#     -> selects LX DLL format, causes dllstart.obj from clib3s.lib to be
+#        linked automatically; that stub calls LibMain() on each process
+#        attach (INITINSTANCE) and detach (TERMINSTANCE).
+#   # OPTION start=LibMain_
+#     -> DO NOT set start= for OS/2 DLLs: the SYSTEM directive already
+#        establishes __DLLstart_ as the true entry point.
+#   # OPTION nodefaultlibs
+#     -> DO NOT suppress default libs: clib3s.lib (C runtime) and
+#        os2386.lib (OS/2 API stubs) must be pulled in automatically by
+#        the SYSTEM directive to resolve __DLLstart_, __CHK, etc.
+#   OPTION ELIMINATE
+#     -> remove unreferenced segments; keeps DLL small.
+#   OPTION MANYAUTODATA
+#     -> each process gets its own copy of the data segment (needed
+#        because we have per-process state in g_LangInfo, etc.).
+
+SYSTEM os2v2_dll INITINSTANCE TERMINSTANCE
+
+NAME PMBIDI.DLL
+
+FILE PMBIDI.OBJ
+
+OPTION ELIMINATE
+OPTION MANYAUTODATA
+OPTION OSNAME='OS/2 and ArcaOS'
+OPTION DESCRIPTION 'OS/2 PM Bidirectional Language APIs'
+
+# Map file for debugging
+OPTION MAP=PMBIDI.MAP
+
+# -----------------------------------------------------------------------
+# EXPORTS
+#
+# Syntax:  EXPORT  internal_name.ordinal  [= external_name]  [RESIDENT]
+#
+# RESIDENT keeps the name in the resident name table (fast lookup).
+# Names without RESIDENT go into the non-resident name table (original
+# DLL used non-resident names for most exports -- we make them all
+# resident for better compatibility and to match how callers resolve them).
+#
+# Ordinal assignments verified against the original binary's non-resident
+# name table.
+# -----------------------------------------------------------------------
+
+# Group 1 -- Initialisation
+EXPORT  PMBIDI_Initialize.1             = PMBIDI_Initialize             RESIDENT
+
+# Group 2 -- LangInfo / KbdLayer / LangViewer  (16-bit wrappers, ords 10-19)
+EXPORT  WIN16SETLANGINFO.10             = WIN16SETLANGINFO               RESIDENT
+EXPORT  WIN16QUERYLANGINFO.11           = WIN16QUERYLANGINFO             RESIDENT
+EXPORT  WIN16SETKBDLAYER.12             = WIN16SETKBDLAYER               RESIDENT
+EXPORT  WIN16QUERYKBDLAYER.13           = WIN16QUERYKBDLAYER             RESIDENT
+EXPORT  WIN16SETLANGVIEWER.14           = WIN16SETLANGVIEWER             RESIDENT
+EXPORT  WIN16QUERYLANGVIEWER.15         = WIN16QUERYLANGVIEWER           RESIDENT
+EXPORT  WIN16SETPROCESSLANGINFO.18      = WIN16SETPROCESSLANGINFO        RESIDENT
+EXPORT  WIN16QUERYPROCESSLANGINFO.19    = WIN16QUERYPROCESSLANGINFO      RESIDENT
+
+# Group 2 -- LangInfo / KbdLayer / LangViewer  (32-bit, ords 20-31)
+EXPORT  Win32SetLangInfo.20             = Win32SetLangInfo               RESIDENT
+EXPORT  Win32QueryLangInfo.21           = Win32QueryLangInfo             RESIDENT
+EXPORT  Win32SetKbdLayer.22             = Win32SetKbdLayer               RESIDENT
+EXPORT  Win32QueryKbdLayer.23           = Win32QueryKbdLayer             RESIDENT
+EXPORT  Win32SetLangViewer.24           = Win32SetLangViewer             RESIDENT
+EXPORT  Win32QueryLangViewer.25         = Win32QueryLangViewer           RESIDENT
+EXPORT  Win32SetProcessLangInfo.30      = Win32SetProcessLangInfo        RESIDENT
+EXPORT  Win32QueryProcessLangInfo.31    = Win32QueryProcessLangInfo      RESIDENT
+
+# Group 3 -- GPI Bidi Attributes
+EXPORT  GPI16SETBIDIATTR.40             = GPI16SETBIDIATTR               RESIDENT
+EXPORT  GPI16QUERYBIDIATTR.41           = GPI16QUERYBIDIATTR             RESIDENT
+EXPORT  Gpi32SetBidiAttr.50             = Gpi32SetBidiAttr               RESIDENT
+EXPORT  Gpi32QueryBidiAttr.51           = Gpi32QueryBidiAttr             RESIDENT
+
+# Group 4 -- Codepage Query
+EXPORT  Bidi_QueryCp.60                 = Bidi_QueryCp                  RESIDENT
+EXPORT  BIDI_16QUERYCP.61               = BIDI_16QUERYCP                 RESIDENT
+
+# Group 5 -- Settings / Keyword conversion
+EXPORT  PMBIDI_Get_StdDlgLang_Setting.101       = PMBIDI_Get_StdDlgLang_Setting         RESIDENT
+EXPORT  PMBIDI_16GET_STDDLGLANG_SETTING.102     = PMBIDI_16GET_STDDLGLANG_SETTING       RESIDENT
+EXPORT  PMBIDI_String_To_BinVal.110             = PMBIDI_String_To_BinVal               RESIDENT
+EXPORT  PMBIDI_BinVal_To_String.111             = PMBIDI_BinVal_To_String               RESIDENT
+EXPORT  PMBIDI_Keyword_To_BinVal.112            = PMBIDI_Keyword_To_BinVal              RESIDENT
+EXPORT  PMBIDI_Get_HelpBidi_Setting.113         = PMBIDI_Get_HelpBidi_Setting           RESIDENT
+
+# Group 6 -- NLS 16-bit wrappers (ords 200-204)
+EXPORT  NLS16CONVERTBIDISTRING.200      = NLS16CONVERTBIDISTRING         RESIDENT
+EXPORT  NLS16EDITSHAPE.201              = NLS16EDITSHAPE                 RESIDENT
+EXPORT  NLS16INVERSESTRING.202          = NLS16INVERSESTRING             RESIDENT
+EXPORT  NLS16SHAPEBIDISTRING.203        = NLS16SHAPEBIDISTRING           RESIDENT
+EXPORT  NLS16CONVERTBIDINUMERICS.204    = NLS16CONVERTBIDINUMERICS       RESIDENT
+
+# Group 7 -- Nls32 bidi string operations (ords 205-209)
+EXPORT  Nls32ConvertBidiString.205      = Nls32ConvertBidiString         RESIDENT
+EXPORT  Nls32EditShape.206              = Nls32EditShape                 RESIDENT
+EXPORT  Nls32InverseString.207          = Nls32InverseString             RESIDENT
+EXPORT  Nls32ShapeBidiString.208        = Nls32ShapeBidiString           RESIDENT
+EXPORT  Nls32ConvertBidiNumerics.209    = Nls32ConvertBidiNumerics       RESIDENT
+
+# Group 8 -- layout_object (ords 306-311)
+EXPORT  layout_object_create.306        = layout_object_create           RESIDENT
+EXPORT  layout_object_destroy.307       = layout_object_destroy          RESIDENT
+EXPORT  layout_object_transform.308     = layout_object_transform        RESIDENT
+EXPORT  layout_object_editshape.309     = layout_object_editshape        RESIDENT
+EXPORT  layout_object_setvalues.310     = layout_object_setvalues        RESIDENT
+EXPORT  layout_object_getvalues.311     = layout_object_getvalues        RESIDENT
+
+# Group 9 -- Codepage translation (ords 400-401)
+EXPORT  PMBIDI_16CP_TRANSLATE_STRING.400 = PMBIDI_16CP_TRANSLATE_STRING  RESIDENT
+EXPORT  PMBIDI_CpTranslateString.401    = PMBIDI_CpTranslateString       RESIDENT
+
+# Group 10 -- Advanced bidi (ords 450-454, 460-461)
+EXPORT  Bidi_MapSrcToTrg.450            = Bidi_MapSrcToTrg               RESIDENT
+EXPORT  Bidi_ClassifyCodepage.451       = Bidi_ClassifyCodepage          RESIDENT
+EXPORT  Bidi_IsStringBidi.452           = Bidi_IsStringBidi              RESIDENT
+EXPORT  Bidi_IsStringAllBidi.453        = Bidi_IsStringAllBidi           RESIDENT
+EXPORT  Bidi_ReverseString.454          = Bidi_ReverseString             RESIDENT
+EXPORT  Bidi_LayoutConvert.460          = Bidi_LayoutConvert             RESIDENT
+EXPORT  Bidi_LayoutEdit.461             = Bidi_LayoutEdit                RESIDENT
+
+# Group 11 -- Global exported data (ord 999)
+# ulProcess_BidiAttr is a ULONG variable exported by name+ordinal.
+# wlink syntax for exported data: same EXPORT directive -- the linker
+# handles data exports the same as function exports in the LX entry table.
+EXPORT  ulProcess_BidiAttr.999          = ulProcess_BidiAttr             RESIDENT

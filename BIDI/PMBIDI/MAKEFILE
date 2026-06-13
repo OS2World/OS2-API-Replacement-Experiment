@@ -1,0 +1,54 @@
+# MAKEFILE  --  Build PMBIDI.DLL with OpenWatcom on OS/2 Warp 4.52
+#
+# Usage:
+#   wmake              (build DLL)
+#   wmake clean        (remove intermediate files)
+#   wmake all          (clean + build)
+#
+# Prerequisites:
+#   - Open Watcom C/C++ installed, WATCOM env var set
+#   - %WATCOM%\BINP on PATH
+#   - %WATCOM%\H and %WATCOM%\H\OS2 on INCLUDE
+
+CC      = wcc386
+LINK    = wlink
+RM      = del
+
+# ------------------------------------------------------------------
+# Compiler flags
+#   -bt=OS2    target OS/2 32-bit
+#   -bm        multithread-safe (needed for DLLs; sets _MT define)
+#   -6s        i686 optimised, stack-based calling convention
+#   -fpi87     inline x87 FPU (no emulation library needed)
+#   -sg        group all auto-data into one segment (DGROUP)
+#   -otexanr   optimise: time, expand inline, no aliasing, reorder
+#   -s         suppress stack-check probes (avoids __CHK if clib absent)
+#   -wx        maximum warnings
+#   -d2        full debug info (remove for release: use -d0 -s)
+# ------------------------------------------------------------------
+CFLAGS  = -bt=OS2 -bm -6s -fpi87 -sg -otexanr -wx -s
+
+# Change -d2 to -d0 for a release (stripped) build
+DBGFLAGS = -d2
+
+.c.obj:
+    $(CC) $(CFLAGS) $(DBGFLAGS) -fo=$@ $<
+
+# ------------------------------------------------------------------
+# Targets
+# ------------------------------------------------------------------
+all: clean PMBIDI.DLL
+
+PMBIDI.DLL: PMBIDI.OBJ PMBIDI.LNK
+    $(LINK) @PMBIDI.LNK
+    @echo.
+    @echo Build complete: PMBIDI.DLL
+
+PMBIDI.OBJ: PMBIDI.C PMBIDI.H
+    $(CC) $(CFLAGS) $(DBGFLAGS) -fo=PMBIDI.OBJ PMBIDI.C
+
+clean: .SYMBOLIC
+    -$(RM) PMBIDI.OBJ 2>NUL
+    -$(RM) PMBIDI.DLL 2>NUL
+    -$(RM) PMBIDI.MAP 2>NUL
+    -$(RM) PMBIDI.ERR 2>NUL
