@@ -1,0 +1,57 @@
+# BDCALL32.LNK  --  OpenWatcom WLINK response file for BDCALL32.DLL
+#
+# Build:
+#   wcc386 -bt=OS2 -bm -6s -fpi87 -sg -otexanr -wx -s -fo=BDCALL32.OBJ BDCALL32.C
+#   wlink @BDCALL32.LNK
+#
+# Notes:
+#   SYSTEM os2v2_dll INITINSTANCE TERMINSTANCE
+#     -> LX DLL format, one LibMain() call per process attach/detach.
+#   OPTION MANYAUTODATA
+#     -> Per-process data segment (g_ulInitialized, g_ulRoundTrip are per-process).
+#   All export names match the original binary exactly (case-sensitive).
+#   The 16-bit wrapper names are UPPERCASE as in the original.
+
+SYSTEM os2v2_dll INITINSTANCE TERMINSTANCE
+
+NAME BDCALL32.DLL
+
+FILE BDCALL32.OBJ
+
+OPTION ELIMINATE
+OPTION MANYAUTODATA
+OPTION OSNAME='OS/2 and ArcaOS'
+OPTION DESCRIPTION 'OS/2 Bidirectional Language APIs'
+OPTION MAP=BDCALL32.MAP
+
+# -----------------------------------------------------------------------
+# EXPORTS  --  ordinals match original binary non-resident name table
+# -----------------------------------------------------------------------
+
+# Group 1: 16-bit wrappers (NLS_16* are UPPERCASE)
+EXPORT  NLS_16CONVERTBIDINUMERICS.1     = NLS_16CONVERTBIDINUMERICS  RESIDENT
+EXPORT  NLS_16CONVERTBIDISTRING.2       = NLS_16CONVERTBIDISTRING    RESIDENT
+EXPORT  NLS_16INVERSESTRING.7           = NLS_16INVERSESTRING        RESIDENT
+EXPORT  NLS_16EDITSHAPE.9               = NLS_16EDITSHAPE            RESIDENT
+EXPORT  NLS_16SHAPEBIDISTRING.10        = NLS_16SHAPEBIDISTRING      RESIDENT
+
+# Group 2: 32-bit NLS functions (mixed case)
+EXPORT  NlsConvertBidiNumerics.14       = NlsConvertBidiNumerics     RESIDENT
+EXPORT  NlsConvertBidiString.15         = NlsConvertBidiString       RESIDENT
+EXPORT  NlsInverseString.20             = NlsInverseString           RESIDENT
+EXPORT  NlsEditShape.22                 = NlsEditShape               RESIDENT
+EXPORT  NlsShapeBidiString.23           = NlsShapeBidiString         RESIDENT
+
+# Group 3: Bidi attribute conversion
+EXPORT  RC_16BIDIATTR.50                = RC_16BIDIATTR              RESIDENT
+
+# Group 4: Round-trip mode
+EXPORT  Set_Round_Trip.100              = Set_Round_Trip             RESIDENT
+
+# Group 5: layout_32_object API
+EXPORT  layout_32_object_create.206     = layout_32_object_create    RESIDENT
+EXPORT  layout_32_object_destroy.207    = layout_32_object_destroy   RESIDENT
+EXPORT  layout_32_object_transform.208  = layout_32_object_transform RESIDENT
+EXPORT  layout_32_object_editshape.209  = layout_32_object_editshape RESIDENT
+EXPORT  layout_32_object_setvalues.210  = layout_32_object_setvalues RESIDENT
+EXPORT  layout_32_object_getvalues.211  = layout_32_object_getvalues RESIDENT

@@ -1,0 +1,52 @@
+# THAILIB.LNK -- OpenWatcom WLINK response file for THAILIB.DLL
+#
+# Build:
+#   wcc386 -bt=OS2 -bm -6s -fpi87 -sg -otexanr -wx -s -fo=THAILIB.OBJ THAILIB.C
+#   wlink @THAILIB.LNK
+#
+# Notes:
+#   - 'thailib' and 'OS2_PM_DRV_ENABLE' appear in the RESIDENT name table
+#     (fast lookup). All other exports are in the NON-RESIDENT table
+#     (slow lookup, only used by name at load time).
+#   - THAIFRAMEWNDPROC and THAIFINDWORDHOOK are PM callbacks (EXPENTRY)
+#     that must be exported so PM can call them cross-process.
+#   - OPTION MANYAUTODATA: required because g_fThaiActive and g_ulKbdLayout
+#     are per-process state (each process gets its own Thai mode flag).
+#   - Original DLL page shift = 2 (4-byte alignment), not the standard 12.
+#     This is handled automatically by wlink.
+
+SYSTEM os2v2_dll INITINSTANCE TERMINSTANCE
+
+NAME THAILIB.DLL
+
+FILE THAILIB.OBJ
+
+OPTION ELIMINATE
+OPTION MANYAUTODATA
+OPTION OSNAME='OS/2 and ArcaOS'
+OPTION DESCRIPTION 'Thai Support for OS/2 PM'
+OPTION MAP=THAILIB.MAP
+
+# -----------------------------------------------------------------------
+# EXPORTS
+#
+# Ordinals from non-resident name table (verified from binary analysis).
+# THAIFRAMEWNDPROC and THAIFINDWORDHOOK are also exported without ordinal
+# for PM to resolve as callback hooks cross-process.
+# -----------------------------------------------------------------------
+
+# Resident name table entries (fast lookup)
+EXPORT OS2_PM_DRV_ENABLE.2          = OS2_PM_DRV_ENABLE          RESIDENT
+
+# Non-resident name table entries (standard exports)
+EXPORT THAIINITIALIZELIBRARY.1      = THAIINITIALIZELIBRARY
+EXPORT THAIISTHAIFONT.3             = THAIISTHAIFONT
+EXPORT THAIFRAMEWNDPROC.4           = THAIFRAMEWNDPROC
+EXPORT THAIFINDWORDHOOK.5           = THAIFINDWORDHOOK
+EXPORT THAIWORDSEPERATE.6           = THAIWORDSEPERATE
+EXPORT THAIISTHAIBASE.10            = THAIISTHAIBASE
+EXPORT THAIQUERYISTHAI.11           = THAIQUERYISTHAI
+EXPORT THAIQUERYISKESMANEE.12       = THAIQUERYISKESMANEE
+EXPORT THAISETKEYBOARDLAYOUT.13     = THAISETKEYBOARDLAYOUT
+EXPORT SHOWPANEL.15                 = SHOWPANEL
+EXPORT BASEOS_SETKBDLAYER.107       = BASEOS_SETKBDLAYER

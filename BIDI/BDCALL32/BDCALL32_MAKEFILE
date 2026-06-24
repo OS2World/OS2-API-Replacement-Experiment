@@ -1,0 +1,51 @@
+# MAKEFILE  --  Build BDCALL32.DLL with OpenWatcom on OS/2 Warp 4.52
+#
+# Usage:
+#   wmake              (build DLL)
+#   wmake clean        (remove intermediate files)
+#   wmake all          (clean then build)
+#
+# Prerequisites:
+#   Open Watcom C/C++ installed, WATCOM env var set,
+#   %WATCOM%\BINP on PATH, %WATCOM%\H and %WATCOM%\H\OS2 on INCLUDE.
+
+CC   = wcc386
+LINK = wlink
+RM   = del
+
+# ------------------------------------------------------------------
+# Compiler flags
+#   -bt=OS2    target OS/2 32-bit
+#   -bm        multithread-safe (required for DLLs)
+#   -6s        i686, stack calling convention
+#   -fpi87     inline x87 FPU
+#   -sg        merge auto-data into one segment (DGROUP)
+#   -otexanr   optimise: time, expand, no alias, reorder
+#   -s         suppress stack-check probes
+#   -wx        maximum warnings
+#   -d2        full debug info (use -d0 for release)
+# ------------------------------------------------------------------
+CFLAGS   = -bt=OS2 -bm -6s -fpi87 -sg -otexanr -wx -s
+DBGFLAGS = -d2
+
+.c.obj:
+    $(CC) $(CFLAGS) $(DBGFLAGS) -fo=$@ $<
+
+# ------------------------------------------------------------------
+# Targets
+# ------------------------------------------------------------------
+all: clean BDCALL32.DLL
+
+BDCALL32.DLL: BDCALL32.OBJ BDCALL32.LNK
+    $(LINK) @BDCALL32.LNK
+    @echo.
+    @echo Build complete: BDCALL32.DLL
+
+BDCALL32.OBJ: BDCALL32.C BDCALL32.H
+    $(CC) $(CFLAGS) $(DBGFLAGS) -fo=BDCALL32.OBJ BDCALL32.C
+
+clean: .SYMBOLIC
+    -$(RM) BDCALL32.OBJ  2>NUL
+    -$(RM) BDCALL32.DLL  2>NUL
+    -$(RM) BDCALL32.MAP  2>NUL
+    -$(RM) BDCALL32.ERR  2>NUL

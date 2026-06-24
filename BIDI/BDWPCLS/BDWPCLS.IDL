@@ -1,0 +1,262 @@
+/*
+ * BDWPCLS.IDL -- SOM/WPS IDL for the Bidirectional WPS Program Class
+ *
+ * BDWPCLS subclasses WPProgram to add a "Bidirectional Settings" page
+ * to the Settings notebook of DOS and WIN program objects.
+ *
+ * Compile with the IBM SOM compiler (sc):
+ *   sc -p -mnotc -maddstar -mnoint -S128000 -C128000 -s"ih;h;c;def" BDWPCLS.idl
+ *
+ * This generates:
+ *   BDWPCLS.h    -- public C header
+ *   BDWPCLS.ih   -- implementation header (used in BDWPCLS.c)
+ *   BDWPCLS.c    -- SOM method dispatch stubs (do NOT edit)
+ *   BDWPCLS.def  -- linker DEF file skeleton
+ *
+ * Build then:
+ *   icc -c $(CFLAGS) $(DLLCFLAGS) -I. -Fo"$(OBJDIR)\bdwpcls.obj" BDWPCLS_impl.c
+ *   icc -c $(CFLAGS) $(DLLCFLAGS) -I. -Fo"$(OBJDIR)\bdwpcls_s.obj" BDWPCLS.c
+ *   $(LINK) $(EXEDIR)\BDWPCLS.dll $(DLLCFLAGS) BDWPCLS.def \
+ *       $(DLLLIBS) + $(SOMLIBS) \
+ *       $(OBJDIR)\bdwpcls.obj $(OBJDIR)\bdwpcls_s.obj
+ *
+ * Evidence from binary analysis:
+ *   - Module 1 ('som') fixups with SOM dispatch selectors
+ *   - PMWP imports: wpAddSettingsPages, wpInitData, wpSaveState,
+ *     wpRestoreState, wpInsertSettingsPage, wpQueryProgDetails,
+ *     wpSetProgDetails, wpModifyPopupMenu, wpFilterPopupMenu,
+ *     wpSetupOnce, wpclsQueryTitle, wpclsQueryStyle, wpclsNew
+ *   - Strings: 'BDWPCLS', 'BDWPCLS.HLP', 'WPchange bidi attribut'
+ *   - Parent deduced as WPProgram (wpQueryProgDetails, wpSetProgDetails,
+ *     <WarnBeforeStart attribute, DOS/WIN program type checking)
+ */
+
+#include <wppgm.idl>    /* WPProgram -- parent class */
+#include <somcls.idl>   /* SOMClass -- for metaclass */
+
+interface M_BDWPCLS;    /* forward declaration of metaclass */
+
+/*
+ * BDWPCLS -- Bidirectional Settings WPS Program Class
+ *
+ * Subclass of WPProgram that adds a "Bidirectional Settings" notebook
+ * page to DOS and WIN OS/2 program objects, allowing users to configure
+ * Arabic/Hebrew bidi attributes (text type, orientation, shaping, etc.)
+ * for individual applications.
+ */
+interface BDWPCLS : WPProgram
+{
+    /*
+     * BDWPSDLG_is_DOS_prgm -- (ord 1)
+     *
+     * Test whether this object is a DOS or WIN-OS/2 program.
+     * Used internally to decide which bidi settings are applicable.
+     * Returns TRUE for DOS/WIN programs, FALSE for OS/2 programs.
+     */
+    BOOL BDWPSDLG_is_DOS_prgm();
+
+    /*
+     * BDWPSDLG_PageSettings -- (ord 2)
+     *
+     * Dialog procedure for the Bidirectional Settings notebook page.
+     * Registered as pfnwp in the PAGEINFO structure when the settings
+     * page is inserted via wpInsertSettingsPage.
+     * Standard PM EXPENTRY dialog procedure; exported for cross-process
+     * PM callback.
+     */
+    MRESULT BDWPSDLG_PageSettings(in HWND hwnd,
+                                   in ULONG msg,
+                                   in MPARAM mp1,
+                                   in MPARAM mp2);
+
+    /*
+     * BDWPSDLG_BidiValError -- (ord 3)
+     *
+     * Display an error dialog when the user selects an inconsistent
+     * combination of bidi settings (e.g. Visual + Auto-shape).
+     */
+    ULONG BDWPSDLG_BidiValError(in HWND hwndParent, in ULONG ulErrId);
+
+    /*
+     * IsHebrewSystem -- (ord 4)
+     *
+     * Determine whether the OS/2 system is running in Hebrew mode.
+     * Queries PMBIDI.DLL for the active language setting.
+     */
+    BOOL IsHebrewSystem();
+
+    /*
+     * BDWPSDLG_setup -- (ord 5)
+     *
+     * Initialise the settings dialog data structure for this object.
+     * Called when the Settings notebook is first opened.
+     */
+    APIRET BDWPSDLG_setup(in PVOID pSettings);
+
+    /*
+     * FindRunningBidiSettings -- (ord 6)
+     *
+     * Query the system-wide currently active bidi attribute flags
+     * and language ID from PMBIDI.DLL.
+     */
+    APIRET FindRunningBidiSettings(out ULONG pulAttr, out ULONG pulLang);
+
+    /*
+     * BDWPSDLG_LoadDlg -- (ord 7)
+     *
+     * Load and display the bidi settings dialog page.
+     */
+    ULONG BDWPSDLG_LoadDlg(in HWND hwndParent, in HMODULE hmod,
+                             in ULONG idDlg,    in PVOID pSettings);
+
+    /*
+     * BDWPSDLG_ResetEnv -- (ord 8)
+     *
+     * Reset the bidi environment settings to neutral/default values.
+     */
+    APIRET BDWPSDLG_ResetEnv(in PVOID pSettings);
+
+    /*
+     * BDWPSDLG_ModifyEnv -- (ord 9)
+     *
+     * Apply new bidi settings to this object's program environment.
+     * Updates the ENVIRONMENT string in the program details.
+     */
+    APIRET BDWPSDLG_ModifyEnv(in PVOID pSettings);
+
+    /*
+     * BDWPSDLG_Verify_BidiSettings -- (ord 10)
+     *
+     * Validate a bidi attribute flag combination for consistency.
+     * Returns FALSE and sets *pulError if the combination is invalid.
+     */
+    BOOL BDWPSDLG_Verify_BidiSettings(in  ULONG flBidiAttr,
+                                       out ULONG pulError);
+
+    /*
+     * BDWPSDLG_getMRI_Lang -- (ord 11)
+     *
+     * Get the current Message Resource Information language ID used
+     * for the settings dialog UI strings.
+     */
+    APIRET BDWPSDLG_getMRI_Lang(out ULONG pulLang);
+
+    /*
+     * BDWPSDLG_setMRI_Lang -- (ord 12)
+     *
+     * Set the MRI language for the settings dialog UI.
+     */
+    APIRET BDWPSDLG_setMRI_Lang(in ULONG ulLang);
+
+    /*
+     * WPS method overrides (deduced from PMWP fixup analysis):
+     *
+     * wpInitData        -- allocate and zero instance data (BIDI_IDATA)
+     * wpSaveState       -- persist bidi attrs via wpSaveLong
+     * wpRestoreState    -- reload bidi attrs via wpRestoreLong
+     * wpAddSettingsPages-- insert the bidi settings notebook page
+     * wpSetupOnce       -- process setup string keys on first instantiation
+     * wpQueryProgDetails-- query program type to check for DOS/WIN
+     * wpSetProgDetails  -- update program details after bidi change
+     * wpModifyPopupMenu -- add bidi-related context menu items
+     * wpFilterPopupMenu -- filter out inapplicable popup items
+     */
+    override wpInitData;
+    override wpSaveState;
+    override wpRestoreState;
+    override wpAddSettingsPages;
+    override wpSetupOnce;
+    override wpQueryProgDetails;
+    override wpSetProgDetails;
+    override wpModifyPopupMenu;
+    override wpFilterPopupMenu;
+
+#ifdef __SOMIDL__
+    implementation {
+        externalstem   = bdwpcls;
+        externalprefix = bdwpcls_;
+        majorversion   = 1;
+        minorversion   = 1;
+        filestem       = BDWPCLS;
+        metaclass      = M_BDWPCLS;
+        callstyle      = oidl;
+        dllname        = "BDWPCLS";
+
+        /*
+         * Instance data (BIDI_IDATA) -- allocated in wpInitData,
+         * freed in wpUnInitData (inherited from WPObject).
+         * Deduced from wpSaveState/wpRestoreState usage patterns:
+         * saves flBidiAttr and idLang per-object.
+         */
+        flBidiAttr:  ULONG;   /* bidi attribute flags for this object  */
+        idLang:      ULONG;   /* language ID for this object           */
+        fInitDone:   BOOL;    /* TRUE after wpInitData completes       */
+
+        /*
+         * Method overrides declared above
+         */
+        wpInitData:          override;
+        wpSaveState:         override;
+        wpRestoreState:      override;
+        wpAddSettingsPages:  override;
+        wpSetupOnce:         override;
+        wpQueryProgDetails:  override;
+        wpSetProgDetails:    override;
+        wpModifyPopupMenu:   override;
+        wpFilterPopupMenu:   override;
+
+        /*
+         * Exported methods (the 12 ordinal exports)
+         */
+        BDWPSDLG_is_DOS_prgm:         method;
+        BDWPSDLG_PageSettings:        method;
+        BDWPSDLG_BidiValError:        method;
+        IsHebrewSystem:               method;
+        BDWPSDLG_setup:               method;
+        FindRunningBidiSettings:      method;
+        BDWPSDLG_LoadDlg:             method;
+        BDWPSDLG_ResetEnv:            method;
+        BDWPSDLG_ModifyEnv:           method;
+        BDWPSDLG_Verify_BidiSettings: method;
+        BDWPSDLG_getMRI_Lang:         method;
+        BDWPSDLG_setMRI_Lang:         method;
+
+        /*
+         * Setup string keys recognised by wpSetupOnce:
+         *   BIDIATTR=<hex>  -- initial bidi attribute flags
+         *   LANG=<id>       -- initial language ID
+         * (deduced from Obj3 string 'ATTb2', 'STAT', 'STDDLGLANG1')
+         */
+    };
+#endif  /* __SOMIDL__ */
+};
+
+
+/*
+ * M_BDWPCLS -- Metaclass of BDWPCLS
+ *
+ * Overrides class methods to provide the class title and style.
+ * Deduced from PMWP fixups: wpclsQueryTitle (ord 4046),
+ * wpclsQueryStyle (ord 4086), wpclsNew (ord 2366).
+ */
+interface M_BDWPCLS : M_WPProgram
+{
+    override wpclsQueryTitle;    /* returns "Bidirectional Settings" */
+    override wpclsQueryStyle;    /* CLSSTYLE_NEVERTEMPLATE etc.      */
+    override wpclsNew;           /* class instantiation hook         */
+
+#ifdef __SOMIDL__
+    implementation {
+        externalstem   = m_bdwpcls;
+        externalprefix = m_bdwpcls_;
+        majorversion   = 1;
+        minorversion   = 1;
+        filestem       = BDWPCLS;
+        callstyle      = oidl;
+
+        wpclsQueryTitle: override;
+        wpclsQueryStyle: override;
+        wpclsNew:        override;
+    };
+#endif
+};

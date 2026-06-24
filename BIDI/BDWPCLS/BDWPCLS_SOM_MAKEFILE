@@ -1,0 +1,128 @@
+# BDWPCLS_SOM_MAKEFILE -- Build BDWPCLS.DLL using IBM C Set/2 + SOM compiler
+#
+# This is the CORRECT build method for a WPS SOM class DLL.
+# The OpenWatcom-only approach in BDWPCLS_MAKEFILE cannot work for
+# WPS classes because:
+#   1. SOM requires IBM SOM runtime (som.dll, somdsvr.dll)
+#   2. The SOM IDL compiler (sc) generates C stubs that use IBM-specific
+#      SOM macros incompatible with OpenWatcom headers
+#   3. PMWP.LIB (WPS import library) requires IBM's toolkit headers
+#
+# Prerequisites:
+#   IBM OS/2 Toolkit 4.5 installed (TOOLKT45 or equivalent)
+#   IBM C Set/2 or VisualAge C++ for OS/2 installed
+#   SOM compiler (sc.exe) on PATH
+#   Environment variables set by toolkit: SMEMIT, SMADDSTAR etc.
+#
+# Usage:
+#   nmake -f BDWPCLS_SOM_MAKEFILE          (build)
+#   nmake -f BDWPCLS_SOM_MAKEFILE clean    (clean)
+
+# ---------------------------------------------------------------
+# Tools
+# ---------------------------------------------------------------
+CC        = icc
+SC        = sc
+LINK      = icc
+RC        = rc
+MAPSYM    = mapsym
+
+# ---------------------------------------------------------------
+# Directories (adjust to your installation)
+# ---------------------------------------------------------------
+OBJDIR    = .
+EXEDIR    = .
+
+# ---------------------------------------------------------------
+# Compiler flags (IBM C Set/2 / VisualAge C++ for OS/2)
+#   -Gd-   don't use default runtime libs
+#   -Se    extended syntax
+#   -Re    register save/restore
+#   -Ss    subroutine calling convention
+#   -Ms    multithread-safe runtime
+#   -Gm+   multithread
+#   -Ge-   build as DLL (no main() entry point)
+#   -Ti    debug info
+# ---------------------------------------------------------------
+CFLAGS    = -Gd- -Se -Re -Ss -Ms -Gm+ -Ti
+DLLCFLAGS = -Ge-
+
+# Include paths: toolkit H directory + SOM headers
+CINCLUDE  = -I. -I$(TOOLKIT)\H -I$(TOOLKIT)\H\OS2 -I$(SOM_COMP_HDR)
+
+# ---------------------------------------------------------------
+# SOM compiler settings
+#   -p         produce C output (not C++)
+#   -mnotc     don't emit #include for toolkit C types
+#   -maddstar  add * to pointer method parameters
+#   -mnoint    don't emit integer type conversion macros
+#   -S128000   SOM stack size
+#   -C128000   SOM code size
+# ---------------------------------------------------------------
+SCFLAGS   = -p -mnotc -maddstar -mnoint -S128000 -C128000
+
+# ---------------------------------------------------------------
+# Libraries
+# ---------------------------------------------------------------
+OS2386    = os2386.lib
+SOMLIBS   = somtk.lib
+CPPLIB    = cppom30.lib
+PMWPLIB   = pmwp.lib
+DLLLIBS   = $(CPPLIB) + $(OS2386) + $(SOMLIBS) + $(PMWPLIB)
+
+# ---------------------------------------------------------------
+# Inference rules
+# ---------------------------------------------------------------
+.idl.h:
+    $(SC) $(SCFLAGS) -s"h"   $*.idl
+
+.idl.ih:
+    $(SC) $(SCFLAGS) -s"ih"  $*.idl
+
+.idl.c:
+    $(SC) $(SCFLAGS) -s"c"   $*.idl
+
+.idl.def:
+    $(SC) $(SCFLAGS) -s"def" $*.idl
+
+.c{$(OBJDIR)}.obj:
+    $(CC) -c $(CFLAGS) $(CINCLUDE) $(DLLCFLAGS) -Fo"$(OBJDIR)\$(@B).obj" $(@B).c
+
+# ---------------------------------------------------------------
+# Targets
+# ---------------------------------------------------------------
+all: BDWPCLS.DLL
+
+# IDL-generated files (generated automatically by inference rules above)
+BDWPCLS.h BDWPCLS.ih BDWPCLS.c BDWPCLS.def: BDWPCLS.IDL
+
+# Compile the SOM-generated dispatch stubs
+$(OBJDIR)\BDWPCLS_sc.obj: BDWPCLS.c BDWPCLS.h
+    $(CC) -c $(CFLAGS) $(CINCLUDE) $(DLLCFLAGS) \
+          -Fo"$(OBJDIR)\BDWPCLS_sc.obj" BDWPCLS.c
+
+# Compile the implementation
+$(OBJDIR)\BDWPCLS_impl.obj: BDWPCLS_impl.C BDWPCLS.ih BDWPCLS.h
+    $(CC) -c $(CFLAGS) $(CINCLUDE) $(DLLCFLAGS) \
+          -Fo"$(OBJDIR)\BDWPCLS_impl.obj" BDWPCLS_impl.C
+
+# Link the DLL using the sc-generated .def file
+BDWPCLS.DLL: $(OBJDIR)\BDWPCLS_sc.obj $(OBJDIR)\BDWPCLS_impl.obj BDWPCLS.def
+    $(LINK) /B"/NOE /NOD /ALIGN:16 /EXEPACK" $(CFLAGS) $(DLLCFLAGS) \
+            -Fe$(EXEDIR)\BDWPCLS.DLL \
+            BDWPCLS.def \
+            $(DLLLIBS) \
+            $(OBJDIR)\BDWPCLS_sc.obj \
+            $(OBJDIR)\BDWPCLS_impl.obj
+    @echo Build complete: BDWPCLS.DLL
+
+clean: .SYMBOLIC
+    -del BDWPCLS.h    2>NUL
+    -del BDWPCLS.ih   2>NUL
+    -del BDWPCLS.c    2>NUL
+    -del BDWPCLS.def  2>NUL
+    -del $(OBJDIR)\BDWPCLS_sc.obj   2>NUL
+    -del $(OBJDIR)\BDWPCLS_impl.obj 2>NUL
+    -del $(EXEDIR)\BDWPCLS.DLL      2>NUL
+    -del BDWPCLS.MAP  2>NUL
+    -del BDWPCLS.ERR  2>NUL

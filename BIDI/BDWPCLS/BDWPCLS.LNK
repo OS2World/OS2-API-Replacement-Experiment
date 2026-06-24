@@ -1,0 +1,45 @@
+# BDWPCLS.LNK -- OpenWatcom WLINK response file for BDWPCLS.DLL
+#
+# Build:
+#   wcc386 -bt=OS2 -bm -6s -fpi87 -sg -otexanr -wx -s -fo=BDWPCLS.OBJ BDWPCLS.C
+#   wlink @BDWPCLS.LNK
+#
+# Notes:
+#   All 12 exports appear in the RESIDENT name table of the original DLL.
+#   BidiSettingsDlgProc and BDWPSDLG_PageSettings are PM dialog/window
+#   procedures (EXPENTRY) and must be exported so PM can call them
+#   cross-process during notebook page display.
+#
+#   OPTION MANYAUTODATA: each process loading this DLL (WPS and any
+#   application) gets its own data segment copy.
+
+SYSTEM os2v2_dll INITINSTANCE TERMINSTANCE
+
+NAME BDWPCLS.DLL
+
+FILE BDWPCLS.OBJ
+
+OPTION ELIMINATE
+OPTION MANYAUTODATA
+OPTION OSNAME='OS/2 and ArcaOS'
+OPTION DESCRIPTION 'Bidirectional WPS Settings Page'
+OPTION MAP=BDWPCLS.MAP
+
+# -----------------------------------------------------------------------
+# EXPORTS -- ordinals and names from resident name table
+# -----------------------------------------------------------------------
+EXPORT BDWPSDLG_is_DOS_prgm.1          = BDWPSDLG_is_DOS_prgm          RESIDENT
+EXPORT BDWPSDLG_PageSettings.2         = BDWPSDLG_PageSettings          RESIDENT
+EXPORT BDWPSDLG_BidiValError.3         = BDWPSDLG_BidiValError          RESIDENT
+EXPORT IsHebrewSystem.4                = IsHebrewSystem                 RESIDENT
+EXPORT BDWPSDLG_setup.5                = BDWPSDLG_setup                 RESIDENT
+EXPORT FindRunningBidiSettings.6       = FindRunningBidiSettings        RESIDENT
+EXPORT BDWPSDLG_LoadDlg.7             = BDWPSDLG_LoadDlg               RESIDENT
+EXPORT BDWPSDLG_ResetEnv.8            = BDWPSDLG_ResetEnv              RESIDENT
+EXPORT BDWPSDLG_ModifyEnv.9           = BDWPSDLG_ModifyEnv             RESIDENT
+EXPORT BDWPSDLG_Verify_BidiSettings.10 = BDWPSDLG_Verify_BidiSettings  RESIDENT
+EXPORT BDWPSDLG_getMRI_Lang.11        = BDWPSDLG_getMRI_Lang           RESIDENT
+EXPORT BDWPSDLG_setMRI_Lang.12        = BDWPSDLG_setMRI_Lang           RESIDENT
+
+# PM dialog/window procedures must also be exported for cross-process calls
+EXPORT BidiSettingsDlgProc             = BidiSettingsDlgProc            RESIDENT

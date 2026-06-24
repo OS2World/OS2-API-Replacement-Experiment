@@ -1,0 +1,47 @@
+# BDIME_MAKEFILE -- Build BDIME.DLL with OpenWatcom on OS/2 Warp 4.52
+#
+# Usage:
+#   wmake -f BDIME_MAKEFILE          (build DLL)
+#   wmake -f BDIME_MAKEFILE clean    (remove intermediates)
+#   wmake -f BDIME_MAKEFILE all      (clean + build)
+
+CC   = wcc386
+LINK = wlink
+RM   = del
+
+# ------------------------------------------------------------------
+# Compiler flags
+#   -bt=OS2   target OS/2 32-bit
+#   -bm       multithread-safe (required for DLLs)
+#   -6s       i686, stack calling convention
+#   -fpi87    inline x87 FPU
+#   -sg       merge auto-data into one DGROUP segment
+#   -otexanr  optimise: time, expand, no alias, reorder
+#   -s        suppress stack-check probes
+#   -wx       maximum warnings
+#   -d2       debug info (use -d0 for release)
+# ------------------------------------------------------------------
+CFLAGS   = -bt=OS2 -bm -6s -fpi87 -sg -otexanr -wx -s
+DBGFLAGS = -d2
+
+.c.obj:
+    $(CC) $(CFLAGS) $(DBGFLAGS) -fo=$@ $<
+
+# ------------------------------------------------------------------
+# Targets
+# ------------------------------------------------------------------
+all: clean BDIME.DLL
+
+BDIME.DLL: BDIME.OBJ BDIME.LNK
+    $(LINK) @BDIME.LNK
+    @echo.
+    @echo Build complete: BDIME.DLL
+
+BDIME.OBJ: BDIME.C BDIME.H
+    $(CC) $(CFLAGS) $(DBGFLAGS) -fo=BDIME.OBJ BDIME.C
+
+clean: .SYMBOLIC
+    -$(RM) BDIME.OBJ  2>NUL
+    -$(RM) BDIME.DLL  2>NUL
+    -$(RM) BDIME.MAP  2>NUL
+    -$(RM) BDIME.ERR  2>NUL

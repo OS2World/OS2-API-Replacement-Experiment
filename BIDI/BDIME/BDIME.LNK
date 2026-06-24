@@ -1,0 +1,36 @@
+# BDIME.LNK -- OpenWatcom WLINK response file for BDIME.DLL
+#
+# Build:
+#   wcc386 -bt=OS2 -bm -6s -fpi87 -sg -otexanr -wx -s -fo=BDIME.OBJ BDIME.C
+#   wlink @BDIME.LNK
+#
+# Notes:
+#   The original DLL exports by ordinal only (no names in the entry table).
+#   We provide both names and ordinals for maximum compatibility.
+#   BDHookProc and BDObjectWndProc are EXPENTRY (PM callbacks) and must
+#   also be listed as exports so PM can call them cross-process.
+#
+#   OPTION MANYAUTODATA: each process gets its own data copy (required
+#   because hook procs run in other processes' address spaces and each
+#   needs its own g_ulActiveLayer / g_habIME / etc).
+
+SYSTEM os2v2_dll INITINSTANCE TERMINSTANCE
+
+NAME BDIME.DLL
+
+FILE BDIME.OBJ
+
+OPTION ELIMINATE
+OPTION MANYAUTODATA
+OPTION OSNAME='OS/2 and ArcaOS'
+OPTION DESCRIPTION 'Bi-Directional Input Method Editor for OS/2 PM'
+OPTION MAP=BDIME.MAP
+
+# Ordinal exports matching the original binary
+EXPORT RegBDHookProc.1      = RegBDHookProc    RESIDENT
+EXPORT GetBidiHotKeys.2     = GetBidiHotKeys   RESIDENT
+
+# PM hook and window procedure callbacks must also be exported
+# so PM can call them when the hook fires in a different process
+EXPORT BDHookProc           = BDHookProc       RESIDENT
+EXPORT BDObjectWndProc      = BDObjectWndProc  RESIDENT

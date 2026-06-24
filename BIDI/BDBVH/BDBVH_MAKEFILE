@@ -1,0 +1,60 @@
+# BDBVH_MAKEFILE -- Build BDBVH.DLL (16-bit BVH) with OpenWatcom on OS/2
+#
+# Usage:
+#   wmake -f BDBVH_MAKEFILE          (build)
+#   wmake -f BDBVH_MAKEFILE clean    (remove intermediates)
+#   wmake -f BDBVH_MAKEFILE all      (clean + build)
+#
+# IMPORTANT: This is a 16-bit DLL.
+#   - Compiler: wcc  (NOT wcc386 -- os2.h rejects 16-bit mode)
+#   - BDBVH.C does NOT include os2.h; it declares all types inline.
+#   - The 16-bit OS/2 API stubs are in os2286.lib (in $WATCOM\lib286\os2)
+#
+# Memory model: LARGE (-ml)
+#   Far code + far data pointers. Required because BDBVH has separate
+#   code and data segments and uses far calls for all exported functions.
+#
+# MouRegister / MouDeRegister / DosAllocSeg etc. are resolved from
+# os2286.lib at link time.  If that library is not in LIBPATH, add:
+#   OPTION LIBPATH %WATCOM%\lib286\os2
+
+CC   = wcc
+LINK = wlink
+RM   = del
+
+# ------------------------------------------------------------------
+# 16-bit Compiler flags
+#   -bt=OS2  target OS/2
+#   -ml      large memory model (far code + far data)
+#   -2       286 instruction set
+#   -s       suppress stack checks
+#   -wx      maximum warnings
+#   -d2      debug info (use -d0 for release)
+#   -zu      SS != DS (required for 16-bit DLL large model)
+#   -zp1     byte structure alignment
+#   -w4      (absorbed by -wx)
+# ------------------------------------------------------------------
+CFLAGS   = -bt=OS2 -ml -2 -s -wx -zu -zp1
+DBGFLAGS = -d2
+
+.c.obj:
+    $(CC) $(CFLAGS) $(DBGFLAGS) -fo=$@ $<
+
+# ------------------------------------------------------------------
+# Targets
+# ------------------------------------------------------------------
+all: clean BDBVH.DLL
+
+BDBVH.DLL: BDBVH.OBJ BDBVH.LNK
+    $(LINK) @BDBVH.LNK
+    @echo.
+    @echo Build complete: BDBVH.DLL
+
+BDBVH.OBJ: BDBVH.C BDBVH.H
+    $(CC) $(CFLAGS) $(DBGFLAGS) -fo=BDBVH.OBJ BDBVH.C
+
+clean: .SYMBOLIC
+    -$(RM) BDBVH.OBJ  2>NUL
+    -$(RM) BDBVH.DLL  2>NUL
+    -$(RM) BDBVH.MAP  2>NUL
+    -$(RM) BDBVH.ERR  2>NUL

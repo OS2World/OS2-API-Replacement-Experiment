@@ -1,0 +1,41 @@
+# SORT_MAKEFILE -- Build SORT.EXE with OpenWatcom on OS/2 Warp 4.52
+#
+# Usage:
+#   wmake -f SORT_MAKEFILE          (build)
+#   wmake -f SORT_MAKEFILE clean    (clean)
+#
+# The original SORT.EXE is a 16-bit NE executable built with
+# Microsoft C 5.x, but we build a 32-bit LX replacement which is
+# fully compatible with OS/2 Warp 4.52 and ArcaOS.
+#
+# Flags:
+#   -bt=OS2   OS/2 target
+#   -bm       multithread-safe CRT (for DosGetCtryInfo)
+#   -wx       max warnings
+#   -s        no stack checks (matches lean original)
+#   -ox       full optimisation (size + speed)
+
+CC   = wcc386
+LINK = wlink
+RM   = del
+
+CFLAGS = -bt=OS2 -bm -wx -s -ox
+
+all: SORT.EXE
+
+SORT.EXE: SORT.OBJ
+    $(LINK) SYS os2v2 &
+        NAME SORT.EXE &
+        FILE SORT.OBJ &
+        OPTION ELIMINATE
+    @echo.
+    @echo Build complete: SORT.EXE
+
+SORT.OBJ: SORT.C
+    $(CC) $(CFLAGS) -fo=SORT.OBJ SORT.C
+
+clean: .SYMBOLIC
+    -$(RM) SORT.OBJ 2>NUL
+    -$(RM) SORT.EXE 2>NUL
+    -$(RM) SORT.MAP 2>NUL
+    -$(RM) SORT.ERR 2>NUL

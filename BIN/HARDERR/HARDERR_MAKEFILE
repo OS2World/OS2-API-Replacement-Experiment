@@ -1,0 +1,39 @@
+# HARDERR_MAKEFILE -- Build HARDERR.EXE with OpenWatcom on OS/2 Warp 4.52
+#
+# Usage:
+#   wmake -f HARDERR_MAKEFILE          (build)
+#   wmake -f HARDERR_MAKEFILE clean    (clean)
+#
+# The original HARDERR.EXE is a 16-bit NE executable wrapped in LX,
+# built with IBM C Set/2. We build a 32-bit LX replacement which is
+# fully compatible with OS/2 Warp 4.52 and ArcaOS.
+#
+# Note: A complete daemon replacement requires OS/2 DDK access for
+# the undocumented DosSetVec (DOSCALLS ord 258) interface used by
+# the original to hook into the kernel hard error path.
+# The build here provides the user-mode error presentation logic.
+
+CC   = wcc386
+LINK = wlink
+RM   = del
+
+CFLAGS = -bt=OS2 -bm -wx -s -ox
+
+all: HARDERR.EXE
+
+HARDERR.EXE: HARDERR.OBJ
+    $(LINK) SYS os2v2 &
+        NAME HARDERR.EXE &
+        FILE HARDERR.OBJ &
+        OPTION ELIMINATE
+    @echo.
+    @echo Build complete: HARDERR.EXE
+
+HARDERR.OBJ: HARDERR.C
+    $(CC) $(CFLAGS) -fo=HARDERR.OBJ HARDERR.C
+
+clean: .SYMBOLIC
+    -$(RM) HARDERR.OBJ 2>NUL
+    -$(RM) HARDERR.EXE 2>NUL
+    -$(RM) HARDERR.MAP 2>NUL
+    -$(RM) HARDERR.ERR 2>NUL

@@ -1,0 +1,64 @@
+# BDBVH.LNK -- OpenWatcom WLINK response file for BDBVH.DLL (16-bit)
+#
+# Build:
+#   wcc -bt=OS2 -ml -2 -s -wx -fo=BDBVH.OBJ BDBVH.C
+#   wlink @BDBVH.LNK
+#
+# IMPORTANT: This is a 16-bit DLL, not 32-bit.
+#   SYSTEM os2           -- 16-bit OS/2 1.x / 2.x compatibility DLL
+#   The linker produces a 16-bit NE or LX module with:
+#     - One 16-bit code segment (BDBVH_TEXT)
+#     - One 16-bit data segment (BDBVH_DATA)
+#     - INITINSTANCE: called once per process that loads the DLL
+#
+# All 24 exports appear in the NON-RESIDENT name table of the original.
+# The RESIDENT name table contains only the module description string.
+#
+# Note on MouRegister / MouDeRegister:
+#   These are 16-bit MOUCALLS functions. For Open Watcom, link against
+#   the OS/2 1.x or 2.x import library: os2.lib or os2286.lib.
+#   The full build also requires os2286.lib for DosGetSeg, etc.
+#
+# Memory model: LARGE (far code pointers + far data pointers)
+# Required because the DLL has separate code and data segments,
+# and calls must cross segments (far call convention).
+
+SYSTEM os2 dll initinstance
+
+NAME BDBVH.DLL
+
+FILE BDBVH.OBJ
+
+LIBRARY os2286.lib
+
+OPTION ELIMINATE
+OPTION OSNAME='OS/2 and ArcaOS'
+OPTION DESCRIPTION 'Bidirectional Base Video Handler'
+OPTION MAP=BDBVH.MAP
+
+# All exports in non-resident name table (slow lookup by name).
+# The entry table uses 16-bit near entries within the code segment.
+EXPORT ORDINAL1_PROC.1          = ORDINAL1_PROC
+EXPORT BDBVHSETORIENTATION.2    = BDBVHSETORIENTATION
+EXPORT BDBVHQUERYORIENTATION.3  = BDBVHQUERYORIENTATION
+EXPORT BDBVHSETCSD.4            = BDBVHSETCSD
+EXPORT BDBVHQUERYCSD.5          = BDBVHQUERYCSD
+EXPORT BDBVHSETHOTKEYFLAG.6     = BDBVHSETHOTKEYFLAG
+EXPORT BDBVHQUERYHOTKEYFLAG.7   = BDBVHQUERYHOTKEYFLAG
+EXPORT BDBVHSETFIELDREV.8       = BDBVHSETFIELDREV
+EXPORT BDBVHQUERYFIELDREV.9     = BDBVHQUERYFIELDREV
+EXPORT BDBVHSETNL.10            = BDBVHSETNL
+EXPORT BDBVHQUERYNL.11          = BDBVHQUERYNL
+EXPORT BDBVHSETPUSHLEVEL.12     = BDBVHSETPUSHLEVEL
+EXPORT BDBVHQUERYPUSHLEVEL.13   = BDBVHQUERYPUSHLEVEL
+EXPORT BDBVHSETAUTOPUSHLTR.14   = BDBVHSETAUTOPUSHLTR
+EXPORT BDBVHQUERYAUTOPUSHLTR.15 = BDBVHQUERYAUTOPUSHLTR
+EXPORT BDBVHSETAUTOPUSHRTL.16   = BDBVHSETAUTOPUSHRTL
+EXPORT BDBVHQUERYAUTOPUSHRTL.17 = BDBVHQUERYAUTOPUSHRTL
+EXPORT BDBVHSETAUTOSHAPECTR.18  = BDBVHSETAUTOSHAPECTR
+EXPORT BDBVHGETCURPOS.19        = BDBVHGETCURPOS
+EXPORT ENDPOPUPHANDLING.20      = ENDPOPUPHANDLING
+EXPORT NLSQUERYBIDISEGADDRESS.21= NLSQUERYBIDISEGADDRESS
+EXPORT NLSRECORDBDDSEG.22       = NLSRECORDBDDSEG
+EXPORT DEVENABLE.23             = DEVENABLE
+EXPORT _PrivateMouFunc.24       = _PrivateMouFunc

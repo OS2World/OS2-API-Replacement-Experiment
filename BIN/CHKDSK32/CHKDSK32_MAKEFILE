@@ -1,0 +1,30 @@
+# CHKDSK32_MAKEFILE -- Build CHKDSK32.EXE with OpenWatcom on OS/2
+#
+# Usage:
+#   wmake -f CHKDSK32_MAKEFILE          (build)
+#   wmake -f CHKDSK32_MAKEFILE clean    (clean)
+
+CC   = wcc386
+LINK = wlink
+RM   = del
+
+CFLAGS = -bt=OS2 -bm -wx -s -ox
+
+all: CHKDSK32.EXE
+
+CHKDSK32.EXE: CHKDSK32.OBJ
+    $(LINK) SYS os2v2 &
+        NAME CHKDSK32.EXE &
+        FILE CHKDSK32.OBJ &
+        OPTION ELIMINATE
+    @echo.
+    @echo Build complete: CHKDSK32.EXE
+
+CHKDSK32.OBJ: CHKDSK32.C
+    $(CC) $(CFLAGS) -fo=CHKDSK32.OBJ CHKDSK32.C
+
+clean: .SYMBOLIC
+    -$(RM) CHKDSK32.OBJ 2>NUL
+    -$(RM) CHKDSK32.EXE 2>NUL
+    -$(RM) CHKDSK32.MAP 2>NUL
+    -$(RM) CHKDSK32.ERR 2>NUL
