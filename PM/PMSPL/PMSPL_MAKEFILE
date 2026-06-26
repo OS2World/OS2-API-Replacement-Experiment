@@ -1,0 +1,28 @@
+# PMSPL_MAKEFILE -- Build PMSPL.DLL with OpenWatcom on OS/2 Warp 4.52
+#
+# Usage:
+#   wmake -f PMSPL_MAKEFILE        (build)
+#   wmake -f PMSPL_MAKEFILE clean  (clean)
+#
+# Prerequisites: OS/2 Toolkit 4.5 (pmspl.h, splerr.h)
+
+CC   = wcc386
+LINK = wlink
+RM   = del
+
+CFLAGS = -bt=OS2 -bm -wx -s -ox
+
+all: PMSPL.DLL
+
+PMSPL.DLL: PMSPL.OBJ PMSPL.LNK
+    $(LINK) @PMSPL.LNK
+    @echo.
+    @echo Build complete: PMSPL.DLL
+
+PMSPL.OBJ: PMSPL.C
+    $(CC) $(CFLAGS) -fo=PMSPL.OBJ PMSPL.C
+
+clean: .SYMBOLIC
+    -$(RM) PMSPL.OBJ 2>NUL
+    -$(RM) PMSPL.DLL 2>NUL
+    -$(RM) PMSPL.MAP 2>NUL

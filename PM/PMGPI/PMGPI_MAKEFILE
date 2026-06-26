@@ -1,0 +1,41 @@
+# PMGPI_MAKEFILE -- Build PMGPI.DLL with OpenWatcom on OS/2 Warp 4.52
+#
+# Usage:
+#   wmake -f PMGPI_MAKEFILE          (build)
+#   wmake -f PMGPI_MAKEFILE clean    (clean)
+#
+# This produces a 32-bit stub PMGPI.DLL with all 298 exports returning
+# GPI_ERROR/FALSE. Intended as a drop-in replacement skeleton for
+# OS/2 Warp 4.52 / ArcaOS where the full GPI engine implementation
+# would be provided by the existing PMMERGE.DLL chain.
+#
+# Compiler flags:
+#   -bt=OS2   OS/2 target
+#   -bm       multithread CRT
+#   -6s       686 stack-based calling convention (matches IBM ABI)
+#   -sg       merge data/code segments (single segment model)
+#   -wx       max warnings
+#   -s        no stack checks
+#   -ox       full optimisation
+
+CC   = wcc386
+LINK = wlink
+RM   = del
+
+CFLAGS = -bt=OS2 -bm -6s -sg -wx -s -ox
+
+all: PMGPI.DLL
+
+PMGPI.DLL: PMGPI.OBJ PMGPI.LNK
+    $(LINK) @PMGPI.LNK
+    @echo.
+    @echo Build complete: PMGPI.DLL
+
+PMGPI.OBJ: PMGPI.C
+    $(CC) $(CFLAGS) -fo=PMGPI.OBJ PMGPI.C
+
+clean: .SYMBOLIC
+    -$(RM) PMGPI.OBJ 2>NUL
+    -$(RM) PMGPI.DLL 2>NUL
+    -$(RM) PMGPI.MAP 2>NUL
+    -$(RM) PMGPI.ERR 2>NUL

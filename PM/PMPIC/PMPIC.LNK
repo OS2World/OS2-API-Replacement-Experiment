@@ -1,0 +1,26 @@
+# PMPIC.LNK -- OpenWatcom WLINK for PMPIC.DLL (32-bit stub)
+#
+# Build:
+#   wcc386 -bt=OS2 -bm -wx -s -fo=PMPIC.OBJ PMPIC.C
+#   wlink @PMPIC.LNK
+#
+# Ordinal gaps 5-10 are intentional (not assigned in original binary).
+
+SYSTEM os2v2 dll initinstance
+
+NAME PMPIC.DLL
+
+FILE PMPIC.OBJ
+
+OPTION ELIMINATE
+OPTION OSNAME='OS/2 and ArcaOS'
+OPTION DESCRIPTION 'PMPIC Dynalink'
+OPTION MAP=PMPIC.MAP
+
+EXPORT PicPrint.1
+EXPORT PicIchg.2
+EXPORT Pif2Met.3
+EXPORT PrfPif2Met.4
+EXPORT Pic32Print.11
+EXPORT Pic32Ichg.12
+EXPORT Prf32Pif2Met.13

@@ -1,0 +1,31 @@
+# PMDRAG_MAKEFILE -- Build PMDRAG.DLL with OpenWatcom on OS/2 Warp 4.52
+#
+# Usage:
+#   wmake -f PMDRAG_MAKEFILE        (build)
+#   wmake -f PMDRAG_MAKEFILE clean  (clean)
+#
+# Prerequisites:
+#   OS/2 Toolkit 4.5 (for INCL_WINSTDDRAG, Drg* prototypes in pmstddlg.h)
+#   The Drg* functions resolve from os2386.lib (ships with Toolkit).
+
+CC   = wcc386
+LINK = wlink
+RM   = del
+
+CFLAGS = -bt=OS2 -bm -wx -s -ox
+
+all: PMDRAG.DLL
+
+PMDRAG.DLL: PMDRAG.OBJ PMDRAG.LNK
+    $(LINK) @PMDRAG.LNK
+    @echo.
+    @echo Build complete: PMDRAG.DLL
+
+PMDRAG.OBJ: PMDRAG.C
+    $(CC) $(CFLAGS) -fo=PMDRAG.OBJ PMDRAG.C
+
+clean: .SYMBOLIC
+    -$(RM) PMDRAG.OBJ 2>NUL
+    -$(RM) PMDRAG.DLL 2>NUL
+    -$(RM) PMDRAG.MAP 2>NUL
+    -$(RM) PMDRAG.ERR 2>NUL

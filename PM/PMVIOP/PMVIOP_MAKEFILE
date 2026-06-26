@@ -1,0 +1,15 @@
+# PMVIOP_MAKEFILE -- Build PMVIOP.DLL with OpenWatcom on OS/2 Warp 4.52
+CC   = wcc386
+LINK = wlink
+RM   = del
+CFLAGS = -bt=OS2 -bm -wx -s -ox
+all: PMVIOP.DLL
+PMVIOP.DLL: PMVIOP.OBJ PMVIOP.LNK
+	$(LINK) @PMVIOP.LNK
+	@echo Build complete: PMVIOP.DLL
+PMVIOP.OBJ: PMVIOP.C
+	$(CC) $(CFLAGS) -fo=PMVIOP.OBJ PMVIOP.C
+clean: .SYMBOLIC
+	-$(RM) PMVIOP.OBJ 2>NUL
+	-$(RM) PMVIOP.DLL 2>NUL
+	-$(RM) PMVIOP.MAP 2>NUL

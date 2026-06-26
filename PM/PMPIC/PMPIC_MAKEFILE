@@ -1,0 +1,15 @@
+# PMPIC_MAKEFILE -- Build PMPIC.DLL with OpenWatcom on OS/2 Warp 4.52
+CC=wcc386
+LINK=wlink
+RM=del
+CFLAGS=-bt=OS2 -bm -wx -s -ox
+all: PMPIC.DLL
+PMPIC.DLL: PMPIC.OBJ PMPIC.LNK
+	$(LINK) @PMPIC.LNK
+	@echo Build complete: PMPIC.DLL
+PMPIC.OBJ: PMPIC.C
+	$(CC) $(CFLAGS) -fo=PMPIC.OBJ PMPIC.C
+clean: .SYMBOLIC
+	-$(RM) PMPIC.OBJ 2>NUL
+	-$(RM) PMPIC.DLL 2>NUL
+	-$(RM) PMPIC.MAP 2>NUL
