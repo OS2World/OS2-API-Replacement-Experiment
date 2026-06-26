@@ -12,8 +12,16 @@ NAME PMPIC.DLL
 
 FILE PMPIC.OBJ
 
-OPTION ELIMINATE
-OPTION OSNAME='OS/2 and ArcaOS'
+# Force import table entries matching original PMPIC.DLL dependency chain
+IMPORT _dos_ref      DOSCALLS.257
+IMPORT _pmgpi_ref    PMGPI.1
+IMPORT _pmwin_ref    PMWIN.748
+IMPORT _nls_ref      NLS.1112
+IMPORT _pmshapi_ref  PMSHAPI.1
+IMPORT _pmspl_ref    PMSPL.1
+IMPORT _pmmerge_ref  PMMERGE.1
+IMPORT _msg_ref      MSG.1
+
 OPTION DESCRIPTION 'PMPIC Dynalink'
 OPTION MAP=PMPIC.MAP
 

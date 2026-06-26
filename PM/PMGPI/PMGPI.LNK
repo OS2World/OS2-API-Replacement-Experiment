@@ -10,8 +10,12 @@ NAME PMGPI.DLL
 
 FILE PMGPI.OBJ
 
-OPTION ELIMINATE
-OPTION OSNAME='OS/2 and ArcaOS'
+# Force import table entries matching original PMGPI.DLL dependency chain
+IMPORT _pmgre_ref    PMGRE.1
+IMPORT _pmwin_ref    PMWIN.748
+IMPORT _dos_ref      DOSCALLS.257
+IMPORT _vio_ref      VIOCALLS.30
+
 OPTION DESCRIPTION 'Gpi functions and 32-bit thunks'
 OPTION MAP=PMGPI.MAP
 

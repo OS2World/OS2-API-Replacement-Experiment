@@ -10,8 +10,21 @@ NAME PMSPL.DLL
 
 FILE PMSPL.OBJ
 
-OPTION ELIMINATE
-OPTION OSNAME='OS/2 and ArcaOS'
+# Force import table entries to match original DLL dependency chain.
+# One representative import per module is sufficient for the LX
+# import module table to list the dependency.
+IMPORT _spl1b_ref    SPL1B.1
+IMPORT _dos_ref      DOSCALLS.257
+IMPORT _pmgre_ref    PMGRE.1
+IMPORT _pmgpi_ref    PMGPI.1
+IMPORT _pmwin_ref    PMWIN.748
+IMPORT _kbd_ref      KBDCALLS.32
+IMPORT _vio_ref      VIOCALLS.30
+IMPORT _nls_ref      NLS.1112
+IMPORT _pmshapi_ref  PMSHAPI.1
+IMPORT _sesmgr_ref   SESMGR.1
+IMPORT _msg_ref      MSG.1
+
 OPTION DESCRIPTION 'PM Spooler Dynalink'
 OPTION MAP=PMSPL.MAP
 

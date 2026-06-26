@@ -1,13 +1,13 @@
-# PMDRAG.LNK -- OpenWatcom WLINK for PMDRAG.DLL (32-bit forwarder)
+# PMDRAG.LNK -- OpenWatcom WLINK for PMDRAG.DLL (pure LX forwarder)
 #
 # Build:
 #   wcc386 -bt=OS2 -bm -wx -s -fo=PMDRAG.OBJ PMDRAG.C
 #   wlink @PMDRAG.LNK
 #
-# PMDRAG.DLL is a pure forwarder: all 33 exports call through to
-# PMCTLS.DLL ordinals 41-73. The original binary has zero code pages.
-# Our C stubs are thin wrappers; the Drg* calls resolve to PMCTLS
-# via os2386.lib / pmctls.lib from the OS/2 Toolkit.
+# Architecture: pure forwarder -- all 33 exports forward directly to
+# PMCTLS.DLL ordinals 41-73, matching the original 1731-byte binary.
+# Uses IMPORT + EXPORT = forwarding to create real LX import entries
+# with zero code, identical to the original entry table type-0x04 records.
 
 SYSTEM os2v2 dll initinstance
 
@@ -15,46 +15,79 @@ NAME PMDRAG.DLL
 
 FILE PMDRAG.OBJ
 
-OPTION ELIMINATE
-OPTION OSNAME='OS/2 and ArcaOS'
 OPTION DESCRIPTION 'PM Drag and Drop 16-bit thunk forwarder'
 OPTION MAP=PMDRAG.MAP
 
-LIB os2386.lib
+# Import all Drg* functions from PMCTLS by ordinal.
+# These become real import table entries in the LX binary.
+IMPORT DrgAccessDraginfo    PMCTLS.41
+IMPORT DrgAddStrHandle      PMCTLS.42
+IMPORT DrgAllocDraginfo     PMCTLS.43
+IMPORT DrgAllocDragtransfer PMCTLS.44
+IMPORT DrgDeleteDraginfoStrHandles PMCTLS.45
+IMPORT DrgDeleteStrHandle   PMCTLS.46
+IMPORT DrgDrag              PMCTLS.47
+IMPORT DrgFreeDraginfo      PMCTLS.48
+IMPORT DrgFreeDragtransfer  PMCTLS.49
+IMPORT DrgGetPS             PMCTLS.50
+IMPORT DrgPostTransferMsg   PMCTLS.51
+IMPORT DrgPushDraginfo      PMCTLS.52
+IMPORT DrgQueryDragitem     PMCTLS.53
+IMPORT DrgQueryDragitemCount PMCTLS.54
+IMPORT DrgQueryDragitemPtr  PMCTLS.55
+IMPORT DrgQueryNativeRMF    PMCTLS.56
+IMPORT DrgQueryNativeRMFLen PMCTLS.57
+IMPORT DrgQueryStrName      PMCTLS.58
+IMPORT DrgQueryStrNameLen   PMCTLS.59
+IMPORT DrgQueryTrueType     PMCTLS.60
+IMPORT DrgQueryTrueTypeLen  PMCTLS.61
+IMPORT DrgReleasePS         PMCTLS.62
+IMPORT DrgSendTransferMsg   PMCTLS.63
+IMPORT DrgSetDragPointer    PMCTLS.64
+IMPORT DrgSetDragImage      PMCTLS.65
+IMPORT DrgSetDragitem       PMCTLS.66
+IMPORT DrgVerifyNativeRMF   PMCTLS.67
+IMPORT DrgVerifyRMF         PMCTLS.68
+IMPORT DrgVerifyTrueType    PMCTLS.69
+IMPORT DrgVerifyType        PMCTLS.70
+IMPORT DrgVerifyTypeSet     PMCTLS.71
+IMPORT DrgDragFiles         PMCTLS.72
+IMPORT DrgAcceptDroppedFiles PMCTLS.73
 
-# Exports -- ordinals match the original exactly.
-# Ordinal gap 32-62 is intentional (matches original binary).
-EXPORT DRG16ACCESSDRAGINFO.1
-EXPORT DRG16ADDSTRHANDLE.2
-EXPORT DRG16ALLOCDRAGINFO.3
-EXPORT DRG16ALLOCDRAGTRANSFER.4
-EXPORT DRG16DELETEDRAGINFOSTRHANDLES.5
-EXPORT DRG16DELETESTRHANDLE.6
-EXPORT DRG16DRAG.7
-EXPORT DRG16FREEDRAGINFO.8
-EXPORT DRG16FREEDRAGTRANSFER.9
-EXPORT DRG16GETPS.10
-EXPORT DRG16POSTTRANSFERMSG.11
-EXPORT DRG16PUSHDRAGINFO.12
-EXPORT DRG16QUERYDRAGITEM.13
-EXPORT DRG16QUERYDRAGITEMCOUNT.14
-EXPORT DRG16QUERYDRAGITEMPTR.15
-EXPORT DRG16QUERYNATIVERMF.16
-EXPORT DRG16QUERYNATIVERMFLEN.17
-EXPORT DRG16QUERYSTRNAME.18
-EXPORT DRG16QUERYSTRNAMELEN.19
-EXPORT DRG16QUERYTRUETYPE.20
-EXPORT DRG16QUERYTRUETYPELEN.21
-EXPORT DRG16RELEASEPS.22
-EXPORT DRG16SENDTRANSFERMSG.23
-EXPORT DRG16SETDRAGPOINTER.24
-EXPORT DRG16SETDRAGIMAGE.25
-EXPORT DRG16SETDRAGITEM.26
-EXPORT DRG16VERIFYNATIVERMF.27
-EXPORT DRG16VERIFYRMF.28
-EXPORT DRG16VERIFYTRUETYPE.29
-EXPORT DRG16VERIFYTYPE.30
-EXPORT DRG16VERIFYTYPESET.31
-# ords 32-62 intentionally absent (gap matches original binary)
-EXPORT DRG16DRAGFILES.63
-EXPORT DRG16ACCEPTDROPPEDFILES.64 = DRG16ACCEPTDROPPEDFILESStub
+# Re-export each import under its DRG16* public name at the correct ordinal.
+# This is a true LX forwarder: no code executes, the loader patches
+# the import directly to the PMCTLS entry point at load time.
+# Ordinal gap 32-62 intentional (matches original binary).
+EXPORT DRG16ACCESSDRAGINFO.1          = DrgAccessDraginfo
+EXPORT DRG16ADDSTRHANDLE.2            = DrgAddStrHandle
+EXPORT DRG16ALLOCDRAGINFO.3           = DrgAllocDraginfo
+EXPORT DRG16ALLOCDRAGTRANSFER.4       = DrgAllocDragtransfer
+EXPORT DRG16DELETEDRAGINFOSTRHANDLES.5 = DrgDeleteDraginfoStrHandles
+EXPORT DRG16DELETESTRHANDLE.6         = DrgDeleteStrHandle
+EXPORT DRG16DRAG.7                    = DrgDrag
+EXPORT DRG16FREEDRAGINFO.8            = DrgFreeDraginfo
+EXPORT DRG16FREEDRAGTRANSFER.9        = DrgFreeDragtransfer
+EXPORT DRG16GETPS.10                  = DrgGetPS
+EXPORT DRG16POSTTRANSFERMSG.11        = DrgPostTransferMsg
+EXPORT DRG16PUSHDRAGINFO.12           = DrgPushDraginfo
+EXPORT DRG16QUERYDRAGITEM.13          = DrgQueryDragitem
+EXPORT DRG16QUERYDRAGITEMCOUNT.14     = DrgQueryDragitemCount
+EXPORT DRG16QUERYDRAGITEMPTR.15       = DrgQueryDragitemPtr
+EXPORT DRG16QUERYNATIVERMF.16         = DrgQueryNativeRMF
+EXPORT DRG16QUERYNATIVERMFLEN.17      = DrgQueryNativeRMFLen
+EXPORT DRG16QUERYSTRNAME.18           = DrgQueryStrName
+EXPORT DRG16QUERYSTRNAMELEN.19        = DrgQueryStrNameLen
+EXPORT DRG16QUERYTRUETYPE.20          = DrgQueryTrueType
+EXPORT DRG16QUERYTRUETYPELEN.21       = DrgQueryTrueTypeLen
+EXPORT DRG16RELEASEPS.22              = DrgReleasePS
+EXPORT DRG16SENDTRANSFERMSG.23        = DrgSendTransferMsg
+EXPORT DRG16SETDRAGPOINTER.24         = DrgSetDragPointer
+EXPORT DRG16SETDRAGIMAGE.25           = DrgSetDragImage
+EXPORT DRG16SETDRAGITEM.26            = DrgSetDragitem
+EXPORT DRG16VERIFYNATIVERMF.27        = DrgVerifyNativeRMF
+EXPORT DRG16VERIFYRMF.28              = DrgVerifyRMF
+EXPORT DRG16VERIFYTRUETYPE.29         = DrgVerifyTrueType
+EXPORT DRG16VERIFYTYPE.30             = DrgVerifyType
+EXPORT DRG16VERIFYTYPESET.31          = DrgVerifyTypeSet
+EXPORT DRG16DRAGFILES.63              = DrgDragFiles
+EXPORT DRG16ACCEPTDROPPEDFILES.64     = DrgAcceptDroppedFiles

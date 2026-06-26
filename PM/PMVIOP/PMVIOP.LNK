@@ -15,8 +15,12 @@ FILE PMVIOP.OBJ
 
 LIB os2386.lib
 
-OPTION ELIMINATE
-OPTION OSNAME='OS/2 and ArcaOS'
+# Force import table entries matching original PMVIOP.DLL dependency chain
+IMPORT _pmmerge_ref  PMMERGE.1
+IMPORT _dos_ref      DOSCALLS.257
+IMPORT _pmgpi_ref    PMGPI.1
+IMPORT _pmshltkt_ref PMSHLTKT.1
+
 OPTION DESCRIPTION 'OS/2 PM Internal VIO Support Library'
 OPTION MAP=PMVIOP.MAP
 
