@@ -1,0 +1,81 @@
+# DDNSRES.LNK -- OpenWatcom WLINK for DDNSRES.DLL
+#
+# Build:
+#   wcc386 -bt=OS2 -bm -wx -s -fo=DDNSRES.OBJ DDNSRES.C
+#   wlink @DDNSRES.LNK
+#
+# Original: 289606 bytes, TCP/IP 4.3, 57 exports
+# Imports: TCPIP32, DOSCALLS, NLS, MSG
+
+SYSTEM os2v2 dll initinstance
+
+NAME DDNSRES.DLL
+
+FILE DDNSRES.OBJ
+
+OPTION DESCRIPTION 'TCP/IP for OS/2: DYNAMIC DNS DLL'
+OPTION MAP=DDNSRES.MAP
+
+# Force import chain matching original
+IMPORT _dos_ref     DOSCALLS.257
+IMPORT _tcpip_ref   TCPIP32.1
+IMPORT _nls_ref     NLS.1112
+IMPORT _msg_ref     MSG.1
+
+EXPORT inet_addr.5
+EXPORT gethostbyname.11
+EXPORT gethostbyaddr.12
+EXPORT getnetbyname.13
+EXPORT getnetbyaddr.14
+EXPORT setnetent.15
+EXPORT endnetent.16
+EXPORT getnetent.17
+EXPORT sethostent.28
+EXPORT endhostent.29
+EXPORT dn_expand.31
+EXPORT dn_comp.32
+EXPORT _getshort.35
+EXPORT _getlong.36
+EXPORT __putshort.37
+EXPORT __putlong.38
+EXPORT res_init.39
+EXPORT res_mkquery.40
+EXPORT res_send.41
+EXPORT _res.43
+EXPORT _gethtbyname.46
+EXPORT _gethtbyaddr.47
+EXPORT res_search.52
+EXPORT res_query.53
+EXPORT res_querydomain.54
+EXPORT DDNSGetRRs.55
+EXPORT DDNSInitUpdate.56
+EXPORT DDNSUpdate_A.57
+EXPORT DDNSUpdate_CNAME.58
+EXPORT DDNSUpdate_PTR.59
+EXPORT DDNSSignUpdate.60
+EXPORT DDNSFinalizeUpdate.61
+EXPORT DDNSSendUpdate.62
+EXPORT DDNSFreeUpdate.63
+EXPORT DDNSDumpUpdate.64
+EXPORT DDNSUpdate_KEY.65
+EXPORT __hostalias.66
+EXPORT _res_opcodes.67
+EXPORT __dn_skipname.68
+EXPORT inet_nsap_addr.69
+EXPORT inet_nsap_ntoa.70
+EXPORT _res_resultcodes.72
+EXPORT __p_time.73
+EXPORT __p_type.74
+EXPORT __p_class.75
+EXPORT herror.76
+EXPORT __fp_query.77
+EXPORT __res_nameinquery.78
+EXPORT Hexdump.79
+EXPORT DDNSUpdate_HINFO.80
+EXPORT DDNSUpdate_MX.81
+EXPORT __fp_nquery.82
+EXPORT res_randomid.83
+EXPORT inet_aton.84
+EXPORT __p_fqname.86
+EXPORT res_send_update.87
+EXPORT DDNSUpdate_TXT.99
