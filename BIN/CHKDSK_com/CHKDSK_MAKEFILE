@@ -1,0 +1,25 @@
+# CHKDSK_MAKEFILE -- Build CHKDSK.COM with OpenWatcom on OS/2 Warp 4.52
+#
+# Usage:
+#   wmake -f CHKDSK_MAKEFILE        (build)
+#   wmake -f CHKDSK_MAKEFILE clean  (clean)
+
+CC   = wcc386
+LINK = wlink
+RM   = del
+
+CFLAGS = -bt=OS2 -bm -wx -s -ox
+
+all: CHKDSK.COM
+
+CHKDSK.COM: CHKDSK.OBJ CHKDSK.LNK
+	$(LINK) @CHKDSK.LNK
+	@echo Build complete: CHKDSK.COM
+
+CHKDSK.OBJ: CHKDSK.C
+	$(CC) $(CFLAGS) -fo=CHKDSK.OBJ CHKDSK.C
+
+clean: .SYMBOLIC
+	-$(RM) CHKDSK.OBJ 2>NUL
+	-$(RM) CHKDSK.COM 2>NUL
+	-$(RM) CHKDSK.MAP 2>NUL

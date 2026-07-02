@@ -1,0 +1,14 @@
+# CHKDSK.LNK -- OpenWatcom WLINK for CHKDSK.COM
+#
+# Build:
+#   wcc386 -bt=OS2 -bm -wx -s -ox -fo=CHKDSK.OBJ CHKDSK.C
+#   wlink @CHKDSK.LNK
+
+SYSTEM os2v2
+
+NAME CHKDSK.COM
+
+FILE CHKDSK.OBJ
+
+OPTION DESCRIPTION 'OS/2 Check Disk Utility (cWarp/osFree)'
+OPTION MAP=CHKDSK.MAP
