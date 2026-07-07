@@ -1,0 +1,97 @@
+** EXPERIMENTAL (HLL) ** Open Watcom Linker Version 2.0.1
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Created on:       26/07/04 20:32:58
+Executable Image: BDBVH.DLL
+creating an OS/2 and ArcaOS dynamic link library
+
+
+                        +------------+
+                        |   Groups   |
+                        +------------+
+
+Group                           Address              Size
+=====                           =======              ====
+
+DGROUP                          0002:0000            0000000e
+
+
+
+                        +--------------+
+                        |   Segments   |
+                        +--------------+
+
+Segment                Class          Group          Address         Size
+=======                =====          =====          =======         ====
+
+BDBVH_TEXT             CODE           AUTO           0001:0000       0000086f
+_TEXT                  CODE           AUTO           0001:0870       00000000
+CONST                  DATA           DGROUP         0002:0000       00000000
+CONST2                 DATA           DGROUP         0002:0000       00000000
+_DATA                  DATA           DGROUP         0002:0000       0000000e
+BDBVH13_DATA           FAR_DATA       AUTO           0003:0000       000000c7
+
+
+                        +----------------+
+                        |   Memory Map   |
+                        +----------------+
+
+* = unreferenced symbol
++ = symbol only referenced locally
+
+Address        Symbol
+=======        ======
+
+Module: BDBVH.OBJ(F:\Projects\cWarp\src\BIDI\BDBVH\BDBVH.C)
+0001:0021      ORDINAL1_PROC
+0001:00fd      BDBVHSETORIENTATION
+0001:0137      BDBVHQUERYORIENTATION
+0001:017f      BDBVHSETCSD
+0001:01ba      BDBVHQUERYCSD
+0001:0203      BDBVHSETHOTKEYFLAG
+0001:0243      BDBVHQUERYHOTKEYFLAG
+0001:028c      BDBVHSETFIELDREV
+0001:02cc      BDBVHQUERYFIELDREV
+0001:0315      BDBVHSETNL
+0001:0355      BDBVHQUERYNL
+0001:039e      BDBVHSETPUSHLEVEL
+0001:03d9      BDBVHQUERYPUSHLEVEL
+0001:0422      BDBVHSETAUTOPUSHLTR
+0001:0450      BDBVHQUERYAUTOPUSHLTR
+0001:0499      BDBVHSETAUTOPUSHRTL
+0001:04c7      BDBVHQUERYAUTOPUSHRTL
+0001:0510      BDBVHSETAUTOSHAPECTR
+0001:053e      BDBVHGETCURPOS
+0001:05c9      ENDPOPUPHANDLING
+0001:05f4      NLSQUERYBIDISEGADDRESS
+0001:0652      NLSRECORDBDDSEG
+0001:06e3      DEVENABLE
+0001:0727      _PRIVATEMOUFUNC
+0001:079f+     _DLL_InitTerm
+
+
+                        +----------------------+
+                        |   Imported Symbols   |
+                        +----------------------+
+
+Symbol                              Module
+======                              ======
+
+MOUREGISTER                         MOUCALLS
+MOUDEREGISTER                       MOUCALLS
+
+
+                        +--------------------+
+                        |   Libraries Used   |
+                        +--------------------+
+
+C:\WATCOM/lib286/os2\os2.lib
+C:\WATCOM/lib286/os2\clibl.lib
+
+
+                        +-----------------------+
+                        |   Linker Statistics   |
+                        +-----------------------+
+
+Stack size:  0000 (0.)
+Memory size:  0945 (2373.)
+Link time: 00:03.82

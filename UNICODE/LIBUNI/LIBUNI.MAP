@@ -1,0 +1,145 @@
+** EXPERIMENTAL (HLL) ** Open Watcom Linker Version 2.0.1
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Created on:       26/07/04 20:10:34
+Executable Image: LIBUNI.DLL
+creating an OS/2 32-bit dynamic link library
+
+
+                        +------------+
+                        |   Groups   |
+                        +------------+
+
+Group                           Address              Size
+=====                           =======              ====
+
+DGROUP                          0002:00000000        00000004
+
+
+
+                        +--------------+
+                        |   Segments   |
+                        +--------------+
+
+Segment                Class          Group          Address         Size
+=======                =====          =====          =======         ====
+
+_TEXT                  CODE           AUTO           0001:00000000   0000051b
+CONST                  DATA           DGROUP         0002:00000000   00000000
+CONST2                 DATA           DGROUP         0002:00000000   00000000
+_DATA                  DATA           DGROUP         0002:00000000   00000004
+
+
+                        +----------------+
+                        |   Memory Map   |
+                        +----------------+
+
+* = unreferenced symbol
++ = symbol only referenced locally
+
+Address        Symbol
+=======        ======
+
+Module: LIBUNI.OBJ(F:\Projects\cWarp\src\UNICODE\LIBUNI\LIBUNI.C)
+0001:00000000* _DLL_InitTerm
+0001:0000002c  UniStrlen
+0001:00000042  UniStrcpy
+0001:00000062  UniStrncpy
+0001:0000009e  UniStrcat
+0001:000000c9  UniStrncat
+0001:00000106  UniStrcmp
+0001:00000130  UniStrncmp
+0001:0000016b  UniStrchr
+0001:00000186  UniStrrchr
+0001:000001a7  UniStrspn
+0001:000001da  UniStrcspn
+0001:00000202  UniStrpbrk
+0001:00000234  UniStrstr
+0001:0000027e  UniStrtok
+0001:00000310  UniToupper
+0001:0000032b  UniTolower
+0001:00000342  UniStrupr
+0001:00000372  UniStrlwr
+0001:0000039d  UniQueryAlnum
+0001:000003ce  UniQueryAlpha
+0001:000003f0  UniQueryBlank
+0001:00000406  UniQueryCntrl
+0001:0000041c  UniQueryDigit
+0001:00000432  UniQueryGraph
+0001:00000448  UniQueryLower
+0001:00000466  UniQueryPrint
+0001:00000484  UniQueryPunct
+0001:000004b8  Locale
+0001:000004b8  UniQueryCharTypeTable
+0001:000004b8  UniQueryNumericValue
+0001:000004b8  UniQueryCharType
+0001:000004b8  UniQueryStringType
+0001:000004b8  UniQueryAttr
+0001:000004b8  UniGetColval
+0001:000004b8  UniGetOverride
+0001:000004b8  UniQueryChar
+0001:000004b8  UniTransUpper
+0001:000004b8  UniTransLower
+0001:000004b8  UniStrxfrm
+0001:000004b8  UniStrptime
+0001:000004b8  UniStrftime
+0001:000004b8  UniFreeLocaleInfo
+0001:000004b8  UniFreeMem
+0001:000004b8  UniFreeLocaleObject
+0001:000004b8  UniFreeTransformObject
+0001:000004b8  UniQueryCharAttr
+0001:000004b8  UniFreeAttrObject
+0001:000004bb  UniQuerySpace
+0001:000004d7  UniQueryUpper
+0001:000004ed  UniQueryXdigit
+0001:00000515  UniQueryCountryName
+0001:00000515  UniQueryLanguageName
+0001:00000515  UniQueryLocaleList
+0001:00000515  UniQueryLocaleValue
+0001:00000515  UniCompleteUserLocale
+0001:00000515  UniDeleteUserLocale
+0001:00000515  UniSetUserLocaleItem
+0001:00000515  UniMakeUserLocale
+0001:00000515  UniProcessUconv
+0001:00000515  UniMakeKey
+0001:00000515  UniMapCtryToLocale
+0001:00000515  UniTransformStr
+0001:00000515  UniLocaleTokenToStr
+0001:00000515  UniLocaleStrToToken
+0001:00000515  UniStrtoul
+0001:00000515  UniStrtol
+0001:00000515  UniStrtod
+0001:00000515  UniStrncmpi
+0001:00000515  UniStrfmon
+0001:00000515  UniStrcoll
+0001:00000515  UniStrcmpi
+0001:00000515  UniQueryLocaleItem
+0001:00000515  UniQueryLocaleInfo
+0001:00000515  UniCreateLocaleObject
+0001:00000515  UniQueryLocaleObject
+0001:00000515  UniCreateTransformObject
+0001:00000515  UniCreateAttrObject
+0001:00000515  UniScanForAttr
+
+
+                        +----------------------+
+                        |   Imported Symbols   |
+                        +----------------------+
+
+Symbol                              Module
+======                              ======
+
+
+
+                        +--------------------+
+                        |   Libraries Used   |
+                        +--------------------+
+
+
+
+                        +-----------------------+
+                        |   Linker Statistics   |
+                        +-----------------------+
+
+Stack size:  0000 (0.)
+Memory size:  051f (1311.)
+Link time: 00:02.93

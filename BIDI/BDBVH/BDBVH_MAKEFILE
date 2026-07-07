@@ -50,7 +50,7 @@ BDBVH.DLL: BDBVH.OBJ BDBVH.LNK
     @echo.
     @echo Build complete: BDBVH.DLL
 
-BDBVH.OBJ: BDBVH.C BDBVH.H
+BDBVH.OBJ: BDBVH.C
     $(CC) $(CFLAGS) $(DBGFLAGS) -fo=BDBVH.OBJ BDBVH.C
 
 clean: .SYMBOLIC

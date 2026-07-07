@@ -1,0 +1,140 @@
+** EXPERIMENTAL (HLL) ** Open Watcom Linker Version 2.0.1
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Created on:       26/07/06 13:46:58
+Executable Image: PMVIOP.DLL
+creating an OS/2 32-bit dynamic link library
+
+
+                        +------------+
+                        |   Groups   |
+                        +------------+
+
+Group                           Address              Size
+=====                           =======              ====
+
+DGROUP                          0002:00000000        0000004c
+
+
+
+                        +--------------+
+                        |   Segments   |
+                        +--------------+
+
+Segment                Class          Group          Address         Size
+=======                =====          =====          =======         ====
+
+_TEXT                  CODE           AUTO           0001:00000000   00000022
+CONST                  DATA           DGROUP         0002:00000000   00000000
+CONST2                 DATA           DGROUP         0002:00000000   00000000
+_DATA                  DATA           DGROUP         0002:00000000   0000004c
+
+
+                        +----------------+
+                        |   Memory Map   |
+                        +----------------+
+
+* = unreferenced symbol
++ = symbol only referenced locally
+
+Address        Symbol
+=======        ======
+
+Module: PMVIOP.OBJ(F:\Projects\cWarp\src\PM\PMVIOP\PMVIOP.C)
+0002:00000000  SCREENGROUPTOFPCONSOLE
+0002:00000004  APFNVDMSERV
+0002:00000008  GETSELACCESS
+0002:0000000c  NPSZSTRINGS
+0002:00000010  KEYBOARDEVENT
+0002:00000014  ESTABLISHKBDENVIRONMENT
+0002:00000018  HMYMODULEHANDLE
+0002:0000001c  FSEAMLESSCAPTURED
+0002:00000020  HMQTASKMGR
+0002:00000024  PCHARXLATETBLDEFAULT
+0001:00000000  VDMDEREGISTERHOOK
+0001:00000000  VDMREGISTERHOOK
+0001:00000000  GET32DISPLAYTYPE
+0001:00000000  VDMSWAPBUTTONNOTIFY
+0001:00000000  NOTIFYALLVDMS
+0001:00000000  PM32CLIPDDENOTIFY
+0001:00000000  VDMCLIPDDENOTIFY
+0001:00000000  TERMINATECLIPDDE
+0001:00000000  GETPASTECHAR
+0001:00000000  MAKEVISIBLE
+0001:00000000  QUERYCONSOLE
+0001:00000000  CLEARDATA
+0001:00000000  UNLOCKSEMAPHORES
+0001:00000000  MORTICIAN
+0001:00000000  WININITSHIELD
+0001:00000000  WINSHIELDPRETHAW
+0001:00000000  TASKMGRSUBCLASSPROC
+0001:00000000  WINCONSOLEDETACHMOUSEUSER
+0001:00000000  WINCONSOLEATTACHMOUSEUSER
+0001:00000000  WINCONSOLEGETKBDHANDLE
+0001:00000000  MARKINGWINDOWPROC
+0001:00000000  UNLOCKVIOPS
+0001:00000000  LOCKVIOPS
+0001:00000000  VIOSHIELDWINDOWPROC
+0001:00000000  SHIELDFRAMEPROC
+0001:00000000  WINSHIELDABORT
+0001:00000000  WINCONSOLESETPTRPOS
+0001:00000000  WINCONSOLEGETPTRPOS
+0001:00000000  WINCONSOLESETPOINTERFILTERMASK
+0001:00000000  WINCONSOLEGETPOINTERFILTERMASK
+0001:00000000  WINCONSOLEFLUSHPOINTEREVENTS
+0001:00000000  WINCONSOLEREADPOINTEREVENT
+0001:00000000  WINCONSOLEQUEUEDPOINTEREVENTS
+0001:00000000  WINCONSOLEFLUSHKEYEVENTS
+0001:00000000  WINCONSOLEREADKEYEVENT
+0001:00000000  WINCONSOLEFREEFOCUS
+0001:00000000  WINCONSOLEGETFOCUS
+0001:00000000  WINCONSOLESETCUSTXT
+0001:00000000  WINCONSOLEKBDXLATE
+0001:00000000  WINCONSOLEGETCP
+0001:00000000  WINCONSOLESETCP
+0001:00000000  WINCONSOLEGETSTATUS
+0001:00000000  WINCONSOLESETSTATUS
+0001:00000000  WINCONSOLECLOSEKBD
+0001:00000000  WINCONSOLEOPENKBD
+0001:00000000  WINSYNCWITHPS
+0001:00000000  WINDESTROYCONSOLE
+0001:00000000  WINCREATECONSOLE
+0001:00000003  WINDEFAVIOWINDOWPROC
+0002:00000028  HAPPSEAMLESSCOMMONVDM
+0002:0000002c  HAPPSEAMLESSCOMMONVDM31
+0002:00000030  HAPPSEAMLESSCOMMONVDM31ENH
+0002:00000034  FKBDHOOK
+0002:00000038  FMOUHOOK
+0002:0000003c  SELCOMMONLIST
+0002:00000040  USCOMMONSEGSIZE
+0002:00000044  HMODSEAMLESS
+0002:00000048  HFRAMEWINDOWFROMCONSOLE
+
+
+                        +----------------------+
+                        |   Imported Symbols   |
+                        +----------------------+
+
+Symbol                              Module
+======                              ======
+
+_pmmerge_ref                        PMMERGE
+_dos_ref                            DOSCALLS
+_pmgpi_ref                          PMGPI
+_pmshltkt_ref                       PMSHLTKT
+WinDefWindowProc                    PMWIN
+
+
+                        +--------------------+
+                        |   Libraries Used   |
+                        +--------------------+
+
+C:\WATCOM/lib386/os2\os2386.lib
+
+
+                        +-----------------------+
+                        |   Linker Statistics   |
+                        +-----------------------+
+
+Stack size:  0000 (0.)
+Memory size:  006e (110.)
+Link time: 00:00.58

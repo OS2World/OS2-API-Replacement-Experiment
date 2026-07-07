@@ -1,0 +1,129 @@
+** EXPERIMENTAL (HLL) ** Open Watcom Linker Version 2.0.1
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Created on:       26/07/03 13:10:27
+Executable Image: DDNSRES.DLL
+creating an OS/2 32-bit dynamic link library
+
+
+                        +------------+
+                        |   Groups   |
+                        +------------+
+
+Group                           Address              Size
+=====                           =======              ====
+
+DGROUP                          0002:00000000        00000508
+
+
+
+                        +--------------+
+                        |   Segments   |
+                        +--------------+
+
+Segment                Class          Group          Address         Size
+=======                =====          =====          =======         ====
+
+_TEXT                  CODE           AUTO           0001:00000000   0000000f
+CONST                  DATA           DGROUP         0002:00000000   00000076
+CONST2                 DATA           DGROUP         0002:00000078   00000000
+_DATA                  DATA           DGROUP         0002:00000078   00000490
+
+
+                        +----------------+
+                        |   Memory Map   |
+                        +----------------+
+
+* = unreferenced symbol
++ = symbol only referenced locally
+
+Address        Symbol
+=======        ======
+
+Module: DDNSRES.OBJ(F:\Projects\cWarp\src\MPTN\DDNSRES\DDNSRES.C)
+0001:00000000  DDNSUpdate_TXT
+0001:00000000  res_send_update
+0001:00000000  DDNSUpdate_MX
+0001:00000000  DDNSUpdate_HINFO
+0001:00000000  DDNSUpdate_KEY
+0001:00000000  DDNSSendUpdate
+0001:00000000  DDNSFinalizeUpdate
+0001:00000000  DDNSSignUpdate
+0001:00000000  DDNSUpdate_PTR
+0001:00000000  DDNSUpdate_CNAME
+0001:00000000  DDNSUpdate_A
+0001:00000000  DDNSInitUpdate
+0001:00000000  DDNSGetRRs
+0001:00000000  res_querydomain
+0001:00000000  res_query
+0001:00000000  res_search
+0001:00000000  res_send
+0001:00000000  res_mkquery
+0001:00000000  res_init
+0001:00000000  dn_comp
+0001:00000000  dn_expand
+0001:00000000  inet_addr
+0001:00000006  __p_fqname
+0001:00000006  inet_aton
+0001:00000006  res_randomid
+0001:00000006  __res_nameinquery
+0001:00000006  inet_nsap_ntoa
+0001:00000006  inet_nsap_addr
+0001:00000006  __hostalias
+0001:00000006  _gethtbyaddr
+0001:00000006  _gethtbyname
+0001:00000006  _getlong
+0001:00000006  _getshort
+0001:00000006  getnetent
+0001:00000006  getnetbyaddr
+0001:00000006  getnetbyname
+0001:00000006  gethostbyaddr
+0001:00000006  gethostbyname
+0001:00000008  __fp_nquery
+0001:00000008  Hexdump
+0001:00000008  __fp_query
+0001:00000008  herror
+0001:00000008  __dn_skipname
+0001:00000008  DDNSDumpUpdate
+0001:00000008  DDNSFreeUpdate
+0001:00000008  __putlong
+0001:00000008  __putshort
+0001:00000008  endhostent
+0001:00000008  sethostent
+0001:00000008  endnetent
+0001:00000008  setnetent
+0001:00000009  __p_class
+0001:00000009  __p_type
+0001:00000009  __p_time
+0002:00000278+ __res_opcodes_data
+0002:000002bc  _res_opcodes
+0002:000002c0+ __res_resultcodes_data
+0002:00000304  _res_resultcodes
+0002:00000308  _res
+
+
+                        +----------------------+
+                        |   Imported Symbols   |
+                        +----------------------+
+
+Symbol                              Module
+======                              ======
+
+_dos_ref                            DOSCALLS
+_tcpip_ref                          TCPIP32
+_nls_ref                            NLS
+_msg_ref                            MSG
+
+
+                        +--------------------+
+                        |   Libraries Used   |
+                        +--------------------+
+
+
+
+                        +-----------------------+
+                        |   Linker Statistics   |
+                        +-----------------------+
+
+Stack size:  0000 (0.)
+Memory size:  0517 (1303.)
+Link time: 00:00.53

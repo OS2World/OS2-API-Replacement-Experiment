@@ -1,0 +1,152 @@
+/*
+ * pmspool.rc - PMSPOOL.EXE resources
+ *
+ * OS/2 PM Spooler Settings Application resources.
+ * Compile: rc -r pmspool.rc
+ */
+
+#include <os2.h>
+
+/* IDs must match pmspool.c */
+#define IDR_MAINMENU          1
+#define IDI_PRINTER           2
+
+#define IDM_PRINTER           100
+#define IDM_PRINTER_ADD       101
+#define IDM_PRINTER_DELETE    102
+#define IDM_PRINTER_PROPS     103
+#define IDM_PRINTER_EXIT      109
+
+#define IDM_JOB               200
+#define IDM_JOB_HOLD          201
+#define IDM_JOB_RELEASE       202
+#define IDM_JOB_DELETE        203
+#define IDM_JOB_PURGE         204
+
+#define IDM_VIEW              300
+#define IDM_VIEW_REFRESH      301
+
+#define IDM_HELP              400
+#define IDM_HELP_ABOUT        401
+
+#define DLG_ADDPRINTER        500
+#define DLG_QUEUEPROPS        501
+#define DLG_ABOUT             502
+
+#define ID_LV_PRINTERS        600
+#define ID_LV_JOBS            601
+#define ID_ST_QSTATUS         602
+#define ID_ST_JOBCOUNT        603
+
+#define ID_EF_PNAME           610
+#define ID_EF_PDRIVER         611
+#define ID_EF_PPORT           612
+#define ID_CB_PPORT           613
+#define ID_BTN_ADD_OK         614
+#define ID_BTN_ADD_CANCEL     615
+
+/* ------------------------------------------------------------------ */
+/* Main window menu                                                    */
+/* ------------------------------------------------------------------ */
+
+MENU IDR_MAINMENU
+BEGIN
+    SUBMENU "~Printer",  IDM_PRINTER
+    BEGIN
+        MENUITEM "~Add printer...",    IDM_PRINTER_ADD
+        MENUITEM "~Delete printer",    IDM_PRINTER_DELETE
+        MENUITEM "~Properties...",     IDM_PRINTER_PROPS
+        MENUITEM SEPARATOR
+        MENUITEM "E~xit",              IDM_PRINTER_EXIT
+    END
+
+    SUBMENU "~Job",      IDM_JOB
+    BEGIN
+        MENUITEM "~Hold",              IDM_JOB_HOLD
+        MENUITEM "~Release",           IDM_JOB_RELEASE
+        MENUITEM "~Delete",            IDM_JOB_DELETE
+        MENUITEM SEPARATOR
+        MENUITEM "~Purge queue",       IDM_JOB_PURGE
+    END
+
+    SUBMENU "~View",     IDM_VIEW
+    BEGIN
+        MENUITEM "~Refresh\tF5",       IDM_VIEW_REFRESH
+    END
+
+    SUBMENU "~Help",     IDM_HELP
+    BEGIN
+        MENUITEM "~About...",          IDM_HELP_ABOUT
+    END
+END
+
+/* ------------------------------------------------------------------ */
+/* Accelerator table                                                   */
+/* ------------------------------------------------------------------ */
+
+ACCELTABLE IDR_MAINMENU
+BEGIN
+    VK_F5,   IDM_VIEW_REFRESH,  VIRTUALKEY
+END
+
+/* ------------------------------------------------------------------ */
+/* DLG_ADDPRINTER - Add a new printer queue                           */
+/*                                                                     */
+/*  +--[ Add Printer ]---------------------------+                     */
+/*  |  Printer name:   [___________________]     |                     */
+/*  |  Printer driver: [___________________]     |                     */
+/*  |  Port:           [LPT1 v]                  |                     */
+/*  |                           [  Add  ] [Cancel]|                    */
+/*  +--------------------------------------------+                    */
+/* ------------------------------------------------------------------ */
+
+DLGTEMPLATE DLG_ADDPRINTER LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Add Printer", DLG_ADDPRINTER,
+           40, 60, 230, 100,
+           WS_VISIBLE | WS_CLIPSIBLINGS,
+           FCF_SYSMENU | FCF_TITLEBAR | FCF_DLGBORDER
+    BEGIN
+        LTEXT       "Printer ~name:",    -1,              6, 78, 72, 8
+        ENTRYFIELD  "",   ID_EF_PNAME,                   82, 76, 140, 12,
+                    ES_MARGIN | ES_AUTOSCROLL | WS_TABSTOP | WS_VISIBLE
+
+        LTEXT       "Printer ~driver:",  -1,              6, 60, 72, 8
+        ENTRYFIELD  "",   ID_EF_PDRIVER,                 82, 58, 140, 12,
+                    ES_MARGIN | ES_AUTOSCROLL | WS_TABSTOP | WS_VISIBLE
+
+        LTEXT       "~Port:",            -1,              6, 42, 72, 8
+        COMBOBOX    "",   ID_CB_PPORT,                   82, 14, 80, 40,
+                    CBS_DROPDOWNLIST | WS_TABSTOP | WS_VISIBLE
+
+        PUSHBUTTON  "~Add",     ID_BTN_ADD_OK,     140, 8, 40, 14,
+                    WS_TABSTOP | WS_VISIBLE | BS_DEFAULT
+        PUSHBUTTON  "~Cancel",  ID_BTN_ADD_CANCEL, 184, 8, 40, 14,
+                    WS_TABSTOP | WS_VISIBLE
+    END
+END
+
+/* ------------------------------------------------------------------ */
+/* DLG_ABOUT                                                           */
+/* ------------------------------------------------------------------ */
+
+DLGTEMPLATE DLG_ABOUT LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "About OS/2 Printers", DLG_ABOUT,
+           60, 80, 200, 80,
+           WS_VISIBLE | WS_CLIPSIBLINGS,
+           FCF_SYSMENU | FCF_TITLEBAR | FCF_DLGBORDER
+    BEGIN
+        CTEXT "OS/2 Printers",            -1, 6, 52, 188, 12
+        CTEXT "Open Source Replacement",  -1, 6, 38, 188,  8
+        CTEXT "PM Spooler Executable",    -1, 6, 28, 188,  8
+
+        PUSHBUTTON "OK",  DID_OK,  80, 8, 40, 14,
+                   WS_TABSTOP | WS_VISIBLE | BS_DEFAULT
+    END
+END
+
+/* ------------------------------------------------------------------ */
+/* Icon (placeholder — replace with a real .ICO file at build time)   */
+/* ------------------------------------------------------------------ */
+/* ICON IDI_PRINTER "pmspool.ico" */

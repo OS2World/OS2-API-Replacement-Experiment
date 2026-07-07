@@ -1,0 +1,24 @@
+SPOOL.C(185): Error! E1011: Symbol 'PSPLREQ_QMOPEN' has not been declared
+SPOOL.C(185): Error! E1009: Expecting ';' but found 'pReq'
+SPOOL.C(185): Error! E1063: Missing operand
+SPOOL.C(185): Error! E1009: Expecting ';' but found 'pPayload'
+SPOOL.C(198): Error! E1011: Symbol 'pReq' has not been declared
+SPOOL.C(198): Error! E1033: Expression for '->' must be 'pointer to struct or union'
+SPOOL.C(199): Error! E1071: Type of parameter 6 does not agree with previous definition
+SPOOL.C(199): Note! I2003: source conversion type is 'unsigned long *'
+SPOOL.C(199): Note! I2004: target conversion type is 'char *'
+SPOOL.C(199): Error! E1151: Parameter count does not agree with previous definition
+SPOOL.C(203): Error! E1011: Symbol 'PMERR_SPL_NO_SPOOLER' has not been declared
+SPOOL.C(216): Error! E1011: Symbol 'PSPLREQ_STARTDOC' has not been declared
+SPOOL.C(216): Error! E1009: Expecting ';' but found 'pReq'
+SPOOL.C(216): Error! E1063: Missing operand
+SPOOL.C(216): Error! E1009: Expecting ';' but found 'pPayload'
+SPOOL.C(218): Error! E1011: Symbol 'pReq' has not been declared
+SPOOL.C(218): Error! E1033: Expression for '->' must be 'pointer to struct or union'
+SPOOL.C(218): Error! E1151: Parameter count does not agree with previous definition
+SPOOL.C(218): Note! I2002: 'SessFind' defined in: SPOOL.C(129)
+SPOOL.C(232): Error! E1011: Symbol 'PSPLREQ_WRITE' has not been declared
+SPOOL.C(232): Error! E1009: Expecting ';' but found 'pReq'
+SPOOL.C(232): Error! E1063: Missing operand
+SPOOL.C(232): Error! E1009: Expecting ';' but found 'pPayload'
+SPOOL.C(237): Error! E1147: Too many errors: compilation aborted

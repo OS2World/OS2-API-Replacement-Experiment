@@ -1,0 +1,40 @@
+# PMSDMRI_MAKEFILE -- build PMSDMRI.DLL, binding the extracted resources.
+#
+#   wmake -f PMSDMRI_MAKEFILE          (build)
+#   wmake -f PMSDMRI_MAKEFILE clean
+#
+# PMSDMRI is a resource-only DLL (0 exports/imports): the standard PM dialogs
+# (File Open/Save-As, Font). PMSDMRI.C only gives wlink an object; the real
+# content is PMSDMRI.RC -- a CLEAN-ROOM re-authoring of the dialogs/strings from
+# the public OS/2 Toolkit <pmstddlg.h> ids (no bytes copied from IBM's binary).
+# rc compiles it to PMSDMRI.RES and binds it into the linked DLL.
+#
+# Needs the OS/2 Toolkit headers on INCLUDE (run ..\setenv.cmd) so rc can
+# resolve <os2.h> / <pmstddlg.h>.
+
+CC   = wcc386
+RC   = rc
+LINK = wlink
+RM   = del
+
+CFLAGS = -bt=OS2 -bm -wx -s -ox
+
+all: PMSDMRI.DLL
+
+PMSDMRI.OBJ: PMSDMRI.C
+    $(CC) $(CFLAGS) -fo=PMSDMRI.OBJ PMSDMRI.C
+
+PMSDMRI.RES: PMSDMRI.RC
+    $(RC) -r PMSDMRI.RC
+
+# Link the module, then bind the compiled resources into it (rc <res> <dll>).
+PMSDMRI.DLL: PMSDMRI.OBJ PMSDMRI.LNK PMSDMRI.RES
+    $(LINK) @PMSDMRI.LNK
+    $(RC) PMSDMRI.RES PMSDMRI.DLL
+    @echo Build complete: PMSDMRI.DLL (with bound resources)
+
+clean: .SYMBOLIC
+    -$(RM) PMSDMRI.OBJ 2>NUL
+    -$(RM) PMSDMRI.DLL 2>NUL
+    -$(RM) PMSDMRI.RES 2>NUL
+    -$(RM) PMSDMRI.MAP 2>NUL

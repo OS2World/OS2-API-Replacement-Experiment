@@ -1,0 +1,26 @@
+# SPOOL_MAKEFILE -- Build SPOOL.EXE with OpenWatcom on OS/2.
+# Run ..\setenv.cmd once first (sets INCLUDE/LIB to the OS/2 Toolkit).
+#   wmake -f SPOOL_MAKEFILE          (build)
+#   wmake -f SPOOL_MAKEFILE clean
+
+CC     = wcc386
+LINK   = wlink
+CFLAGS = -bt=os2 -mf -3r -d2 -w4 -ze -za99 -I..\include
+
+OBJS   = SPOOL.OBJ
+
+all: SPOOL.EXE
+
+SPOOL.OBJ: SPOOL.C ..\include\spooler_ipc.h
+    $(CC) $(CFLAGS) SPOOL.C
+
+SPOOL.EXE: $(OBJS)
+    $(LINK) system os2v2 &
+            name SPOOL.EXE &
+            file SPOOL.OBJ &
+            library os2386.lib
+
+clean: .SYMBOLIC
+    del SPOOL.OBJ
+    del SPOOL.EXE
+    del SPOOL.MAP

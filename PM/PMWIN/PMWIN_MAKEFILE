@@ -1,0 +1,31 @@
+# PMWIN_MAKEFILE -- Build the cWarp PMWIN.DLL clone (REAL LX forwarders).
+#
+#   wmake -f PMWIN_MAKEFILE          (build)
+#   wmake -f PMWIN_MAKEFILE clean
+#
+# PMWIN is a pure forwarder: all 738 exports forward to PMMERGE. wlink emits real
+# LX type-0x04 forwarders via IMPORT + EXPORT=import (see PMWIN.LNK) -- ZERO thunk
+# code, bitness preserved (16- and 32-bit), exactly like the original. Same method
+# as PMDRAG/PMGRE (which boot). The earlier asm-thunk version froze the PM desktop
+# (32-bit thunks can't serve PMWIN's 16-bit callers).
+
+CC   = wcc386
+LINK = wlink
+RM   = del
+
+CFLAGS = -bt=OS2 -bm -6s -sg -wx -s
+
+all: PMWIN.DLL
+
+PMWIN.DLL: PMWIN.OBJ PMWIN.LNK
+    $(LINK) @PMWIN.LNK
+    @echo.
+    @echo Build complete: PMWIN.DLL
+
+PMWIN.OBJ: PMWIN.C
+    $(CC) $(CFLAGS) -fo=PMWIN.OBJ PMWIN.C
+
+clean: .SYMBOLIC
+    -$(RM) PMWIN.OBJ 2>NUL
+    -$(RM) PMWIN.DLL 2>NUL
+    -$(RM) PMWIN.MAP 2>NUL

@@ -1,0 +1,30 @@
+# LIBUNI_MAKEFILE -- Build the cWarp LIBUNI.DLL clone with OpenWatcom on OS/2.
+#
+# Usage:
+#   wmake -f LIBUNI_MAKEFILE          (build)
+#   wmake -f LIBUNI_MAKEFILE clean
+#
+# 32-bit DLL. All 78 exports are real code or stubs (NO forwarders), so this
+# links with wlink -- LINK386 is NOT needed here. Pure UCS-2 string functions
+# are implemented for real; the rest are ordinal-parity stubs.
+
+CC   = wcc386
+LINK = wlink
+RM   = del
+
+CFLAGS = -bt=OS2 -bm -6s -sg -wx -s -ox
+
+all: LIBUNI.DLL
+
+LIBUNI.DLL: LIBUNI.OBJ LIBUNI.LNK
+    $(LINK) @LIBUNI.LNK
+    @echo.
+    @echo Build complete: LIBUNI.DLL
+
+LIBUNI.OBJ: LIBUNI.C
+    $(CC) $(CFLAGS) -fo=LIBUNI.OBJ LIBUNI.C
+
+clean: .SYMBOLIC
+    -$(RM) LIBUNI.OBJ 2>NUL
+    -$(RM) LIBUNI.DLL 2>NUL
+    -$(RM) LIBUNI.MAP 2>NUL

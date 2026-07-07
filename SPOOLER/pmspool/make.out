@@ -1,0 +1,12 @@
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+	wlink system os2v2_pm             name PMSPOOL.EXE             file PMSPOOL.OBJ             def pmspool.def             library os2386.lib pmspl.lib
+** EXPERIMENTAL (HLL) ** Open Watcom Linker Version 2.0.1
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+Error! E3033: directive error near 'def'
+Error(E42): Last command making (PMSPOOL.EXE) returned a bad status
+Error(E02): Make execution terminated

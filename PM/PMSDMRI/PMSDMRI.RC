@@ -1,0 +1,455 @@
+/*
+ * PMSDMRI.RC -- OS/2 PM Standard Dialogs MRI (clean-room re-authoring)
+ *
+ * Recreates the resources of PMSDMRI.DLL from the PUBLIC OS/2 Toolkit
+ * definitions in <pmstddlg.h> (INCL_WINSTDFILE / INCL_WINSTDFONT). No bytes
+ * were copied from IBM's binary; every dialog control and string is referenced
+ * by its documented DID_ and IDS_ identifier so the templates line up with what
+ * PM's WinFileDlg / WinFontDlg code loads and manipulates by id.
+ *
+ * Covered: the File Open/Save-As dialog (DID_FILE_DIALOG, 256) and the Font
+ * dialog (DID_FONT_DIALOG, 300), plus the file/font string tables. The
+ * functional strings (wildcards, separators, drive letters) carry their real
+ * values so filtering/path building work.
+ *
+ * The two dialog templates were made GEOMETRY-FAITHFUL: their control set,
+ * ids, classes, styles and x/y/cx/cy were read from the original template's
+ * structure (parsed with tools/extract_res.py, not copied byte-for-byte) and
+ * re-authored here. So the File dialog is 319x185 with 16 controls and the
+ * Font dialog is 236x116 with 21 controls -- matching the originals. Note the
+ * Font dialog's Name/Style/Size are COMBOBOXes (not entryfield+listbox).
+ *
+ * Also reconstructed (geometry-faithful, internal control ids named locally):
+ * 320 Font+Color, 500 Find, 501 Replace, 600 Print. The 1027 "Edit Color"
+ * picker (71 controls, marker/position pseudo-controls, DBCS text) is NOT
+ * reconstructed -- it is very complex and off the standard File/Font path.
+ */
+
+#define INCL_WINSTDFILE
+#define INCL_WINSTDFONT
+#define INCL_WINDIALOGS
+#define INCL_WINSYS
+#define INCL_WINLISTBOXES
+#define INCL_WINSPINBUTTONCONTROL
+#include <os2.h>
+#include <pmstddlg.h>
+
+/* Internal control ids for the secondary dialogs (320/500/501/600); these are
+ * NOT in the public toolkit header, so they are named locally here. */
+#define IDC_FONT_COLOR_CB     321
+#define IDC_FONT_COLOR_TXT    322
+#define IDC_FIND_EF           502
+#define IDC_FIND_WHOLEWORD    503
+#define IDC_FIND_CASE         504
+#define IDC_FIND_FORWARD      505
+#define IDC_FIND_BACKWARD     506
+#define IDC_FIND_WHAT_TXT     507
+#define IDC_FIND_DIR_GB       508
+#define IDC_FIND_OPT_GB       509
+#define IDC_FIND_HELP         510
+#define IDC_REPL_WITH_EF      520
+#define IDC_REPL_REPLACE      521
+#define IDC_REPL_ALL          522
+#define IDC_REPL_WITH_TXT     523
+#define IDC_PR_QUEUE_GB       601
+#define IDC_PR_QUEUE_LB       602
+#define IDC_PR_JOBPROPS       603
+#define IDC_PR_OPT_GB         604
+#define IDC_PR_COPIES_TXT     605
+#define IDC_PR_COPIES_SPIN    606
+#define IDC_PR_STATUS1        607
+#define IDC_PR_STATUS2        608
+#define IDC_PR_STATUS3        609
+#define IDC_PR_STATUS4        610
+#define IDC_PR_RANGE_GB       611
+#define IDC_PR_ALL            612
+#define IDC_PR_SELECTION      613
+#define IDC_PR_PAGES          614
+#define IDC_PR_FROM_TXT       615
+#define IDC_PR_FROM_SPIN      616
+#define IDC_PR_TO_TXT         617
+#define IDC_PR_TO_SPIN        618
+#define IDC_PR_PREVIEW        619
+#define IDC_PR_HELP           620
+
+/* The standard-dialog string ids (IDS_FILE_* / IDS_FONT_*). Some installed
+ * pmstddlg.h versions guard these out, so define them here (standard toolkit
+ * values) unless the header already provided them. */
+#ifndef IDS_FILE_ALL_FILES_SELECTOR
+#define IDS_FILE_ALL_FILES_SELECTOR  1000
+#define IDS_FILE_BACK_CUR_PATH       1001
+#define IDS_FILE_BACK_PREV_PATH      1002
+#define IDS_FILE_BACK_SLASH          1003
+#define IDS_FILE_BASE_FILTER         1004
+#define IDS_FILE_BLANK               1005
+#define IDS_FILE_COLON               1006
+#define IDS_FILE_DOT                 1007
+#define IDS_FILE_DRIVE_LETTERS       1008
+#define IDS_FILE_FWD_CUR_PATH        1009
+#define IDS_FILE_FWD_PREV_PATH       1010
+#define IDS_FILE_FORWARD_SLASH       1011
+#define IDS_FILE_PARENT_DIR          1012
+#define IDS_FILE_Q_MARK              1013
+#define IDS_FILE_SPLAT               1014
+#define IDS_FILE_SPLAT_DOT           1015
+#define IDS_FILE_SAVEAS_TITLE        1016
+#define IDS_FILE_SAVEAS_FILTER_TXT   1017
+#define IDS_FILE_SAVEAS_FILENM_TXT   1018
+#define IDS_FILE_DUMMY_FILE_NAME     1019
+#define IDS_FILE_DUMMY_FILE_EXT      1020
+#define IDS_FILE_DUMMY_DRIVE         1021
+#define IDS_FILE_DUMMY_ROOT_DIR      1022
+#define IDS_FILE_PATH_PTR            1023
+#define IDS_FILE_VOLUME_PREFIX       1024
+#define IDS_FILE_VOLUME_SUFFIX       1025
+#define IDS_FILE_PATH_PTR2           1026
+#define IDS_FILE_INVALID_CHARS       1027
+#define IDS_FILE_ETC_BACK_SLASH      1028
+#define IDS_FILE_OPEN_PARENTHESIS    1029
+#define IDS_FILE_CLOSE_PARENTHESIS   1030
+#define IDS_FILE_SEMICOLON           1031
+#define IDS_FILE_BAD_DRIVE_NAME          1100
+#define IDS_FILE_BAD_DRIVE_OR_PATH_NAME  1101
+#define IDS_FILE_BAD_FILE_NAME           1102
+#define IDS_FILE_BAD_FQF                 1103
+#define IDS_FILE_BAD_NETWORK_NAME        1104
+#define IDS_FILE_BAD_SUB_DIR_NAME        1105
+#define IDS_FILE_DRIVE_NOT_AVAILABLE     1106
+#define IDS_FILE_FQFNAME_TOO_LONG        1107
+#define IDS_FILE_OPEN_DIALOG_NOTE        1108
+#define IDS_FILE_PATH_TOO_LONG           1109
+#define IDS_FILE_SAVEAS_DIALOG_NOTE      1110
+#define IDS_FILE_DRIVE_NOT_READY         1122
+#define IDS_FILE_DRIVE_LOCKED            1123
+#define IDS_FILE_DRIVE_SOME_ERROR        1125
+#define IDS_FILE_DRIVE_INVALID           1126
+#define IDS_FILE_INSERT_DISK_NOTE        1127
+#define IDS_FILE_OK_WHEN_READY           1128
+#endif
+#ifndef IDS_FONT_SAMPLE
+#define IDS_FONT_SAMPLE          350
+#define IDS_FONT_BLANK           351
+#define IDS_FONT_DISP_ONLY       355
+#define IDS_FONT_PRINTER_ONLY    356
+#define IDS_FONT_COMBINED        357
+#endif
+
+/* ================================================================== */
+/*  File Open / Save-As dialog  (DID_FILE_DIALOG = 256)                */
+/* ================================================================== */
+/* Geometry, control set, ids, classes and styles reconstructed to match the
+ * original template (dialog 319x185, 16 controls). Read from structure, not
+ * copied bytes. */
+DLGTEMPLATE DID_FILE_DIALOG LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Open", DID_FILE_DIALOG, 6, 4, 319, 185,
+            FS_NOBYTEALIGN | WS_CLIPSIBLINGS | WS_SAVEBITS,
+            FCF_TITLEBAR | FCF_SYSMENU | FCF_DLGBORDER
+    BEGIN
+        LTEXT        "Open filename:",      DID_FILENAME_TXT,        3, 174,  96,  8
+        ENTRYFIELD   "",                    DID_FILENAME_ED,         4, 164, 311,  8,
+                     ES_MARGIN | ES_AUTOSCROLL | WS_GROUP | WS_TABSTOP
+        AUTOCHECKBOX "Read-Only",           DID_READ_ONLY,         162, 174, 153,  8
+
+        LTEXT        "Drive:",              DID_DRIVE_TXT,           3, 151,  66,  8
+        COMBOBOX     "",                    DID_DRIVE_CB,            3,  18, 154, 133,
+                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+
+        LTEXT        "Show files of type:", DID_FILTER_TXT,        162, 151, 128,  8
+        COMBOBOX     "",                    DID_FILTER_CB,         162,  18, 154, 133,
+                     CBS_DROPDOWN | WS_GROUP | WS_TABSTOP
+
+        LTEXT        "Directory:",          DID_DIRECTORY_TXT,       3, 130,  64,  8
+        LTEXT        "",                    DID_DIRECTORY_SELECTED, 69, 130,  88,  8
+        LISTBOX                             DID_DIRECTORY_LB,        3,  18, 153, 111,
+                     LS_OWNERDRAW | LS_NOADJUSTPOS | LS_HORZSCROLL | WS_TABSTOP
+
+        LTEXT        "File:",               DID_FILES_TXT,         162, 130,  64,  8
+        LISTBOX                             DID_FILES_LB,          162,  18, 153, 111,
+                     LS_NOADJUSTPOS | LS_HORZSCROLL | WS_TABSTOP
+
+        DEFPUSHBUTTON "~OK",                DID_OK,                  3,   2,  40, 12,
+                     WS_GROUP | WS_TABSTOP
+        PUSHBUTTON   "Cancel",              DID_CANCEL,             45,   2,  40, 12
+        PUSHBUTTON   "Help",                DID_HELP_PB,            87,   2,  40, 12,
+                     BS_HELP | BS_NOPOINTERFOCUS
+        PUSHBUTTON   "~Apply",              DID_APPLY_PB,          129,   2,  40, 12
+    END
+END
+
+/* ================================================================== */
+/*  Font dialog  (DID_FONT_DIALOG = 300)                               */
+/* ================================================================== */
+/* Geometry, control set, ids, classes and styles reconstructed to match the
+ * original template (dialog 236x116, 21 controls). Name/Style/Size are
+ * COMBOBOXes (not entryfield+listbox); Display/Printer and the emphasis
+ * options are autocheckboxes; two overlapping ISO-compliance statics. */
+DLGTEMPLATE DID_FONT_DIALOG LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Font", DID_FONT_DIALOG, 1, 1, 236, 116,
+            FS_NOBYTEALIGN | WS_CLIPSIBLINGS | WS_SAVEBITS,
+            FCF_TITLEBAR | FCF_SYSMENU | FCF_DLGBORDER
+    BEGIN
+        LTEXT        "Name",       DID_NAME_PREFIX,        3, 105,  26,  8
+        COMBOBOX     "",           DID_NAME,               3,  26, 158, 79,
+                     CBS_SIMPLE | WS_GROUP | WS_TABSTOP
+        LTEXT        "Style",      DID_STYLE_PREFIX,       3,  86,  26,  8
+        COMBOBOX     "",           DID_STYLE,              3,  16, 158, 70,
+                     CBS_SIMPLE | WS_GROUP | WS_TABSTOP
+        LTEXT        "Size",       DID_SIZE_PREFIX,      166, 105,  63,  8
+        COMBOBOX     "",           DID_SIZE,             166,  30,  66, 75,
+                     CBS_SIMPLE | WS_GROUP | WS_TABSTOP
+
+        AUTOCHECKBOX "~Display",   DID_DISPLAY_FILTER,   170,  80,  50, 10,
+                     WS_GROUP | WS_TABSTOP
+        AUTOCHECKBOX "~Printer",   DID_PRINTER_FILTER,   170,  70,  50, 10
+
+        GROUPBOX     "Emphasis",   DID_EMPHASIS_GROUPBOX, 166, 29,  66, 40
+        AUTOCHECKBOX "Out~line",   DID_OUTLINE,          170,  51,  59, 10
+        AUTOCHECKBOX "~Underline", DID_UNDERSCORE,       170,  41,  59, 10
+        AUTOCHECKBOX "~Strikeout", DID_STRIKEOUT,        170,  31,  59, 10
+
+        DEFPUSHBUTTON "~OK",       DID_OK,                 3,   2,  45, 13,
+                     WS_GROUP | WS_TABSTOP
+        PUSHBUTTON   "Cancel",     DID_CANCEL,            49,   2,  45, 13
+        PUSHBUTTON   "Help",       DID_HELP_BUTTON,       95,   2,  45, 13,
+                     BS_HELP | BS_NOPOINTERFOCUS
+        PUSHBUTTON   "~Apply",     DID_APPLY_BUTTON,     141,   2,  45, 13
+        PUSHBUTTON   "~Reset",     DID_RESET_BUTTON,     187,   2,  45, 13
+
+        GROUPBOX     "Sample",     DID_SAMPLE_GROUPBOX,    4,  29, 158, 40
+        LTEXT        "abcdABCD",   DID_SAMPLE,             6,  30, 154, 31
+        LTEXT        "Font is not ISO-compliant",   DID_FONT_ISO_SUPPORT,  5, 18, 230, 8
+        LTEXT        "Font may not be ISO-compliant", DID_FONT_ISO_UNTESTED, 5, 18, 230, 8
+    END
+END
+
+/* ================================================================== */
+/*  Font+Color dialog (320) -- the Font dialog plus a Color combobox.  */
+/*  Reuses the DID_* font-control ids; 21 shared controls + Color.     */
+/* ================================================================== */
+DLGTEMPLATE 320 LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Font", 320, 1, 1, 236, 121,
+            FS_NOBYTEALIGN | WS_CLIPSIBLINGS | WS_SAVEBITS,
+            FCF_TITLEBAR | FCF_SYSMENU | FCF_DLGBORDER
+    BEGIN
+        LTEXT        "Name",       DID_NAME_PREFIX,        3, 110,  26,  8
+        COMBOBOX     "",           DID_NAME,               3,  31, 158, 79,
+                     CBS_SIMPLE | WS_GROUP | WS_TABSTOP
+        LTEXT        "Style",      DID_STYLE_PREFIX,       3,  91,  26,  8
+        COMBOBOX     "",           DID_STYLE,              3,  21, 158, 70,
+                     CBS_SIMPLE | WS_GROUP | WS_TABSTOP
+        LTEXT        "Size",       DID_SIZE_PREFIX,      166, 110,  63,  8
+        COMBOBOX     "",           DID_SIZE,             166,  35,  66, 75,
+                     CBS_SIMPLE | WS_GROUP | WS_TABSTOP
+        AUTOCHECKBOX "~Display",   DID_DISPLAY_FILTER,   170,  85,  50, 10,
+                     WS_GROUP | WS_TABSTOP
+        AUTOCHECKBOX "~Printer",   DID_PRINTER_FILTER,   170,  75,  50, 10
+        GROUPBOX     "Emphasis",   DID_EMPHASIS_GROUPBOX, 166, 27,  66, 40
+        AUTOCHECKBOX "Out~line",   DID_OUTLINE,          170,  49,  59, 10
+        AUTOCHECKBOX "~Underline", DID_UNDERSCORE,       170,  39,  59, 10
+        AUTOCHECKBOX "~Strikeout", DID_STRIKEOUT,        170,  29,  59, 10
+        DEFPUSHBUTTON "~OK",       DID_OK,                 3,   2,  45, 13,
+                     WS_GROUP | WS_TABSTOP
+        PUSHBUTTON   "Cancel",     DID_CANCEL,            49,   2,  45, 13
+        PUSHBUTTON   "Help",       DID_HELP_BUTTON,       95,   2,  45, 13,
+                     BS_HELP | BS_NOPOINTERFOCUS
+        PUSHBUTTON   "~Apply",     DID_APPLY_BUTTON,     141,   2,  45, 13
+        PUSHBUTTON   "~Reset",     DID_RESET_BUTTON,     187,   2,  45, 13
+        GROUPBOX     "Sample",     DID_SAMPLE_GROUPBOX,    3,  27, 158, 33
+        LTEXT        "abcdABCD",   DID_SAMPLE,             4,  28, 154, 24
+        LTEXT        "Font may not be ISO-compliant", DID_FONT_ISO_UNTESTED, 5, 17, 230, 8
+        COMBOBOX     "",           IDC_FONT_COLOR_CB,      3,  17, 158, 54,
+                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+        LTEXT        "Color",      IDC_FONT_COLOR_TXT,     3,  71,  42,  8
+    END
+END
+
+/* ================================================================== */
+/*  Find dialog (500).                                                 */
+/* ================================================================== */
+DLGTEMPLATE 500 LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Find", 500, 31, 66, 252, 67,
+            FS_NOBYTEALIGN | WS_CLIPSIBLINGS | WS_SAVEBITS,
+            FCF_TITLEBAR | FCF_SYSMENU | FCF_DLGBORDER
+    BEGIN
+        LTEXT        "Find what:",          IDC_FIND_WHAT_TXT,   3, 52,  55,  8
+        ENTRYFIELD   "",                    IDC_FIND_EF,        60, 53, 187,  8,
+                     ES_MARGIN | ES_AUTOSCROLL | WS_GROUP | WS_TABSTOP
+        GROUPBOX     "Options",             IDC_FIND_OPT_GB,     3, 18, 143, 31
+        AUTOCHECKBOX "~Case sensitive",     IDC_FIND_CASE,       7, 31, 135, 10,
+                     WS_GROUP | WS_TABSTOP
+        AUTOCHECKBOX "Match ~whole word",   IDC_FIND_WHOLEWORD,  7, 21, 135, 10
+        GROUPBOX     "Direction",           IDC_FIND_DIR_GB,   150, 18,  99, 31
+        AUTORADIOBUTTON "Forwar~d",         IDC_FIND_FORWARD,  154, 31,  73, 10,
+                     WS_GROUP | WS_TABSTOP
+        AUTORADIOBUTTON "~Backward",        IDC_FIND_BACKWARD, 154, 21,  73, 10
+        DEFPUSHBUTTON "Find ~Next",         DID_OK,              3,  2,  50, 12,
+                     WS_GROUP | WS_TABSTOP
+        PUSHBUTTON   "Cancel",              DID_CANCEL,         55,  2,  40, 12
+        PUSHBUTTON   "Help",                IDC_FIND_HELP,      97,  2,  40, 12,
+                     BS_HELP | BS_NOPOINTERFOCUS
+    END
+END
+
+/* ================================================================== */
+/*  Replace dialog (501).                                              */
+/* ================================================================== */
+DLGTEMPLATE 501 LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Replace", 501, 37, 31, 252, 80,
+            FS_NOBYTEALIGN | WS_CLIPSIBLINGS | WS_SAVEBITS,
+            FCF_TITLEBAR | FCF_SYSMENU | FCF_DLGBORDER
+    BEGIN
+        LTEXT        "Find what:",          IDC_FIND_WHAT_TXT,   3, 65,  55,  8
+        ENTRYFIELD   "",                    IDC_FIND_EF,        60, 66, 187,  8,
+                     ES_MARGIN | ES_AUTOSCROLL | WS_GROUP | WS_TABSTOP
+        LTEXT        "Replace with:",       IDC_REPL_WITH_TXT,   3, 52,  65,  8
+        ENTRYFIELD   "",                    IDC_REPL_WITH_EF,   60, 53, 187,  8,
+                     ES_MARGIN | ES_AUTOSCROLL | WS_GROUP | WS_TABSTOP
+        GROUPBOX     "Options",             IDC_FIND_OPT_GB,     3, 18, 143, 31
+        AUTOCHECKBOX "~Case sensitive",     IDC_FIND_CASE,       7, 31, 135, 10,
+                     WS_GROUP | WS_TABSTOP
+        AUTOCHECKBOX "Match ~whole word",   IDC_FIND_WHOLEWORD,  7, 21, 135, 10
+        GROUPBOX     "Direction",           IDC_FIND_DIR_GB,   150, 18,  99, 31
+        AUTORADIOBUTTON "Forwar~d",         IDC_FIND_FORWARD,  154, 31,  73, 10,
+                     WS_GROUP | WS_TABSTOP
+        AUTORADIOBUTTON "~Backward",        IDC_FIND_BACKWARD, 154, 21,  73, 10
+        DEFPUSHBUTTON "Find ~Next",         DID_OK,              3,  2,  50, 12,
+                     WS_GROUP | WS_TABSTOP
+        PUSHBUTTON   "~Replace",            IDC_REPL_REPLACE,   55,  2,  48, 12
+        PUSHBUTTON   "Replace ~All",        IDC_REPL_ALL,      105,  2,  60, 12
+        PUSHBUTTON   "Cancel",              DID_CANCEL,        167,  2,  40, 12
+        PUSHBUTTON   "Help",                IDC_FIND_HELP,     209,  2,  40, 12,
+                     BS_HELP | BS_NOPOINTERFOCUS
+    END
+END
+
+/* ================================================================== */
+/*  Print dialog (600). Copies/From/To are spin buttons; the queue is  */
+/*  a list. Spin buttons use the generic CONTROL form (WC_SPINBUTTON). */
+/* ================================================================== */
+DLGTEMPLATE 600 LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Print", 600, 64, 34, 259, 188,
+            FS_NOBYTEALIGN | WS_CLIPSIBLINGS | WS_SAVEBITS,
+            FCF_TITLEBAR | FCF_SYSMENU | FCF_DLGBORDER
+    BEGIN
+        GROUPBOX     "Print Queue",         IDC_PR_QUEUE_GB,     3, 104, 252, 81
+        LISTBOX                             IDC_PR_QUEUE_LB,     9, 126, 242, 49,
+                     WS_GROUP | WS_TABSTOP
+        PUSHBUTTON   "~Job Properties ...", IDC_PR_JOBPROPS,   164, 108,  88, 12
+        GROUPBOX     "Options",             IDC_PR_OPT_GB,       3,  61, 252, 40
+        LTEXT        "Copies:",             IDC_PR_COPIES_TXT,   7,  77,  34,  8
+        CONTROL      "",  IDC_PR_COPIES_SPIN, 46, 78, 36, 12, WC_SPINBUTTON,
+                     SPBS_MASTER | SPBS_NUMERICONLY | WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        LTEXT        "",                    IDC_PR_STATUS1,      7,  64, 110,  8
+        LTEXT        "",                    IDC_PR_STATUS2,    122,  64, 110,  8
+        LTEXT        "",                    IDC_PR_STATUS3,    122,  74, 110,  8
+        LTEXT        "",                    IDC_PR_STATUS4,    122,  84, 110,  8
+        GROUPBOX     "Print Range",         IDC_PR_RANGE_GB,     3,  18, 252, 40
+        AUTORADIOBUTTON "~All",             IDC_PR_ALL,          7,  41,  60,  8,
+                     WS_GROUP | WS_TABSTOP
+        AUTORADIOBUTTON "~Selection",       IDC_PR_SELECTION,    7,  31,  60,  8
+        AUTORADIOBUTTON "Pag~es",           IDC_PR_PAGES,        7,  21,  60,  8
+        LTEXT        "From:",               IDC_PR_FROM_TXT,    72,  23,  34, 10
+        CONTROL      "",  IDC_PR_FROM_SPIN, 108, 24, 36, 12, WC_SPINBUTTON,
+                     SPBS_MASTER | SPBS_NUMERICONLY | WS_TABSTOP | WS_VISIBLE
+        LTEXT        "To:",                 IDC_PR_TO_TXT,     148,  23,  28, 10
+        CONTROL      "",  IDC_PR_TO_SPIN,   178, 24, 36, 12, WC_SPINBUTTON,
+                     SPBS_MASTER | SPBS_NUMERICONLY | WS_TABSTOP | WS_VISIBLE
+        DEFPUSHBUTTON "~Print",             DID_OK,              3,   2,  40, 12,
+                     WS_GROUP | WS_TABSTOP
+        PUSHBUTTON   "P~review",            IDC_PR_PREVIEW,     45,   2,  40, 12
+        PUSHBUTTON   "Cancel",              DID_CANCEL,         87,   2,  40, 12
+        PUSHBUTTON   "Help",                IDC_PR_HELP,       129,   2,  40, 12,
+                     BS_HELP | BS_NOPOINTERFOCUS
+    END
+END
+
+/* ================================================================== */
+/*  File dialog string table -- FUNCTIONAL values. These are WinFileDlg */
+/*  protocol constants (path markers, wildcards, separators); they MUST */
+/*  match the originals exactly or WinFileDlg's path/filter logic fails  */
+/*  (which was why File->Open silently failed). Values verified against  */
+/*  the original resource with tools/extract_res.py. Note 1023 is the    */
+/*  raw sentinel byte 0x10 (octal \020), not a printable character.      */
+/* ================================================================== */
+STRINGTABLE
+BEGIN
+    IDS_FILE_ALL_FILES_SELECTOR  "<All Files>"
+    IDS_FILE_BACK_CUR_PATH       ".\\"
+    IDS_FILE_BACK_PREV_PATH      "..\\"
+    IDS_FILE_BACK_SLASH          "\\"
+    IDS_FILE_BASE_FILTER         "*.*"
+    IDS_FILE_BLANK               " "
+    IDS_FILE_COLON               ":"
+    IDS_FILE_DOT                 "."
+    IDS_FILE_DRIVE_LETTERS       "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    IDS_FILE_FWD_CUR_PATH        "./"
+    IDS_FILE_FWD_PREV_PATH       "../"
+    IDS_FILE_FORWARD_SLASH       "/"
+    IDS_FILE_PARENT_DIR          ".."
+    IDS_FILE_Q_MARK              "?"
+    IDS_FILE_SPLAT               "*"
+    IDS_FILE_SPLAT_DOT           "*."
+    IDS_FILE_SAVEAS_TITLE        "Save as"
+    IDS_FILE_SAVEAS_FILTER_TXT   "Save file as type:"
+    IDS_FILE_SAVEAS_FILENM_TXT   "Save as filename:"
+    IDS_FILE_DUMMY_FILE_NAME     "fn."
+    IDS_FILE_DUMMY_FILE_EXT      "ext"
+    IDS_FILE_DUMMY_DRIVE         "c:\\"
+    IDS_FILE_DUMMY_ROOT_DIR      "\\"
+    IDS_FILE_PATH_PTR            "\020"
+    IDS_FILE_VOLUME_PREFIX       "  ["
+    IDS_FILE_VOLUME_SUFFIX       "]"
+    IDS_FILE_PATH_PTR2           ">"
+    IDS_FILE_INVALID_CHARS       "|<>\042"
+    IDS_FILE_ETC_BACK_SLASH      "\\..."
+    IDS_FILE_OPEN_PARENTHESIS    "("
+    IDS_FILE_CLOSE_PARENTHESIS   ")"
+    IDS_FILE_SEMICOLON           ";"
+END
+
+/* File dialog error / note messages (exact original text). */
+STRINGTABLE
+BEGIN
+    IDS_FILE_BAD_DRIVE_NAME          "Invalid drive name specified."
+    IDS_FILE_BAD_DRIVE_OR_PATH_NAME  "Invalid drive or sub-directory name specified."
+    IDS_FILE_BAD_FILE_NAME           "Invalid file name specified."
+    IDS_FILE_BAD_FQF                 "Invalid drive, path, or file."
+    IDS_FILE_BAD_NETWORK_NAME        "Invalid network identifier specified."
+    IDS_FILE_BAD_SUB_DIR_NAME        "Invalid sub-directory name specified."
+    IDS_FILE_DRIVE_NOT_AVAILABLE     "The specified drive is not available on your system."
+    IDS_FILE_FQFNAME_TOO_LONG        "Fully qualified filename is too long."
+    IDS_FILE_OPEN_DIALOG_NOTE        "Open Dialog Notification"
+    IDS_FILE_PATH_TOO_LONG           "Path too long."
+    IDS_FILE_SAVEAS_DIALOG_NOTE      "Save As Dialog Notification"
+    IDS_FILE_DRIVE_NOT_READY         "Drive %1 not ready."
+    IDS_FILE_DRIVE_LOCKED            "Drive %1 Locked or in use."
+    1124                             "Drive %1 Disk Unreadable."
+    IDS_FILE_DRIVE_SOME_ERROR        "Drive %1 Disk Error.  ID = %2."
+    IDS_FILE_DRIVE_INVALID           "Drive %1 is an invalid drive name."
+    IDS_FILE_INSERT_DISK_NOTE        "Insert the diskette for Drive %1"
+    IDS_FILE_OK_WHEN_READY           "Select OK when ready."
+    1130                             "%4 file does not exist.  Create the file?"
+    1131                             "%3 path does not exist.  Please verify that the correct path is given."
+    1132                             "Cannot find file %4.  Please verify that the correct path and filename are given."
+    1133                             "%4 file is already in use.  Use a new filename or close the file in use by another application."
+    1134                             "DOS critical error.  Cannot access file %4."
+    1135                             "%4 file already exists.  Replace existing file?"
+END
+
+/* ================================================================== */
+/*  Font dialog string table.                                          */
+/* ================================================================== */
+STRINGTABLE
+BEGIN
+    IDS_FONT_SAMPLE         "AaBbYyZz"
+    IDS_FONT_BLANK          " "
+    IDS_FONT_DISP_ONLY      "Display"
+    IDS_FONT_PRINTER_ONLY   "Printer"
+    IDS_FONT_COMBINED       "Display and printer"
+END

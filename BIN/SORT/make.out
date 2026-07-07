@@ -1,0 +1,21 @@
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+	wcc386 -bt=OS2 -bm -wx -s -ox -fo=SORT.OBJ SORT.C
+Open Watcom C32 Optimizing Compiler Version 2.0.1
+Portions Copyright (c) 1984-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+SORT.C: 429 lines, included 12886, 0 warnings, 0 errors
+Code size: 1060
+	wlink SYS os2v2         NAME SORT.EXE         FILE SORT.OBJ         OPTION ELIMINATE
+** EXPERIMENTAL (HLL) ** Open Watcom Linker Version 2.0.1
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+loading object files
+searching libraries
+creating an OS/2 32-bit executable
+
+Build complete: SORT.EXE

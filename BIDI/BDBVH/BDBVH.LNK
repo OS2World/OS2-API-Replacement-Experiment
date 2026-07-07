@@ -29,7 +29,13 @@ NAME BDBVH.DLL
 
 FILE BDBVH.OBJ
 
+# os2286.lib -- 16-bit OS/2 API imports (MouRegister, DosAllocSeg, ...)
+# clibl.lib  -- Watcom 16-bit LARGE-model C library.  Required: the -ml
+#               compile emits a reference to the memory-model marker
+#               symbol _big_code_ (and pulls string.h/stdlib.h helpers),
+#               all of which live in the large-model C library.
 LIBRARY os2286.lib
+LIBRARY clibl.lib
 
 OPTION ELIMINATE
 OPTION OSNAME='OS/2 and ArcaOS'
@@ -61,4 +67,7 @@ EXPORT ENDPOPUPHANDLING.20      = ENDPOPUPHANDLING
 EXPORT NLSQUERYBIDISEGADDRESS.21= NLSQUERYBIDISEGADDRESS
 EXPORT NLSRECORDBDDSEG.22       = NLSRECORDBDDSEG
 EXPORT DEVENABLE.23             = DEVENABLE
-EXPORT _PrivateMouFunc.24       = _PrivateMouFunc
+# NOTE: __pascal uppercases the symbol name, so the object defines
+# _PRIVATEMOUFUNC; the public export name stays mixed-case because
+# MouRegister looks the function up by the literal "_PrivateMouFunc".
+EXPORT _PrivateMouFunc.24       = _PRIVATEMOUFUNC

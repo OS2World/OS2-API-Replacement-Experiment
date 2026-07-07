@@ -1,0 +1,37 @@
+# SPOOLCP_MAKEFILE -- Build SPOOLCP.DLL with OpenWatcom on OS/2.
+# Run ..\setenv.cmd once first (sets INCLUDE/LIB to the OS/2 Toolkit).
+#   wmake -f SPOOLCP_MAKEFILE          (build)
+#   wmake -f SPOOLCP_MAKEFILE clean
+#
+# Linking is driven by SPOOLCP.LNK (wlink response file). wlink has no 'def'
+# directive, so the module definition is expressed as native wlink directives
+# there (same pattern as PMSPL). The dialog resources in SPOOLCP.RC are
+# compiled and bound into the finished DLL (the control panel opens PM dialogs
+# by resource id, so the DLL is non-functional without them).
+
+CC     = wcc386
+RC     = rc
+LINK   = wlink
+RM     = del
+CFLAGS = -bt=os2 -mf -3r -bd -d2 -w4 -ze -za99 -I..\include
+
+OBJS   = SPOOLCP.OBJ
+
+all: SPOOLCP.DLL
+
+SPOOLCP.OBJ: SPOOLCP.C ..\include\spooler_ipc.h
+    $(CC) $(CFLAGS) SPOOLCP.C
+
+SPOOLCP.RES: SPOOLCP.RC
+    $(RC) -r SPOOLCP.RC
+
+SPOOLCP.DLL: $(OBJS) SPOOLCP.LNK SPOOLCP.RES
+    $(LINK) @SPOOLCP.LNK
+    $(RC) SPOOLCP.RES SPOOLCP.DLL
+    @echo Build complete: SPOOLCP.DLL
+
+clean: .SYMBOLIC
+    -$(RM) SPOOLCP.OBJ 2>NUL
+    -$(RM) SPOOLCP.DLL 2>NUL
+    -$(RM) SPOOLCP.RES 2>NUL
+    -$(RM) SPOOLCP.MAP 2>NUL

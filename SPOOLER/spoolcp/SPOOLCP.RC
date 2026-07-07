@@ -1,0 +1,216 @@
+/*
+ * spoolcp.rc - SPOOLCP.DLL dialog resources
+ *
+ * OS/2 PM Spooler Control Panel dialogs.
+ * Compile: rc -r spoolcp.rc
+ */
+
+#include <os2.h>
+
+/* ID constants must match spoolcp.c */
+#define DLG_SPOOLER_MAIN      100
+#define DLG_QUEUE_PROPS       101
+#define DLG_JOB_PROPS         102
+#define DLG_PORT_PROPS        103
+
+#define ID_LB_QUEUES          200
+#define ID_LB_JOBS            201
+#define ID_BTN_HOLD           210
+#define ID_BTN_RELEASE        211
+#define ID_BTN_DELETE         212
+#define ID_BTN_PURGE          213
+#define ID_BTN_PROPS          214
+#define ID_BTN_CLOSE          215
+#define ID_ST_STATUS          220
+#define ID_ST_JOBCOUNT        221
+
+#define ID_EF_QNAME           300
+#define ID_EF_DRIVER          301
+#define ID_EF_PORT            302
+#define ID_EF_COMMENT         303
+#define ID_CB_PRIORITY        304
+#define ID_BTN_OK             305
+#define ID_BTN_CANCEL         306
+
+#define ID_LB_PORTLIST        400
+#define ID_EF_PORTNAME        401
+#define ID_EF_PORTDRIVER      402
+#define ID_EF_PORTPROTOCOL    403
+#define ID_CB_PORTMODE        404
+
+#define ID_ST_JOBID           500
+#define ID_ST_JOBDOC          501
+#define ID_ST_JOBUSER         502
+#define ID_ST_JOBSIZE         503
+#define ID_ST_JOBSTATUS       504
+#define ID_CB_JOBPRI          505
+
+/* ------------------------------------------------------------------ */
+/* DLG_SPOOLER_MAIN - Main spooler control panel                      */
+/*                                                                     */
+/*  +--[ OS/2 Spooler ]----------------------------------------+      */
+/*  |  Queues                   Jobs in selected queue          |      */
+/*  |  +--------------------+   +---------------------------+   |      */
+/*  |  |                    |   |                           |   |      */
+/*  |  |                    |   |                           |   |      */
+/*  |  |                    |   |                           |   |      */
+/*  |  |                    |   |                           |   |      */
+/*  |  +--------------------+   +---------------------------+   |      */
+/*  |  [Hold] [Release]         [Hold] [Release] [Delete]   |   |      */
+/*  |  [Props] [Purge]                                       |   |      */
+/*  |  Status: ...                               [ Close ]   |   |      */
+/*  +-----------------------------------------------------------+      */
+/* ------------------------------------------------------------------ */
+
+DLGTEMPLATE DLG_SPOOLER_MAIN LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "OS/2 Spooler", DLG_SPOOLER_MAIN,
+           30, 20, 320, 160,
+           WS_VISIBLE | WS_CLIPSIBLINGS,
+           FCF_SYSMENU | FCF_TITLEBAR | FCF_DLGBORDER | FCF_TASKLIST
+    BEGIN
+        /* --- Queue section --- */
+        LTEXT       "~Queues:",        -1,           6,  140, 60,  8
+        LISTBOX                        ID_LB_QUEUES, 6,   84, 128, 54,
+                    LS_NOADJUSTPOS | WS_TABSTOP | WS_VISIBLE
+
+        PUSHBUTTON  "~Hold",           ID_BTN_HOLD,    6, 70, 40, 12,
+                    WS_TABSTOP | WS_VISIBLE
+        PUSHBUTTON  "~Release",        ID_BTN_RELEASE, 50, 70, 44, 12,
+                    WS_TABSTOP | WS_VISIBLE
+        PUSHBUTTON  "~Properties...",  ID_BTN_PROPS,   6, 56, 56, 12,
+                    WS_TABSTOP | WS_VISIBLE
+        PUSHBUTTON  "P~urge",          ID_BTN_PURGE,   66, 56, 40, 12,
+                    WS_TABSTOP | WS_VISIBLE
+
+        /* --- Job section --- */
+        LTEXT       "~Jobs:",          -1,           140, 140, 40,  8
+        LISTBOX                        ID_LB_JOBS,  140,  56, 174, 82,
+                    LS_NOADJUSTPOS | WS_TABSTOP | WS_VISIBLE | LS_HORZSCROLL
+
+        PUSHBUTTON  "Ho~ld job",       ID_BTN_HOLD,   140, 42, 50, 12,
+                    WS_TABSTOP | WS_VISIBLE
+        PUSHBUTTON  "Re~lease job",    ID_BTN_RELEASE, 194, 42, 56, 12,
+                    WS_TABSTOP | WS_VISIBLE
+        PUSHBUTTON  "~Delete job",     ID_BTN_DELETE,  254, 42, 56, 12,
+                    WS_TABSTOP | WS_VISIBLE
+
+        /* --- Status bar --- */
+        LTEXT       "Status:",         -1,             6,   8,  32,  8
+        LTEXT       "",                ID_ST_STATUS,   40,  8, 200,  8
+        LTEXT       "",                ID_ST_JOBCOUNT, 244,  8,  60,  8
+
+        /* --- Close --- */
+        PUSHBUTTON  "~Close",          ID_BTN_CLOSE,  270, 22, 44, 14,
+                    WS_TABSTOP | WS_VISIBLE | BS_DEFAULT
+    END
+END
+
+/* ------------------------------------------------------------------ */
+/* DLG_QUEUE_PROPS - Queue properties / create new queue              */
+/* ------------------------------------------------------------------ */
+
+DLGTEMPLATE DLG_QUEUE_PROPS LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Queue Properties", DLG_QUEUE_PROPS,
+           40, 40, 240, 140,
+           WS_VISIBLE | WS_CLIPSIBLINGS,
+           FCF_SYSMENU | FCF_TITLEBAR | FCF_DLGBORDER
+    BEGIN
+        LTEXT       "Queue ~name:",       -1,              6, 118, 64, 8
+        ENTRYFIELD  "",    ID_EF_QNAME,                   74, 116, 158, 12,
+                    ES_MARGIN | ES_AUTOSCROLL | WS_TABSTOP | WS_VISIBLE
+
+        LTEXT       "~Printer driver:",   -1,              6, 100, 64, 8
+        ENTRYFIELD  "",    ID_EF_DRIVER,                  74,  98, 158, 12,
+                    ES_MARGIN | ES_AUTOSCROLL | WS_TABSTOP | WS_VISIBLE
+
+        LTEXT       "P~ort / Printer:",   -1,              6,  82, 64, 8
+        ENTRYFIELD  "",    ID_EF_PORT,                    74,  80, 158, 12,
+                    ES_MARGIN | ES_AUTOSCROLL | WS_TABSTOP | WS_VISIBLE
+
+        LTEXT       "~Comment:",          -1,              6,  64, 64, 8
+        ENTRYFIELD  "",    ID_EF_COMMENT,                 74,  62, 158, 12,
+                    ES_MARGIN | ES_AUTOSCROLL | WS_TABSTOP | WS_VISIBLE
+
+        LTEXT       "~Priority (1-9):",   -1,              6,  46, 70, 8
+        COMBOBOX    "",    ID_CB_PRIORITY,                80,  10, 60, 56,
+                    CBS_DROPDOWNLIST | WS_TABSTOP | WS_VISIBLE
+
+        PUSHBUTTON  "~OK",     ID_BTN_OK,      152,  8, 40, 14,
+                    WS_TABSTOP | WS_VISIBLE | BS_DEFAULT
+        PUSHBUTTON  "~Cancel", ID_BTN_CANCEL,  196,  8, 40, 14,
+                    WS_TABSTOP | WS_VISIBLE
+    END
+END
+
+/* ------------------------------------------------------------------ */
+/* DLG_JOB_PROPS - Print job properties                               */
+/* ------------------------------------------------------------------ */
+
+DLGTEMPLATE DLG_JOB_PROPS LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Job Properties", DLG_JOB_PROPS,
+           40, 40, 240, 120,
+           WS_VISIBLE | WS_CLIPSIBLINGS,
+           FCF_SYSMENU | FCF_TITLEBAR | FCF_DLGBORDER
+    BEGIN
+        LTEXT       "Job ID:",        -1,            6, 100, 56, 8
+        LTEXT       "",       ID_ST_JOBID,           66, 100, 60, 8
+
+        LTEXT       "Document:",      -1,            6,  88, 56, 8
+        LTEXT       "",       ID_ST_JOBDOC,          66,  88, 166, 8
+
+        LTEXT       "User:",          -1,            6,  76, 56, 8
+        LTEXT       "",       ID_ST_JOBUSER,         66,  76, 100, 8
+
+        LTEXT       "Size (bytes):",  -1,            6,  64, 56, 8
+        LTEXT       "",       ID_ST_JOBSIZE,         66,  64, 80,  8
+
+        LTEXT       "Status:",        -1,            6,  52, 56, 8
+        LTEXT       "",       ID_ST_JOBSTATUS,       66,  52, 100, 8
+
+        LTEXT       "~Priority:",     -1,            6,  36, 56, 8
+        COMBOBOX    "",       ID_CB_JOBPRI,          66,  10, 60, 46,
+                    CBS_DROPDOWNLIST | WS_TABSTOP | WS_VISIBLE
+
+        PUSHBUTTON  "~OK",     ID_BTN_OK,      152,  8, 40, 14,
+                    WS_TABSTOP | WS_VISIBLE | BS_DEFAULT
+        PUSHBUTTON  "~Cancel", ID_BTN_CANCEL,  196,  8, 40, 14,
+                    WS_TABSTOP | WS_VISIBLE
+    END
+END
+
+/* ------------------------------------------------------------------ */
+/* DLG_PORT_PROPS - Port / printer destination properties             */
+/* ------------------------------------------------------------------ */
+
+DLGTEMPLATE DLG_PORT_PROPS LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Port Properties", DLG_PORT_PROPS,
+           40, 40, 240, 130,
+           WS_VISIBLE | WS_CLIPSIBLINGS,
+           FCF_SYSMENU | FCF_TITLEBAR | FCF_DLGBORDER
+    BEGIN
+        LTEXT       "~Port name:",      -1,              6, 108, 64, 8
+        ENTRYFIELD  "",  ID_EF_PORTNAME,                74, 106, 158, 12,
+                    ES_MARGIN | ES_AUTOSCROLL | WS_TABSTOP | WS_VISIBLE
+
+        LTEXT       "Port ~driver:",    -1,              6,  90, 64, 8
+        ENTRYFIELD  "",  ID_EF_PORTDRIVER,              74,  88, 158, 12,
+                    ES_MARGIN | ES_AUTOSCROLL | WS_TABSTOP | WS_VISIBLE
+
+        LTEXT       "~Protocol conv.:", -1,              6,  72, 64, 8
+        ENTRYFIELD  "",  ID_EF_PORTPROTOCOL,            74,  70, 158, 12,
+                    ES_MARGIN | ES_AUTOSCROLL | WS_TABSTOP | WS_VISIBLE
+
+        LTEXT       "~Mode:",           -1,              6,  54, 64, 8
+        COMBOBOX    "",  ID_CB_PORTMODE,                74,  20, 100, 44,
+                    CBS_DROPDOWNLIST | WS_TABSTOP | WS_VISIBLE
+
+        PUSHBUTTON  "~OK",     ID_BTN_OK,      152,  8, 40, 14,
+                    WS_TABSTOP | WS_VISIBLE | BS_DEFAULT
+        PUSHBUTTON  "~Cancel", ID_BTN_CANCEL,  196,  8, 40, 14,
+                    WS_TABSTOP | WS_VISIBLE
+    END
+END

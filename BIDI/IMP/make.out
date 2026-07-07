@@ -1,0 +1,26 @@
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+	del IMP.OBJ  2>NUL
+	del IMP.DLL  2>NUL
+	del IMP.MAP  2>NUL
+	del IMP.ERR  2>NUL
+	wcc386 -bt=OS2 -bm -6s -fpi87 -fp6 -sg -otexanr -wx -s -d2 -fo=IMP.OBJ IMP.C
+Open Watcom C32 Optimizing Compiler Version 2.0.1
+Portions Copyright (c) 1984-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+IMP.C: 346 lines, included 11723, 0 warnings, 0 errors
+Code size: 1207
+	wlink @IMP.LNK
+** EXPERIMENTAL (HLL) ** Open Watcom Linker Version 2.0.1
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+loading object files
+searching libraries
+creating map file
+creating an OS/2 and ArcaOS dynamic link library
+
+Build complete: IMP.DLL

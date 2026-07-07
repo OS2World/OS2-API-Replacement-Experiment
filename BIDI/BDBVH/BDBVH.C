@@ -116,6 +116,14 @@
 #include <stdlib.h>
 
 /* ------------------------------------------------------------------ */
+/* Calling conventions (must precede the pointer typedefs that use FAR)*/
+/* ------------------------------------------------------------------ */
+#define PASCAL  __pascal
+#define APIRET  USHORT
+#define FAR     __far
+#define NEAR    __near
+
+/* ------------------------------------------------------------------ */
 /* Fundamental 16-bit OS/2 types                                       */
 /* ------------------------------------------------------------------ */
 typedef unsigned char   UCHAR;
@@ -161,12 +169,6 @@ typedef USHORT  TID;
 
 /* Segment selector */
 typedef USHORT  SEL;
-
-/* Calling conventions */
-#define PASCAL  __pascal
-#define APIRET  USHORT
-#define FAR     __far
-#define NEAR    __near
 
 /* ------------------------------------------------------------------ */
 /* MOUEVENTINFO -- mouse event structure (MOUCALLS)                   */
@@ -776,13 +778,20 @@ SHORT FAR PASCAL _PrivateMouFunc(PMOUEVENTINFO pEvt, HMOU FAR *pMouHnd)
 
 /* ------------------------------------------------------------------ */
 /* DLL init / term                                                     */
-/* BVH DLLs do not use _DLL_InitTerm; they are initialised via       */
-/* ORDINAL1_PROC called by SESMGR. The LibMain here handles the       */
-/* standard OpenWatcom DLL entry chain only.                          */
-/* In 16-bit OS/2 DLLs the init function is called with far pascal   */
-/* convention.                                                        */
+/* OpenWatcom calls _DLL_InitTerm (NOT LibMain) as the DLL entry.      */
+/* Defining our own overrides the library default whose CRT startup    */
+/* drags in the program entry (the 'main_' unresolved reference).      */
+/* fFlag: 0 = process attach (init), non-zero = process detach (term). */
+/* Return non-zero for success.                                        */
+/*                                                                     */
+/* The #pragma aux pins the exact symbol name '_DLL_InitTerm' so it is */
+/* not mangled/uppercased (unlike the __pascal exports above), which   */
+/* is how the OS/2 loader / Watcom runtime finds the DLL entry.        */
 /* ------------------------------------------------------------------ */
-int FAR PASCAL LibMain(USHORT hmod, USHORT fFlag)
+unsigned _DLL_InitTerm(unsigned hmod, unsigned fFlag);
+#pragma aux _DLL_InitTerm "_DLL_InitTerm";
+
+unsigned _DLL_InitTerm(unsigned hmod, unsigned fFlag)
 {
     if (fFlag == 0)
     {

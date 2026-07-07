@@ -24,6 +24,13 @@ RM   = del
 
 CFLAGS = -bt=OS2 -bm -6s -sg -wx -s -ox
 
+# LOGFLAG: pass -dPMGPI_LOG to build the instrumented DLL that appends every
+# Gpi* call to C:\PMGPI.LOG (boot hot-path capture). Empty = normal build.
+# Instrumented build:  wmake -f PMGPI_MAKEFILE clean
+#                      wmake -f PMGPI_MAKEFILE LOGFLAG=-dPMGPI_LOG
+# (or just run compile_log.cmd)
+LOGFLAG =
+
 all: PMGPI.DLL
 
 PMGPI.DLL: PMGPI.OBJ PMGPI.LNK
@@ -32,7 +39,7 @@ PMGPI.DLL: PMGPI.OBJ PMGPI.LNK
     @echo Build complete: PMGPI.DLL
 
 PMGPI.OBJ: PMGPI.C
-    $(CC) $(CFLAGS) -fo=PMGPI.OBJ PMGPI.C
+    $(CC) $(CFLAGS) $(LOGFLAG) -fo=PMGPI.OBJ PMGPI.C
 
 clean: .SYMBOLIC
     -$(RM) PMGPI.OBJ 2>NUL

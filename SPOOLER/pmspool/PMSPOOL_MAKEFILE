@@ -1,0 +1,33 @@
+# PMSPOOL_MAKEFILE -- Build PMSPOOL.EXE with OpenWatcom on OS/2.
+# Run ..\setenv.cmd once first (sets INCLUDE/LIB to the OS/2 Toolkit).
+#   wmake -f PMSPOOL_MAKEFILE          (build)
+#   wmake -f PMSPOOL_MAKEFILE clean
+
+CC     = wcc386
+RC     = rc
+LINK   = wlink
+CFLAGS = -bt=os2 -mf -3r -d2 -w4 -ze -za99 -I..\include
+
+OBJS   = PMSPOOL.OBJ
+
+all: PMSPOOL.EXE
+
+PMSPOOL.OBJ: PMSPOOL.C
+    $(CC) $(CFLAGS) PMSPOOL.C
+
+PMSPOOL.RES: PMSPOOL.RC
+    $(RC) -r PMSPOOL.RC
+
+PMSPOOL.EXE: $(OBJS) pmspool.def PMSPOOL.RES
+    $(LINK) system os2v2_pm &
+            name PMSPOOL.EXE &
+            file PMSPOOL.OBJ &
+            def pmspool.def &
+            library os2386.lib pmspl.lib
+    $(RC) PMSPOOL.RES PMSPOOL.EXE
+
+clean: .SYMBOLIC
+    del PMSPOOL.OBJ
+    del PMSPOOL.RES
+    del PMSPOOL.EXE
+    del PMSPOOL.MAP

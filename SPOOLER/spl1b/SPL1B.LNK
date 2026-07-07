@@ -1,0 +1,55 @@
+# SPL1B.LNK -- OpenWatcom WLINK for SPL1B.DLL (spooler backend engine)
+#
+# Build:
+#   wcc386 -bt=os2 -mf -3r -bd ... SPL1B.C
+#   wlink @SPL1B.LNK
+#
+# wlink has NO 'def' directive -- the module definition is expressed as native
+# wlink directives here (same pattern as PMSPL/SPOOLCP). The original makefile's
+# inline `def spl1b.def` produced `E3033: directive error near 'def'`.
+#
+# SPL1B is a self-contained backend (Dos*/Prf* + C runtime); everything resolves
+# from os2386.lib plus the auto-linked Watcom runtime -- no sibling-DLL imports.
+
+SYSTEM os2v2_dll initinstance terminstance
+
+NAME SPL1B.DLL
+
+FILE SPL1B.OBJ
+
+OPTION DESCRIPTION 'OS/2 Spooler Backend DLL (Open Source Replacement)'
+OPTION MAP=SPL1B.MAP
+
+LIBRARY os2386.lib
+
+# Exports at the exact ordinals from spl1b.def (_System/APIENTRY = case kept).
+EXPORT Spl1bInit.1
+EXPORT Spl1bOpenJob.2
+EXPORT Spl1bCloseJob.3
+EXPORT Spl1bAbortJob.4
+EXPORT Spl1bDeleteJob.5
+EXPORT Spl1bHoldJob.6
+EXPORT Spl1bReleaseJob.7
+EXPORT Spl1bQueryJob.8
+EXPORT Spl1bEnumJob.9
+EXPORT Spl1bCreateQueue.10
+EXPORT Spl1bDeleteQueue.11
+EXPORT Spl1bHoldQueue.12
+EXPORT Spl1bReleaseQueue.13
+EXPORT Spl1bPurgeQueue.14
+EXPORT Spl1bQueryQueue.15
+EXPORT Spl1bEnumQueue.16
+EXPORT Spl1bGetNextReadyJob.17
+EXPORT Spl1bMarkJobComplete.18
+EXPORT Spl1bGetJobSpoolFile.19
+EXPORT Spl1bCreateDevice.20
+EXPORT Spl1bDeleteDevice.21
+EXPORT Spl1bControlDevice.22
+EXPORT Spl1bQueryDevice.23
+EXPORT Spl1bSetDevice.24
+EXPORT Spl1bEnumDevice.25
+EXPORT Spl1bCreatePort.26
+EXPORT Spl1bDeletePort.27
+EXPORT Spl1bQueryPort.28
+EXPORT Spl1bSetPort.29
+EXPORT Spl1bEnumPort.30

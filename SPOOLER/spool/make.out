@@ -1,0 +1,35 @@
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+	wcc386 -bt=os2 -mf -3r -d2 -w4 -ze -za99 -I..\include SPOOL.C
+Open Watcom C32 Optimizing Compiler Version 2.0.1
+Portions Copyright (c) 1984-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+SPOOL.C(185): Error! E1011: Symbol 'PSPLREQ_QMOPEN' has not been declared
+SPOOL.C(185): Error! E1009: Expecting ';' but found 'pReq'
+SPOOL.C(185): Error! E1063: Missing operand
+SPOOL.C(185): Error! E1009: Expecting ';' but found 'pPayload'
+SPOOL.C(198): Error! E1011: Symbol 'pReq' has not been declared
+SPOOL.C(198): Error! E1033: Expression for '->' must be 'pointer to struct or union'
+SPOOL.C(199): Error! E1071: Type of parameter 6 does not agree with previous definition
+SPOOL.C(199): Note! N2003: source conversion type is 'unsigned long *'
+SPOOL.C(199): Note! N2004: target conversion type is 'char *'
+SPOOL.C(199): Error! E1151: Parameter count does not agree with previous definition
+SPOOL.C(203): Error! E1011: Symbol 'PMERR_SPL_NO_SPOOLER' has not been declared
+SPOOL.C(216): Error! E1011: Symbol 'PSPLREQ_STARTDOC' has not been declared
+SPOOL.C(216): Error! E1009: Expecting ';' but found 'pReq'
+SPOOL.C(216): Error! E1063: Missing operand
+SPOOL.C(216): Error! E1009: Expecting ';' but found 'pPayload'
+SPOOL.C(218): Error! E1011: Symbol 'pReq' has not been declared
+SPOOL.C(218): Error! E1033: Expression for '->' must be 'pointer to struct or union'
+SPOOL.C(218): Error! E1151: Parameter count does not agree with previous definition
+SPOOL.C(218): Note! N2002: 'SessFind' defined in: SPOOL.C(129)
+SPOOL.C(232): Error! E1011: Symbol 'PSPLREQ_WRITE' has not been declared
+SPOOL.C(232): Error! E1009: Expecting ';' but found 'pReq'
+SPOOL.C(232): Error! E1063: Missing operand
+SPOOL.C(232): Error! E1009: Expecting ';' but found 'pPayload'
+SPOOL.C(237): Error! E1147: Too many errors: compilation aborted
+Error(E42): Last command making (SPOOL.OBJ) returned a bad status
+Error(E02): Make execution terminated

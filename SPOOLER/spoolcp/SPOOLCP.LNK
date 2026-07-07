@@ -1,0 +1,44 @@
+# SPOOLCP.LNK -- OpenWatcom WLINK for SPOOLCP.DLL (Spooler Control Panel)
+#
+# Build:
+#   wcc386 -bt=os2 -mf -3r -bd ... -fo=SPOOLCP.OBJ SPOOLCP.C
+#   wlink @SPOOLCP.LNK
+#
+# wlink has NO 'def' directive -- the module definition must be expressed as
+# native wlink directives here (same pattern as the working PMSPL.LNK). The
+# original makefile's inline `def spoolcp.def` produced `E3033: directive
+# error near 'def'`.
+
+SYSTEM os2v2_dll initinstance terminstance
+
+NAME SPOOLCP.DLL
+
+FILE SPOOLCP.OBJ
+
+OPTION DESCRIPTION 'OS/2 Spooler Control Panel DLL (Open Source Replacement)'
+OPTION MAP=SPOOLCP.MAP
+
+# Win*/Prf* base + PM APIs resolve from the OS/2 Toolkit master import library.
+LIBRARY os2386.lib
+
+# The 32-bit base spooler APIs SPOOLCP calls are exported by PMSPL.DLL. Bind
+# them directly by ordinal (matching PMSPL.LNK) so no separate spooler import
+# library (the missing 'pmspl.lib') is required.
+IMPORT SplCreateQueue   PMSPL.393
+IMPORT SplDeleteJob     PMSPL.386
+IMPORT SplEnumJob       PMSPL.392
+IMPORT SplEnumQueue     PMSPL.399
+IMPORT SplHoldJob       PMSPL.385
+IMPORT SplHoldQueue     PMSPL.394
+IMPORT SplPurgeQueue    PMSPL.404
+IMPORT SplQueryQueue    PMSPL.397
+IMPORT SplReleaseJob    PMSPL.384
+IMPORT SplReleaseQueue  PMSPL.395
+IMPORT SplSetQueue      PMSPL.398
+
+# Exports at the exact ordinals from spoolcp.def (_System/APIENTRY = case kept).
+EXPORT SplCpOpen.1
+EXPORT SplCpOpenQueueProps.2
+EXPORT SplCpInstall.3
+EXPORT SplCpGetDefaultQueue.4
+EXPORT SplCpSetDefaultQueue.5

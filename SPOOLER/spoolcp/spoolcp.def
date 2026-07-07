@@ -1,0 +1,11 @@
+LIBRARY SPOOLCP INITINSTANCE TERMINSTANCE
+DESCRIPTION 'OS/2 Spooler Control Panel DLL (Open Source Replacement)'
+PROTMODE
+DATA MULTIPLE NONSHARED
+
+EXPORTS
+  SplCpOpen              @1
+  SplCpOpenQueueProps    @2
+  SplCpInstall           @3
+  SplCpGetDefaultQueue   @4
+  SplCpSetDefaultQueue   @5

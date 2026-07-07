@@ -1,0 +1,86 @@
+# LIBUNI.LNK -- cWarp LIBUNI.DLL (32-bit; all real code/stubs, NO forwarders)
+SYSTEM os2v2 dll initinstance terminstance
+NAME LIBUNI.DLL
+FILE LIBUNI.OBJ
+OPTION MANYAUTODATA
+OPTION DESCRIPTION 'cWarp Unicode Functions (LIBUNI clone)'
+OPTION MAP=LIBUNI.MAP
+
+EXPORT UniQueryXdigit.1 = UniQueryXdigit
+EXPORT UniQuerySpace.2 = UniQuerySpace
+EXPORT UniQueryPrint.3 = UniQueryPrint
+EXPORT UniQueryGraph.4 = UniQueryGraph
+EXPORT UniQueryCntrl.5 = UniQueryCntrl
+EXPORT UniQueryAlpha.6 = UniQueryAlpha
+EXPORT UniFreeAttrObject.7 = UniFreeAttrObject
+EXPORT UniQueryCharAttr.8 = UniQueryCharAttr
+EXPORT UniQueryUpper.9 = UniQueryUpper
+EXPORT UniQueryPunct.10 = UniQueryPunct
+EXPORT UniQueryLower.11 = UniQueryLower
+EXPORT UniQueryDigit.12 = UniQueryDigit
+EXPORT UniQueryBlank.13 = UniQueryBlank
+EXPORT UniQueryAlnum.14 = UniQueryAlnum
+EXPORT UniScanForAttr.15 = UniScanForAttr
+EXPORT UniCreateAttrObject.16 = UniCreateAttrObject
+EXPORT UniCreateTransformObject.17 = UniCreateTransformObject
+EXPORT UniFreeTransformObject.18 = UniFreeTransformObject
+EXPORT UniQueryLocaleObject.19 = UniQueryLocaleObject
+EXPORT UniCreateLocaleObject.20 = UniCreateLocaleObject
+EXPORT UniFreeLocaleObject.21 = UniFreeLocaleObject
+EXPORT UniFreeMem.22 = UniFreeMem
+EXPORT UniFreeLocaleInfo.28 = UniFreeLocaleInfo
+EXPORT UniQueryLocaleInfo.29 = UniQueryLocaleInfo
+EXPORT UniQueryLocaleItem.30 = UniQueryLocaleItem
+EXPORT UniStrcat.31 = UniStrcat
+EXPORT UniStrchr.32 = UniStrchr
+EXPORT UniStrcmp.33 = UniStrcmp
+EXPORT UniStrcmpi.34 = UniStrcmpi
+EXPORT UniStrcoll.35 = UniStrcoll
+EXPORT UniStrcpy.36 = UniStrcpy
+EXPORT UniStrcspn.37 = UniStrcspn
+EXPORT UniStrfmon.38 = UniStrfmon
+EXPORT UniStrftime.39 = UniStrftime
+EXPORT UniStrlen.40 = UniStrlen
+EXPORT UniStrncat.41 = UniStrncat
+EXPORT UniStrncmp.42 = UniStrncmp
+EXPORT UniStrncmpi.43 = UniStrncmpi
+EXPORT UniStrncpy.44 = UniStrncpy
+EXPORT UniStrpbrk.45 = UniStrpbrk
+EXPORT UniStrptime.46 = UniStrptime
+EXPORT UniStrrchr.47 = UniStrrchr
+EXPORT UniStrspn.48 = UniStrspn
+EXPORT UniStrstr.49 = UniStrstr
+EXPORT UniStrtod.50 = UniStrtod
+EXPORT UniStrtol.51 = UniStrtol
+EXPORT UniStrtoul.52 = UniStrtoul
+EXPORT UniStrxfrm.53 = UniStrxfrm
+EXPORT UniLocaleStrToToken.54 = UniLocaleStrToToken
+EXPORT UniLocaleTokenToStr.55 = UniLocaleTokenToStr
+EXPORT UniTransformStr.56 = UniTransformStr
+EXPORT UniTransLower.57 = UniTransLower
+EXPORT UniTransUpper.58 = UniTransUpper
+EXPORT UniTolower.59 = UniTolower
+EXPORT UniToupper.60 = UniToupper
+EXPORT UniStrupr.61 = UniStrupr
+EXPORT UniStrlwr.62 = UniStrlwr
+EXPORT UniStrtok.63 = UniStrtok
+EXPORT UniMapCtryToLocale.67 = UniMapCtryToLocale
+EXPORT UniMakeKey.70 = UniMakeKey
+EXPORT UniQueryChar.71 = UniQueryChar
+EXPORT UniGetOverride.72 = UniGetOverride
+EXPORT UniGetColval.73 = UniGetColval
+EXPORT UniQueryAttr.74 = UniQueryAttr
+EXPORT UniQueryStringType.75 = UniQueryStringType
+EXPORT UniQueryCharType.76 = UniQueryCharType
+EXPORT UniQueryNumericValue.77 = UniQueryNumericValue
+EXPORT UniQueryCharTypeTable.78 = UniQueryCharTypeTable
+EXPORT UniProcessUconv.80 = UniProcessUconv
+EXPORT Locale.151 = Locale
+EXPORT UniMakeUserLocale.152 = UniMakeUserLocale
+EXPORT UniSetUserLocaleItem.153 = UniSetUserLocaleItem
+EXPORT UniDeleteUserLocale.154 = UniDeleteUserLocale
+EXPORT UniCompleteUserLocale.155 = UniCompleteUserLocale
+EXPORT UniQueryLocaleValue.156 = UniQueryLocaleValue
+EXPORT UniQueryLocaleList.157 = UniQueryLocaleList
+EXPORT UniQueryLanguageName.158 = UniQueryLanguageName
+EXPORT UniQueryCountryName.159 = UniQueryCountryName

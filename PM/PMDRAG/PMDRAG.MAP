@@ -1,0 +1,132 @@
+** EXPERIMENTAL (HLL) ** Open Watcom Linker Version 2.0.1
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Created on:       26/07/03 13:10:52
+Executable Image: PMDRAG.DLL
+creating an OS/2 32-bit dynamic link library
+
+
+                        +------------+
+                        |   Groups   |
+                        +------------+
+
+Group                           Address              Size
+=====                           =======              ====
+
+DGROUP                          0002:00000000        00000000
+
+
+
+                        +--------------+
+                        |   Segments   |
+                        +--------------+
+
+Segment                Class          Group          Address         Size
+=======                =====          =====          =======         ====
+
+_TEXT                  CODE           AUTO           0001:00000000   000002e1
+CONST                  DATA           DGROUP         0002:00000000   00000000
+CONST2                 DATA           DGROUP         0002:00000000   00000000
+_DATA                  DATA           DGROUP         0002:00000000   00000000
+
+
+                        +----------------+
+                        |   Memory Map   |
+                        +----------------+
+
+* = unreferenced symbol
++ = symbol only referenced locally
+
+Address        Symbol
+=======        ======
+
+Module: PMDRAG.OBJ(F:\Projects\cWarp\src\PM\PMDRAG\PMDRAG.C)
+0001:00000000* DRG16ACCESSDRAGINFO
+0001:0000000e* DRG16ADDSTRHANDLE
+0001:0000001c* DRG16ALLOCDRAGINFO
+0001:0000002a* DRG16ALLOCDRAGTRANSFER
+0001:00000038* DRG16DELETEDRAGINFOSTRHANDLES
+0001:00000046* DRG16DELETESTRHANDLE
+0001:00000054* DRG16DRAG
+0001:00000081* DRG16FREEDRAGINFO
+0001:0000008f* DRG16FREEDRAGTRANSFER
+0001:0000009d* DRG16GETPS
+0001:000000ab* DRG16POSTTRANSFERMSG
+0001:000000d7* DRG16PUSHDRAGINFO
+0001:000000ea* DRG16QUERYDRAGITEM
+0001:00000109* DRG16QUERYDRAGITEMCOUNT
+0001:00000117* DRG16QUERYDRAGITEMPTR
+0001:0000012a* DRG16QUERYNATIVERMF
+0001:00000142* DRG16QUERYNATIVERMFLEN
+0001:00000150* DRG16QUERYSTRNAME
+0001:00000168* DRG16QUERYSTRNAMELEN
+0001:00000176* DRG16QUERYTRUETYPE
+0001:0000018e* DRG16QUERYTRUETYPELEN
+0001:0000019c* DRG16RELEASEPS
+0001:000001aa* DRG16SENDTRANSFERMSG
+0001:000001c8* DRG16SETDRAGPOINTER
+0001:000001db* DRG16SETDRAGIMAGE
+0001:000001fa* DRG16SETDRAGITEM
+0001:00000219* DRG16VERIFYNATIVERMF
+0001:0000022c* DRG16VERIFYRMF
+0001:00000244* DRG16VERIFYTRUETYPE
+0001:00000257* DRG16VERIFYTYPE
+0001:0000026a* DRG16VERIFYTYPESET
+0001:00000289* DRG16DRAGFILES
+0001:000002c7* DRG16ACCEPTDROPPEDFILESStub
+
+
+                        +----------------------+
+                        |   Imported Symbols   |
+                        +----------------------+
+
+Symbol                              Module
+======                              ======
+
+DrgAccessDraginfo                   PMCTLS
+DrgAddStrHandle                     PMCTLS
+DrgAllocDraginfo                    PMCTLS
+DrgAllocDragtransfer                PMCTLS
+DrgDeleteDraginfoStrHandles         PMCTLS
+DrgDeleteStrHandle                  PMCTLS
+DrgDrag                             PMCTLS
+DrgFreeDraginfo                     PMCTLS
+DrgFreeDragtransfer                 PMCTLS
+DrgGetPS                            PMCTLS
+DrgPostTransferMsg                  PMCTLS
+DrgPushDraginfo                     PMCTLS
+DrgQueryDragitem                    PMCTLS
+DrgQueryDragitemCount               PMCTLS
+DrgQueryDragitemPtr                 PMCTLS
+DrgQueryNativeRMF                   PMCTLS
+DrgQueryNativeRMFLen                PMCTLS
+DrgQueryStrName                     PMCTLS
+DrgQueryStrNameLen                  PMCTLS
+DrgQueryTrueType                    PMCTLS
+DrgQueryTrueTypeLen                 PMCTLS
+DrgReleasePS                        PMCTLS
+DrgSendTransferMsg                  PMCTLS
+DrgSetDragPointer                   PMCTLS
+DrgSetDragImage                     PMCTLS
+DrgSetDragitem                      PMCTLS
+DrgVerifyNativeRMF                  PMCTLS
+DrgVerifyRMF                        PMCTLS
+DrgVerifyTrueType                   PMCTLS
+DrgVerifyType                       PMCTLS
+DrgVerifyTypeSet                    PMCTLS
+DrgDragFiles                        PMCTLS
+DrgAcceptDroppedFiles               PMCTLS
+
+
+                        +--------------------+
+                        |   Libraries Used   |
+                        +--------------------+
+
+
+
+                        +-----------------------+
+                        |   Linker Statistics   |
+                        +-----------------------+
+
+Stack size:  0000 (0.)
+Memory size:  02e1 (737.)
+Link time: 00:00.55

@@ -1,0 +1,36 @@
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+	cd spl1b && wmake -f SPL1B_MAKEFILE && cd ..
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+	wcc386 -bt=os2 -mf -3r -bd -d2 -w4 -ze -za99 -I..\include SPL1B.C
+Open Watcom C32 Optimizing Compiler Version 2.0.1
+Portions Copyright (c) 1984-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+SPL1B.C(354): Warning! W202: Symbol 'cbSize' has been defined, but not referenced
+SPL1B.C(511): Warning! W202: Symbol 'cbUsed' has been defined, but not referenced
+SPL1B.C(622): Warning! W202: Symbol 'j' has been defined, but not referenced
+SPL1B.C(824): Error! E1011: Symbol 'PMERR_SPL_INV_PARM' has not been declared
+SPL1B.C(832): Error! E1011: Symbol 'PMERR_SPL_PRINTER_ALREADY_EXISTS' has not been declared
+SPL1B.C(860): Error! E1011: Symbol 'PMERR_SPL_INV_PRINTER_NAME' has not been declared
+SPL1B.C(876): Error! E1011: Symbol 'PMERR_SPL_INV_PRINTER_NAME' has not been declared
+SPL1B.C(894): Error! E1011: Symbol 'PMERR_SPL_INV_PARM' has not been declared
+SPL1B.C(905): Error! E1011: Symbol 'PMERR_SPL_INV_PRINTER_NAME' has not been declared
+SPL1B.C(957): Error! E1011: Symbol 'PMERR_SPL_INV_PRINTER_NAME' has not been declared
+SPL1B.C(959): Error! E1011: Symbol 'PMERR_SPL_INV_PARM' has not been declared
+SPL1B.C(1053): Error! E1011: Symbol 'PMERR_SPL_INV_PARM' has not been declared
+SPL1B.C(1058): Error! E1011: Symbol 'PMERR_SPL_PORT_ALREADY_EXISTS' has not been declared
+SPL1B.C(1085): Error! E1011: Symbol 'PMERR_SPL_INV_PORT_NAME' has not been declared
+SPL1B.C(1101): Error! E1011: Symbol 'PMERR_SPL_INV_PORT_NAME' has not been declared
+SPL1B.C(1154): Error! E1011: Symbol 'PMERR_SPL_INV_PORT_NAME' has not been declared
+SPL1B.C(1156): Error! E1011: Symbol 'PMERR_SPL_INV_PARM' has not been declared
+SPL1B.C: 1239 lines, included 27685, 3 warnings, 14 errors
+Error(E42): Last command making (SPL1B.OBJ) returned a bad status
+Error(E02): Make execution terminated
+Error(E42): Last command making (spl1b) returned a bad status
+Error(E02): Make execution terminated

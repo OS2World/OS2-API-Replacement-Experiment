@@ -1,0 +1,26 @@
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+	del BDIME.OBJ  2>NUL
+	del BDIME.DLL  2>NUL
+	del BDIME.MAP  2>NUL
+	del BDIME.ERR  2>NUL
+	wcc386 -bt=OS2 -bm -6s -fpi87 -sg -otexanr -wx -s -d2 -fo=BDIME.OBJ BDIME.C
+Open Watcom C32 Optimizing Compiler Version 2.0.1
+Portions Copyright (c) 1984-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+BDIME.C: 590 lines, included 12727, 0 warnings, 0 errors
+Code size: 2412
+	wlink @BDIME.LNK
+** EXPERIMENTAL (HLL) ** Open Watcom Linker Version 2.0.1
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+loading object files
+searching libraries
+creating map file
+creating an OS/2 and ArcaOS dynamic link library
+
+Build complete: BDIME.DLL

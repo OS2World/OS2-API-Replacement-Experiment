@@ -1,0 +1,52 @@
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+	wcc386 -bt=os2 -mf -3r -bd -d2 -w4 -ze -za99 -I..\include SPOOLCP.C
+Open Watcom C32 Optimizing Compiler Version 2.0.1
+Portions Copyright (c) 1984-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+SPOOLCP.C: 415 lines, included 15517, 0 warnings, 0 errors
+Code size: 3245
+	rc -r SPOOLCP.RC
+Operating System/2 Resource Compiler
+Version 4.00.011 Oct 10 2000
+(C) Copyright IBM Corporation 1988-2000
+(C) Copyright Microsoft Corp. 1985-2000
+All rights reserved.
+
+
+Creating binary resource file SPOOLCP.RES
+RC:  RCPP -E -D RC_INVOKED -W4 -f SPOOLCP.RC -ef C:\OS2\RCPP.ERR -I C:\WATCOM\H -I C:\WATCOM\H\OS2 -I C:\usr\include\os2tk45\inc -I C:\usr\include\os2tk45\gl -I C:\usr\include\SDL2 -I C:\usr\include\os2tk45
+
+SPOOLCP.RC
+	wlink @SPOOLCP.LNK
+** EXPERIMENTAL (HLL) ** Open Watcom Linker Version 2.0.1
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+loading object files
+searching libraries
+creating map file
+creating an OS/2 32-bit dynamic link library
+	rc SPOOLCP.RES SPOOLCP.DLL
+Operating System/2 Resource Compiler
+Version 4.00.011 Oct 10 2000
+(C) Copyright IBM Corporation 1988-2000
+(C) Copyright Microsoft Corp. 1985-2000
+All rights reserved.
+
+
+Reading binary resource file SPOOLCP.RES
+
+
+Writing resources to OS/2 v2.0 Linear .EXE file
+Writing 1 DEMAND resource object(s)
+  Writing:  2128 bytes in 1 page(s)
+    100.4 (618 bytes)
+    101.4 (516 bytes)
+    102.4 (558 bytes)
+    103.4 (430 bytes)
+
+Build complete: SPOOLCP.DLL

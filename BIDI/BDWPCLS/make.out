@@ -1,0 +1,13 @@
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+BDWPCLS_SOM_MAKEFILE(76): Error(E21): Extension(s) (.idl.h) not defined
+BDWPCLS_SOM_MAKEFILE(77): Warning(W20): Command list does not belong to any target
+BDWPCLS_SOM_MAKEFILE(79): Error(E21): Extension(s) (.idl.ih) not defined
+BDWPCLS_SOM_MAKEFILE(80): Warning(W20): Command list does not belong to any target
+BDWPCLS_SOM_MAKEFILE(82): Error(E21): Extension(s) (.idl.c) not defined
+BDWPCLS_SOM_MAKEFILE(83): Warning(W20): Command list does not belong to any target
+BDWPCLS_SOM_MAKEFILE(85): Error(E21): Extension(s) (.idl.def) not defined
+BDWPCLS_SOM_MAKEFILE(86): Warning(W20): Command list does not belong to any target
+Error(E02): Make execution terminated

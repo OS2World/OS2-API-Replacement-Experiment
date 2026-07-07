@@ -1,0 +1,36 @@
+LIBRARY SPL1B INITINSTANCE TERMINSTANCE
+DESCRIPTION 'OS/2 Spooler Backend DLL (Open Source Replacement)'
+PROTMODE
+DATA MULTIPLE NONSHARED
+
+EXPORTS
+  Spl1bInit              @1
+  Spl1bOpenJob           @2
+  Spl1bCloseJob          @3
+  Spl1bAbortJob          @4
+  Spl1bDeleteJob         @5
+  Spl1bHoldJob           @6
+  Spl1bReleaseJob        @7
+  Spl1bQueryJob          @8
+  Spl1bEnumJob           @9
+  Spl1bCreateQueue       @10
+  Spl1bDeleteQueue       @11
+  Spl1bHoldQueue         @12
+  Spl1bReleaseQueue      @13
+  Spl1bPurgeQueue        @14
+  Spl1bQueryQueue        @15
+  Spl1bEnumQueue         @16
+  Spl1bGetNextReadyJob   @17
+  Spl1bMarkJobComplete   @18
+  Spl1bGetJobSpoolFile   @19
+  Spl1bCreateDevice      @20
+  Spl1bDeleteDevice      @21
+  Spl1bControlDevice     @22
+  Spl1bQueryDevice       @23
+  Spl1bSetDevice         @24
+  Spl1bEnumDevice        @25
+  Spl1bCreatePort        @26
+  Spl1bDeletePort        @27
+  Spl1bQueryPort         @28
+  Spl1bSetPort           @29
+  Spl1bEnumPort          @30

@@ -1,0 +1,81 @@
+** EXPERIMENTAL (HLL) ** Open Watcom Linker Version 2.0.1
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Created on:       26/07/06 14:00:31
+Executable Image: PMPIC.DLL
+creating an OS/2 32-bit dynamic link library
+
+
+                        +------------+
+                        |   Groups   |
+                        +------------+
+
+Group                           Address              Size
+=====                           =======              ====
+
+DGROUP                          0002:00000000        00000000
+
+
+
+                        +--------------+
+                        |   Segments   |
+                        +--------------+
+
+Segment                Class          Group          Address         Size
+=======                =====          =====          =======         ====
+
+_TEXT                  CODE           AUTO           0001:00000000   00000003
+CONST                  DATA           DGROUP         0002:00000000   00000000
+CONST2                 DATA           DGROUP         0002:00000000   00000000
+_DATA                  DATA           DGROUP         0002:00000000   00000000
+
+
+                        +----------------+
+                        |   Memory Map   |
+                        +----------------+
+
+* = unreferenced symbol
++ = symbol only referenced locally
+
+Address        Symbol
+=======        ======
+
+Module: PMPIC.OBJ(F:\Projects\cWarp\src\PM\PMPIC\PMPIC.C)
+0001:00000000  Prf32Pif2Met
+0001:00000000  Pic32Ichg
+0001:00000000  Pic32Print
+0001:00000000  PrfPif2Met
+0001:00000000  Pif2Met
+0001:00000000  PicIchg
+0001:00000000  PicPrint
+
+
+                        +----------------------+
+                        |   Imported Symbols   |
+                        +----------------------+
+
+Symbol                              Module
+======                              ======
+
+_dos_ref                            DOSCALLS
+_pmgpi_ref                          PMGPI
+_pmwin_ref                          PMWIN
+_nls_ref                            NLS
+_pmshapi_ref                        PMSHAPI
+_pmspl_ref                          PMSPL
+_pmmerge_ref                        PMMERGE
+_msg_ref                            MSG
+
+
+                        +--------------------+
+                        |   Libraries Used   |
+                        +--------------------+
+
+
+
+                        +-----------------------+
+                        |   Linker Statistics   |
+                        +-----------------------+
+
+Stack size:  0000 (0.)
+Memory size:  0003 (3.)
+Link time: 00:00.87

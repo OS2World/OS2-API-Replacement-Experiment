@@ -1,0 +1,31 @@
+# PMGRE_MAKEFILE -- Build the cWarp PMGRE.DLL clone (REAL LX forwarders).
+#
+#   wmake -f PMGRE_MAKEFILE          (build)
+#   wmake -f PMGRE_MAKEFILE clean
+#
+# PMGRE is a pure forwarder: all 78 exports forward to PMMERGE. wlink DOES emit
+# real LX type-0x04 forwarders via IMPORT + EXPORT=import (see PMGRE.LNK) -- ZERO
+# thunk code, bitness preserved, exactly like the original. (This is the method
+# the working PMDRAG clone uses; the earlier asm-thunk version froze the PM
+# desktop because 32-bit thunks can't serve 16-bit callers.)
+
+CC   = wcc386
+LINK = wlink
+RM   = del
+
+CFLAGS = -bt=OS2 -bm -6s -sg -wx -s
+
+all: PMGRE.DLL
+
+PMGRE.DLL: PMGRE.OBJ PMGRE.LNK
+    $(LINK) @PMGRE.LNK
+    @echo.
+    @echo Build complete: PMGRE.DLL
+
+PMGRE.OBJ: PMGRE.C
+    $(CC) $(CFLAGS) -fo=PMGRE.OBJ PMGRE.C
+
+clean: .SYMBOLIC
+    -$(RM) PMGRE.OBJ 2>NUL
+    -$(RM) PMGRE.DLL 2>NUL
+    -$(RM) PMGRE.MAP 2>NUL

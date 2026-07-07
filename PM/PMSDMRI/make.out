@@ -1,0 +1,63 @@
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+	wcc386 -bt=OS2 -bm -wx -s -ox -fo=PMSDMRI.OBJ PMSDMRI.C
+Open Watcom C32 Optimizing Compiler Version 2.0.1
+Portions Copyright (c) 1984-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+PMSDMRI.C(19): Warning! W202: Symbol '_pmsdmri_stub' has been defined, but not referenced
+PMSDMRI.C: 19 lines, included 35, 1 warnings, 0 errors
+Code size: 0
+	rc -r PMSDMRI.RC
+Operating System/2 Resource Compiler
+Version 4.00.011 Oct 10 2000
+(C) Copyright IBM Corporation 1988-2000
+(C) Copyright Microsoft Corp. 1985-2000
+All rights reserved.
+
+
+Creating binary resource file PMSDMRI.RES
+RC:  RCPP -E -D RC_INVOKED -W4 -f PMSDMRI.RC -ef C:\OS2\RCPP.ERR -I C:\WATCOM\H -I C:\WATCOM\H\OS2 -I C:\usr\include\os2tk45\inc -I C:\usr\include\os2tk45\gl -I C:\usr\include\SDL2 -I C:\usr\include\os2tk45
+
+PMSDMRI.RC
+	wlink @PMSDMRI.LNK
+** EXPERIMENTAL (HLL) ** Open Watcom Linker Version 2.0.1
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+loading object files
+searching libraries
+creating map file
+creating an OS/2 32-bit dynamic link library
+	rc PMSDMRI.RES PMSDMRI.DLL
+Operating System/2 Resource Compiler
+Version 4.00.011 Oct 10 2000
+(C) Copyright IBM Corporation 1988-2000
+(C) Copyright Microsoft Corp. 1985-2000
+All rights reserved.
+
+
+Reading binary resource file PMSDMRI.RES
+
+
+Writing resources to OS/2 v2.0 Linear .EXE file
+Writing 1 DEMAND resource object(s)
+  Writing:  5744 bytes in 2 page(s)
+    256.4 (631 bytes)
+    300.4 (862 bytes)
+    320.4 (873 bytes)
+    500.4 (489 bytes)
+    501.4 (649 bytes)
+    600.4 (843 bytes)
+    22.5 (43 bytes)
+    23.5 (67 bytes)
+    63.5 (57 bytes)
+    64.5 (125 bytes)
+    65.5 (50 bytes)
+    69.5 (166 bytes)
+    70.5 (262 bytes)
+    71.5 (598 bytes)
+
+Build complete: PMSDMRI.DLL (with bound resources)

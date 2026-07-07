@@ -1,0 +1,27 @@
+# SPL1B_MAKEFILE -- Build SPL1B.DLL with OpenWatcom on OS/2.
+# Run ..\setenv.cmd once first (sets INCLUDE/LIB to the OS/2 Toolkit).
+#   wmake -f SPL1B_MAKEFILE          (build)
+#   wmake -f SPL1B_MAKEFILE clean
+
+CC     = wcc386
+LINK   = wlink
+RM     = del
+CFLAGS = -bt=os2 -mf -3r -bd -d2 -w4 -ze -za99 -I..\include
+
+OBJS   = SPL1B.OBJ
+
+all: SPL1B.DLL
+
+SPL1B.OBJ: SPL1B.C ..\include\spooler_ipc.h
+    $(CC) $(CFLAGS) SPL1B.C
+
+# Linking is driven by SPL1B.LNK (wlink response file); wlink has no 'def'
+# directive, so the module definition lives there as native directives.
+SPL1B.DLL: $(OBJS) SPL1B.LNK
+    $(LINK) @SPL1B.LNK
+    @echo Build complete: SPL1B.DLL
+
+clean: .SYMBOLIC
+    -$(RM) SPL1B.OBJ 2>NUL
+    -$(RM) SPL1B.DLL 2>NUL
+    -$(RM) SPL1B.MAP 2>NUL

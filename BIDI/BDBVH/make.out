@@ -1,0 +1,26 @@
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+	del BDBVH.OBJ  2>NUL
+	del BDBVH.DLL  2>NUL
+	del BDBVH.MAP  2>NUL
+	del BDBVH.ERR  2>NUL
+	wcc -bt=OS2 -ml -2 -s -wx -zu -zp1 -d2 -fo=BDBVH.OBJ BDBVH.C
+Open Watcom C16 Optimizing Compiler Version 2.0.1
+Portions Copyright (c) 1984-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+BDBVH.C: 823 lines, included 1184, 0 warnings, 0 errors
+Code size: 2159
+	wlink @BDBVH.LNK
+** EXPERIMENTAL (HLL) ** Open Watcom Linker Version 2.0.1
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+loading object files
+searching libraries
+creating map file
+creating an OS/2 and ArcaOS dynamic link library
+
+Build complete: BDBVH.DLL

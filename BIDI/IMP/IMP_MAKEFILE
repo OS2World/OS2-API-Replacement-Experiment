@@ -1,0 +1,53 @@
+# IMP_MAKEFILE -- Build IMP.DLL with OpenWatcom on OS/2 Warp 4.52
+#
+# IMP = "Input Method Profiler" (32-bit OS/2 LX DLL, 6 ordinals).
+#
+# Usage:
+#   wmake -f IMP_MAKEFILE          (build DLL)
+#   wmake -f IMP_MAKEFILE clean    (remove intermediates)
+#   wmake -f IMP_MAKEFILE all      (clean + build)
+#
+# Exports and DLL init/term are declared in IMP.LNK (wlink response file);
+# IMP.DEF is kept for reference only and is not used by this build.
+
+CC   = wcc386
+LINK = wlink
+RM   = del
+
+# ------------------------------------------------------------------
+# Compiler flags (32-bit OS/2 DLL) -- per the build line in IMP.DEF
+#   -bt=OS2   target OS/2 32-bit
+#   -bm       multithread-safe (required for DLLs)
+#   -6s       i686, stack calling convention
+#   -fpi87    inline x87 FPU
+#   -fp6      tune FPU code for Pentium Pro+
+#   -sg       merge auto-data into one DGROUP segment
+#   -otexanr  optimise: time, expand, no alias, reorder
+#   -s        suppress stack-overflow checks (avoids __STK runtime dep)
+#   -wx       maximum warnings
+#   -d2       debug info (use -d0 for release)
+# ------------------------------------------------------------------
+CFLAGS   = -bt=OS2 -bm -6s -fpi87 -fp6 -sg -otexanr -wx -s
+DBGFLAGS = -d2
+
+.c.obj:
+    $(CC) $(CFLAGS) $(DBGFLAGS) -fo=$@ $<
+
+# ------------------------------------------------------------------
+# Targets
+# ------------------------------------------------------------------
+all: clean IMP.DLL
+
+IMP.DLL: IMP.OBJ IMP.LNK
+    $(LINK) @IMP.LNK
+    @echo.
+    @echo Build complete: IMP.DLL
+
+IMP.OBJ: IMP.C IMP.H
+    $(CC) $(CFLAGS) $(DBGFLAGS) -fo=IMP.OBJ IMP.C
+
+clean: .SYMBOLIC
+    -$(RM) IMP.OBJ  2>NUL
+    -$(RM) IMP.DLL  2>NUL
+    -$(RM) IMP.MAP  2>NUL
+    -$(RM) IMP.ERR  2>NUL
