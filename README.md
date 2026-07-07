@@ -7,3 +7,6 @@ The goals are:
 - Compilable under OS/2 with the latest OpenWatcom compiler and linker
 
 The source code is provided "AS IS".
+
+## Links
+* https://wiki.os2world.com/index.php?title=Required_Replacements_-_Claude_Code_Complexity_Widget
