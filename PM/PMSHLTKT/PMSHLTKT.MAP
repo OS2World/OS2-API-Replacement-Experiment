@@ -1,0 +1,131 @@
+** EXPERIMENTAL (HLL) ** Open Watcom Linker Version 2.0.1
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Created on:       26/07/15 13:59:31
+Executable Image: PMSHLTKT.DLL
+creating an OS/2 and ArcaOS dynamic link library
+
+
+                        +------------+
+                        |   Groups   |
+                        +------------+
+
+Group                           Address              Size
+=====                           =======              ====
+
+DGROUP                          0002:0000            0000000c
+
+
+
+                        +--------------+
+                        |   Segments   |
+                        +--------------+
+
+Segment                Class          Group          Address         Size
+=======                =====          =====          =======         ====
+
+PMSHLTKT_TEXT          CODE           AUTO           0001:0000       000007db
+_TEXT                  CODE           AUTO           0001:07dc       000000ec
+CONST                  DATA           DGROUP         0002:0000       00000000
+CONST2                 DATA           DGROUP         0002:0000       00000000
+_DATA                  DATA           DGROUP         0002:0000       00000000
+_BSS                   BSS            DGROUP         0002:0000       0000000c
+
+
+                        +----------------+
+                        |   Memory Map   |
+                        +----------------+
+
+* = unreferenced symbol
++ = symbol only referenced locally
+
+Address        Symbol
+=======        ======
+
+Module: PMSHLTKT.OBJ(F:\Projects\cWarp\src\PM\PMSHLTKT\PMSHLTKT.C)
+0001:003e      STRLEN
+0001:0058      STRCPY
+0001:0079      STRCAT
+0001:009c      STRCHR
+0001:00c1      STRRCHR
+0001:00de      STRCMP
+0001:0112      STRCMPI
+0001:0163      STRNCMP
+0001:0198      STRNCMPI
+0001:01f7      STRNCPY
+0001:0238      STRNCPY_TRUNC
+0001:026d      STRNCAT
+0001:02c5      STRNCAT_TRUNC
+0001:030f      STRSTR
+0001:0360      STRUPR
+0001:03a4      STRPBRK
+0001:03dc      MEMCPY
+0001:03fa      ITOA
+0001:044d      ULTOA
+0001:04b9      ATOI
+0001:050e      ATOL
+0001:055b      ISDBCS
+0001:056a      NEXTPCH
+0001:0594      PREVPCH
+0001:05e8      XLATBLANK
+0001:05e8      OBJDESTROYMSGPROC
+0001:05f2      STRIPBLANKS
+0001:066a      ISNUMBER
+0001:06b4      WSPVAL
+0001:06fd      OBJCREATEMSGPROC
+0001:070a      FSTRAVERSE
+0001:070a      FSRENAME
+0001:070a      FSCOPY
+0001:070a      FSMOVE
+0001:070a      PRNCOPYDRIVER
+0001:070a      PRNGETFILELIST
+0001:0713      FSQUERYDRIVEDATA
+0001:0713      FSTRAVINFO
+0001:0713      LOCKHWNDPROC
+0001:071c      FSDELETE
+0001:071c      MRILOADRESOURCE
+0001:071c      GETICONDATA
+0001:0725      OBJSENDMSG
+0001:0766      DOSREFRESHICONS
+0001:0766      PRNQUERYEAVALUE
+0001:076f      GETICONHANDLEFORVIOEXE
+0001:0778      GETICONHANDLEFORPMEXE
+0001:0782      SETICONDATA
+0001:078a      _BldFEAList
+0001:078a      _BldMVMT
+0001:0791      LOCKDTPROC
+0001:0791      INITLOCKHOOKPROC
+0001:0794      LOCKHOOKPROC
+0001:0794      BLOCKHOOKPROC
+0001:079d*     _DLL_InitTerm
+Module: C:\WATCOM/lib286/os2\clibl.lib(i4d)
+0001:07dc*     __I4D
+0001:082b      __U4D
+Module: C:\WATCOM/lib286/os2\clibl.lib(i4m)
+0001:08b0      __I4M
+0001:08b0*     __U4M
+
+
+                        +----------------------+
+                        |   Imported Symbols   |
+                        +----------------------+
+
+Symbol                              Module
+======                              ======
+
+DOS16GETDBCSEV                      DOSCALLS
+
+
+                        +--------------------+
+                        |   Libraries Used   |
+                        +--------------------+
+
+C:\WATCOM/lib286/os2\clibl.lib
+
+
+                        +-----------------------+
+                        |   Linker Statistics   |
+                        +-----------------------+
+
+Stack size:  0000 (0.)
+Memory size:  08d4 (2260.)
+Link time: 00:02.18

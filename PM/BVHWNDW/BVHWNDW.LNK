@@ -1,0 +1,46 @@
+# BVHWNDW.LNK -- OpenWatcom WLINK response file for BVHWNDW.DLL (16-bit)
+#
+# Build:
+#   wcc -bt=OS2 -ml -2 -s -wx -fo=BVHWNDW.OBJ BVHWNDW.C
+#   wlink @BVHWNDW.LNK
+#
+# 16-bit windowed Base Video Handler. LARGE model (far code + far data).
+# Imports LockVioPS/UnlockVioPS from PMVIOP by ordinal (the __pascal
+# calling convention uppercases the reference to LOCKVIOPS/UNLOCKVIOPS,
+# so the IMPORT internal names are uppercase). PMVIOP ords: 27 LOCKVIOPS,
+# 28 UNLOCKVIOPS (verified from the original PMVIOP export table).
+
+SYSTEM os2 dll initinstance
+
+NAME BVHWNDW.DLL
+
+FILE BVHWNDW.OBJ
+
+# 16-bit OS/2 API imports + Watcom 16-bit large-model C library.
+LIBRARY os2286.lib
+LIBRARY clibl.lib
+
+# Windowed presentation-space lock/unlock, imported from PMVIOP.
+IMPORT LOCKVIOPS    PMVIOP.27
+IMPORT UNLOCKVIOPS  PMVIOP.28
+
+# DEVENABLE dependencies (by ordinal, from the disassembly).
+IMPORT DOS16GETINFOSEG DOSCALLS.8
+IMPORT DOS16ALLOCSEG   DOSCALLS.34
+IMPORT PMMERGE_2036    PMMERGE.2036
+# Marker-file diagnostic (VirtualBox has no PC speaker -> DosBeep is silent).
+IMPORT DOS16OPEN       DOSCALLS.70
+IMPORT DOS16CLOSE      DOSCALLS.59
+# OS2CHAR.148 is a DATA export (the shared registration structure).
+# Watcom emits the C data symbol with a leading underscore.
+IMPORT _Os2Char148     OS2CHAR.148
+
+OPTION ELIMINATE
+OPTION OSNAME='OS/2 and ArcaOS'
+OPTION DESCRIPTION 'Base Video Handler for Windowed sessions'
+OPTION MAP=BVHWNDW.MAP
+
+# Exports at the original ordinals.
+EXPORT BUFFERUPDATE.1 = BUFFERUPDATE
+EXPORT DEVENABLE.2    = DEVENABLE
+EXPORT GETCONFIG.3    = GETCONFIG

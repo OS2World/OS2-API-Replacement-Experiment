@@ -1,8 +1,8 @@
 ** EXPERIMENTAL (HLL) ** Open Watcom Linker Version 2.0.1
 Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
-Created on:       26/07/10 20:08:27
-Executable Image: PMPIC.DLL
-creating an OS/2 32-bit dynamic link library
+Created on:       26/07/08 16:19:42
+Executable Image: BVHWNDW.DLL
+creating an OS/2 and ArcaOS dynamic link library
 
 
                         +------------+
@@ -12,7 +12,7 @@ creating an OS/2 32-bit dynamic link library
 Group                           Address              Size
 =====                           =======              ====
 
-DGROUP                          0002:00000000        00000000
+DGROUP                          0002:0000            000001f4
 
 
 
@@ -23,10 +23,11 @@ DGROUP                          0002:00000000        00000000
 Segment                Class          Group          Address         Size
 =======                =====          =====          =======         ====
 
-_TEXT                  CODE           AUTO           0001:00000000   00000003
-CONST                  DATA           DGROUP         0002:00000000   00000000
-CONST2                 DATA           DGROUP         0002:00000000   00000000
-_DATA                  DATA           DGROUP         0002:00000000   00000000
+BVHWNDW_TEXT           CODE           AUTO           0001:0000       0000054d
+_TEXT                  CODE           AUTO           0001:054e       00000000
+CONST                  DATA           DGROUP         0002:0000       0000005c
+CONST2                 DATA           DGROUP         0002:005c       0000018f
+_DATA                  DATA           DGROUP         0002:01ec       00000008
 
 
                         +----------------+
@@ -39,14 +40,11 @@ _DATA                  DATA           DGROUP         0002:00000000   00000000
 Address        Symbol
 =======        ======
 
-Module: PMPIC.OBJ(F:\Projects\cWarp\src\PM\PMPIC\PMPIC.C)
-0001:00000000  Prf32Pif2Met
-0001:00000000  Pic32Ichg
-0001:00000000  Pic32Print
-0001:00000000  PrfPif2Met
-0001:00000000  Pif2Met
-0001:00000000  PicIchg
-0001:00000000  PicPrint
+Module: BVHWNDW.OBJ(F:\Projects\cWarp\src\PM\BVHWNDW\BVHWNDW.C)
+0001:004d      DEVENABLE
+0001:0323      GETCONFIG
+0001:03b6      BUFFERUPDATE
+0001:052e+     _DLL_InitTerm
 
 
                         +----------------------+
@@ -56,20 +54,21 @@ Module: PMPIC.OBJ(F:\Projects\cWarp\src\PM\PMPIC\PMPIC.C)
 Symbol                              Module
 ======                              ======
 
-_dos_ref                            DOSCALLS
-_pmgpi_ref                          PMGPI
-_pmwin_ref                          PMWIN
-_nls_ref                            NLS
-_pmshapi_ref                        PMSHAPI
-_pmspl_ref                          PMSPL
-_pmmerge_ref                        PMMERGE
-_msg_ref                            MSG
+LOCKVIOPS                           PMVIOP
+UNLOCKVIOPS                         PMVIOP
+DOS16GETINFOSEG                     DOSCALLS
+DOS16ALLOCSEG                       DOSCALLS
+PMMERGE_2036                        PMMERGE
+DOS16OPEN                           DOSCALLS
+DOS16CLOSE                          DOSCALLS
+_Os2Char148                         OS2CHAR
 
 
                         +--------------------+
                         |   Libraries Used   |
                         +--------------------+
 
+C:\WATCOM/lib286/os2\clibl.lib
 
 
                         +-----------------------+
@@ -77,5 +76,5 @@ _msg_ref                            MSG
                         +-----------------------+
 
 Stack size:  0000 (0.)
-Memory size:  0003 (3.)
-Link time: 00:01.71
+Memory size:  0742 (1858.)
+Link time: 00:00.12

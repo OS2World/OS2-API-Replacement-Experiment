@@ -1,0 +1,37 @@
+# BVHWNDW_MAKEFILE -- Build BVHWNDW.DLL (16-bit windowed BVH) with OpenWatcom
+#
+# Usage:
+#   wmake -f BVHWNDW_MAKEFILE          (build)
+#   wmake -f BVHWNDW_MAKEFILE clean
+#   wmake -f BVHWNDW_MAKEFILE all      (clean + build)
+#
+# 16-bit DLL (like BDBVH). Compiler: wcc (NOT wcc386). BVHWNDW.C declares all
+# types inline (no os2.h). 16-bit OS/2 API stubs in os2286.lib; the Watcom
+# 16-bit large-model C library is clibl.lib. If os2286.lib is not on LIBPATH:
+#   OPTION LIBPATH %WATCOM%\lib286\os2
+#
+# Flags: -ml large model (far code+data), -2 286, -s no stack checks,
+#        -zu SS!=DS (16-bit DLL), -zp1 byte struct alignment.
+
+CC   = wcc
+LINK = wlink
+RM   = del
+
+CFLAGS   = -bt=OS2 -ml -2 -s -wx -zu -zp1
+DBGFLAGS = -d2
+
+all: clean BVHWNDW.DLL
+
+BVHWNDW.DLL: BVHWNDW.OBJ BVHWNDW.LNK
+    $(LINK) @BVHWNDW.LNK
+    @echo.
+    @echo Build complete: BVHWNDW.DLL
+
+BVHWNDW.OBJ: BVHWNDW.C
+    $(CC) $(CFLAGS) $(DBGFLAGS) -fo=BVHWNDW.OBJ BVHWNDW.C
+
+clean: .SYMBOLIC
+    -$(RM) BVHWNDW.OBJ 2>NUL
+    -$(RM) BVHWNDW.DLL 2>NUL
+    -$(RM) BVHWNDW.MAP 2>NUL
+    -$(RM) BVHWNDW.ERR 2>NUL

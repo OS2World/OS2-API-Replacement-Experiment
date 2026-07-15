@@ -1,0 +1,30 @@
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+	del BVHWNDW.OBJ 2>NUL
+	del BVHWNDW.DLL 2>NUL
+	del BVHWNDW.MAP 2>NUL
+	del BVHWNDW.ERR 2>NUL
+	wcc -bt=OS2 -ml -2 -s -wx -zu -zp1 -d2 -fo=BVHWNDW.OBJ BVHWNDW.C
+Open Watcom C16 Optimizing Compiler Version 2.0.1
+Portions Copyright (c) 1984-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+BVHWNDW.C(161): Warning! W200: 'pShared' has been referenced but never assigned a value
+BVHWNDW.C(108): Warning! W202: Symbol 'gLIS' has been defined, but not referenced
+BVHWNDW.C(109): Warning! W202: Symbol 'gVal6' has been defined, but not referenced
+BVHWNDW.C(107): Warning! W202: Symbol 'gGIS' has been defined, but not referenced
+BVHWNDW.C: 349 lines, included 602, 4 warnings, 0 errors
+Code size: 1357
+	wlink @BVHWNDW.LNK
+** EXPERIMENTAL (HLL) ** Open Watcom Linker Version 2.0.1
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+loading object files
+searching libraries
+creating map file
+creating an OS/2 and ArcaOS dynamic link library
+
+Build complete: BVHWNDW.DLL

@@ -1,0 +1,36 @@
+# PMSHLTKT_MAKEFILE -- Build PMSHLTKT.DLL (16-bit PM Shell Toolkit) with OpenWatcom
+#
+# Usage:
+#   wmake -f PMSHLTKT_MAKEFILE          (build)
+#   wmake -f PMSHLTKT_MAKEFILE clean
+#   wmake -f PMSHLTKT_MAKEFILE all      (clean + build)
+#
+# 16-bit DLL. Compiler: wcc (NOT wcc386). PMSHLTKT.C declares its own types
+# (no os2.h). 16-bit OS/2 API stubs in os2286.lib; the Watcom 16-bit large-model
+# C library is clibl.lib. If os2286.lib is not on LIBPATH:
+#   OPTION LIBPATH %WATCOM%\lib286\os2
+#
+# Flags: -ml large model (far code+data), -2 286, -s no stack checks,
+#        -zu SS!=DS (DLL), -zp1 byte struct alignment, -wx max warnings.
+
+CC   = wcc
+LINK = wlink
+RM   = del
+
+CFLAGS = -bt=OS2 -ml -2 -s -wx -zu -zp1
+
+all: clean PMSHLTKT.DLL
+
+PMSHLTKT.DLL: PMSHLTKT.OBJ PMSHLTKT.LNK
+    $(LINK) @PMSHLTKT.LNK
+    @echo.
+    @echo Build complete: PMSHLTKT.DLL
+
+PMSHLTKT.OBJ: PMSHLTKT.C
+    $(CC) $(CFLAGS) -fo=PMSHLTKT.OBJ PMSHLTKT.C
+
+clean: .SYMBOLIC
+    -$(RM) PMSHLTKT.OBJ 2>NUL
+    -$(RM) PMSHLTKT.DLL 2>NUL
+    -$(RM) PMSHLTKT.MAP 2>NUL
+    -$(RM) PMSHLTKT.ERR 2>NUL

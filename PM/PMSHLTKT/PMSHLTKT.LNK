@@ -1,0 +1,85 @@
+# PMSHLTKT.LNK -- OpenWatcom WLINK response file for PMSHLTKT.DLL (16-bit)
+#
+# Build:
+#   wcc -bt=OS2 -ml -2 -s -wx -zu -zp1 -fo=PMSHLTKT.OBJ PMSHLTKT.C
+#   wlink @PMSHLTKT.LNK
+#
+# 16-bit PM Shell Toolkit. LARGE model (far code + far data). All 54 exports are
+# placed at their ORIGINAL ordinals AND names for drop-in parity (callers import
+# some by ordinal, e.g. PMVIOP.LNK imports PMSHLTKT.1). __pascal uppercases the
+# symbol so the C name equals the export name; the two __cdecl builders get the
+# leading underscore (_BldFEAList / _BldMVMT).
+
+SYSTEM os2 dll initinstance
+
+NAME PMSHLTKT.DLL
+
+FILE PMSHLTKT.OBJ
+
+# 16-bit OS/2 API imports + Watcom 16-bit large-model C library.
+LIBRARY os2286.lib
+LIBRARY clibl.lib
+
+# DBCS environment vector (DosGetDBCSEv = DOSCALLS.4), used by the DBCS helpers.
+IMPORT DOS16GETDBCSEV DOSCALLS.4
+
+OPTION ELIMINATE
+OPTION OSNAME='OS/2 and ArcaOS'
+OPTION DESCRIPTION 'PM Shell Toolkit'
+OPTION MAP=PMSHLTKT.MAP
+
+# ---- Exports at the original ordinals (name.ord = internal symbol) ----------
+EXPORT DOSREFRESHICONS.1         = DOSREFRESHICONS
+EXPORT GETICONDATA.2             = GETICONDATA
+EXPORT STRIPBLANKS.3             = STRIPBLANKS
+EXPORT GETICONHANDLEFORVIOEXE.4  = GETICONHANDLEFORVIOEXE
+EXPORT GETICONHANDLEFORPMEXE.5   = GETICONHANDLEFORPMEXE
+EXPORT STRCAT.6                  = STRCAT
+EXPORT STRCPY.7                  = STRCPY
+EXPORT STRLEN.8                  = STRLEN
+EXPORT ITOA.9                    = ITOA
+EXPORT STRCHR.10                 = STRCHR
+EXPORT STRRCHR.11                = STRRCHR
+EXPORT MEMCPY.12                 = MEMCPY
+EXPORT STRCMP.13                 = STRCMP
+EXPORT ATOI.14                   = ATOI
+EXPORT ULTOA.15                  = ULTOA
+EXPORT SETICONDATA.16            = SETICONDATA
+EXPORT ISDBCS.17                 = ISDBCS
+EXPORT NEXTPCH.18                = NEXTPCH
+EXPORT PREVPCH.19                = PREVPCH
+EXPORT STRCMPI.20                = STRCMPI
+EXPORT STRNCMPI.21               = STRNCMPI
+EXPORT STRNCAT_TRUNC.22          = STRNCAT_TRUNC
+EXPORT STRNCAT.23                = STRNCAT
+EXPORT STRNCPY_TRUNC.24          = STRNCPY_TRUNC
+EXPORT STRNCPY.25                = STRNCPY
+EXPORT STRSTR.26                 = STRSTR
+EXPORT STRUPR.27                 = STRUPR
+EXPORT XLATBLANK.28              = XLATBLANK
+EXPORT ATOL.29                   = ATOL
+EXPORT STRNCMP.30                = STRNCMP
+EXPORT FSTRAVERSE.31             = FSTRAVERSE
+EXPORT FSQUERYDRIVEDATA.32       = FSQUERYDRIVEDATA
+EXPORT FSRENAME.33               = FSRENAME
+EXPORT FSCOPY.34                 = FSCOPY
+EXPORT FSMOVE.35                 = FSMOVE
+EXPORT FSDELETE.36               = FSDELETE
+EXPORT OBJCREATEMSGPROC.37       = OBJCREATEMSGPROC
+EXPORT OBJDESTROYMSGPROC.38      = OBJDESTROYMSGPROC
+EXPORT OBJSENDMSG.39             = OBJSENDMSG
+EXPORT FSTRAVINFO.40             = FSTRAVINFO
+EXPORT MRILOADRESOURCE.41        = MRILOADRESOURCE
+EXPORT STRPBRK.42                = STRPBRK
+EXPORT _BldFEAList.43            = _BldFEAList
+EXPORT _BldMVMT.44               = _BldMVMT
+EXPORT ISNUMBER.45               = ISNUMBER
+EXPORT PRNCOPYDRIVER.46          = PRNCOPYDRIVER
+EXPORT PRNQUERYEAVALUE.47        = PRNQUERYEAVALUE
+EXPORT PRNGETFILELIST.48         = PRNGETFILELIST
+EXPORT WSPVAL.49                 = WSPVAL
+EXPORT INITLOCKHOOKPROC.50       = INITLOCKHOOKPROC
+EXPORT LOCKHOOKPROC.51           = LOCKHOOKPROC
+EXPORT LOCKDTPROC.52             = LOCKDTPROC
+EXPORT BLOCKHOOKPROC.53          = BLOCKHOOKPROC
+EXPORT LOCKHWNDPROC.54           = LOCKHWNDPROC
